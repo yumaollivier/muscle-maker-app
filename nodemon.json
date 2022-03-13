@@ -1,0 +1,6 @@
+{
+    "env": {
+      "APP_SECRET_KEY": "secret",
+      "MONGODB_URI": "mongodb+srv://yumaollivier:Ollivier.72@cluster0.tpcsv.mongodb.net/myFirstDatabase"
+    }
+  }
