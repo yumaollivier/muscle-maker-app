@@ -1,0 +1,23 @@
+.form-container {
+    padding: 4rem 5rem;
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+}
+
+.input-field__input{
+    padding: 1rem;
+    width: 100%;
+    margin: .5rem 0;
+}
+
+.form-container .btn{
+    margin: 1.5rem 0;
+}
+
+.forget-link{
+    text-align: right;
+}

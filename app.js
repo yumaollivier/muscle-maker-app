@@ -7,6 +7,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const helmet = require('helmet');
 const compression = require('compression');
+const flash = require('flash');
 const csrf = require('csurf');
 
 const errorController = require('./controllers/error');
@@ -36,8 +37,9 @@ app.use(
     saveUninitialized: false,
     store: store,
   })
-);
-app.use(csrfProtection);
+  );
+  app.use(csrfProtection);
+  app.use(flash());
 
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
@@ -62,7 +64,7 @@ app.use((req, res, next) => {
     });
 });
 
-app.use('/admin', adminRoutes);
+app.use(adminRoutes);
 app.use(authRoutes);
 
 // app.get('/500', errorController.get500);

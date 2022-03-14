@@ -6,6 +6,6 @@ const { check, body } = require('express-validator');
 
 const router = express.Router();
 
-router.get('/', isAuth, adminController.getUsers);
+router.get('/', adminController.getDashboard);
 
 module.exports = router;

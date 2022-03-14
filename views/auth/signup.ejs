@@ -1,0 +1,31 @@
+<%- include('../includes/head.ejs') %>
+<link
+      href="/css/auth/login.css"
+      rel="stylesheet"
+    />
+    </head>
+
+    <body>
+        <%- include('../includes/banner.ejs') %>
+        <form action="" class="form-container">
+            <div class="input-field">
+                <label for="pseudo" class="input-field__label bold">Pseudo</label>
+                <input type="text" name="pseudo" id="pseudo" class="input-field__input bordered" required>
+            </div>
+            <div class="input-field">
+                <label for="age" class="input-field__label bold">Âge</label>
+                <input type="number" min="1" max="100" name="age" id="age" class="input-field__input bordered" required>
+            </div>
+            <div class="input-field">
+                <label for="email" class="input-field__label bold">Email</label>
+                <input type="email" name="email" id="email" class="input-field__input bordered" required>
+            </div>
+            <div class="input-field">
+                <label for="password" class="input-field__label bold">Mot de passe</label>
+                <input type="password" name="password" id="password" class="input-field__input bordered" required>
+            </div>
+            <button class="btn btn-xl">Inscription</button>
+            <button class="btn btn-xl btn-outlined bordered">Déjà membre ?</button>
+        </form>
+    </body>
+<%- include('../includes/end.ejs') %>
