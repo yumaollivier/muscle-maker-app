@@ -19,28 +19,31 @@ html {
 
 body {
   height: 100vh;
+  font-size: 1.1rem;
+  margin-top: 6.3rem;
 }
 
 :root {
   --primary-color: #54a0ff;
   --secondary-color: #1dd1a1;
+  --red-color: #ff6b6b;
   --white-color: #fff;
   --black-color: #000;
   --bebas-family: 'Bebas Neue', 'cursive';
 }
 
-.bebas-font{
+.bebas-font {
   font-family: var(--bebas-family);
   font-weight: normal;
 }
 
-.center{
+.center {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-a{
+a {
   color: var(--black-color);
   cursor: pointer;
 }
@@ -56,14 +59,14 @@ a{
 }
 
 .shadow-effect {
-  box-shadow: 0rem .25rem 2rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0rem 0.25rem 2rem rgba(0, 0, 0, 0.15);
 }
 
 .btn {
   font-family: var(--bebas-family);
   background-color: var(--primary-color);
   font-size: 1.5rem;
-  padding: .75rem 2rem;
+  padding: 0.75rem 2rem;
   color: #000000;
   display: flex;
   align-items: center;
@@ -82,8 +85,12 @@ a{
   border: 2px solid var(--primary-color);
 }
 
+.green-border{
+  border-color: var(--secondary-color);
+}
+
 .btn-m {
-  width: 13rem;
+  width: 9rem;
 }
 
 .btn-lg {
@@ -94,11 +101,33 @@ a{
   width: 100%;
 }
 
-.btns-fullwidth{
+.btn-fullwidth {
   width: 100%;
+}
+
+.btn-midwidth {
+  width: 50%;
 }
 
 .status {
   margin-bottom: 1rem;
   font-size: 1.5rem;
+}
+
+.red-font {
+  color: var(--red-color);
+}
+
+.green-font {
+  color: var(--secondary-color);
+}
+
+.container {
+  padding: 2.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.mt-1{
+  margin-top: 1rem;
 }

@@ -1,0 +1,96 @@
+.title {
+  margin-bottom: 1rem;
+}
+
+.input-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  width: 80%;
+}
+
+.input-field__input {
+  border: none;
+  border-bottom: 2px solid var(--primary-color);
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.card {
+  padding: 1rem;
+  position: relative;
+  margin: 1rem 0;
+  height: 13.5rem;
+}
+
+.card-free-heigth{
+  height: auto;
+}
+
+.card__details,
+.details {
+  opacity: 60%;
+  margin-bottom: 0.25rem;
+}
+
+.details {
+  margin-bottom: 1rem;
+}
+
+.card__buttons {
+  display: flex;
+  width: calc(100% + 4px);
+  position: absolute;
+  bottom: -2px;
+  left: -2px;
+}
+
+.buttons {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.buttons .btn:nth-child(1) {
+  width: 60%;
+}
+
+.buttons .btn:nth-child(2) {
+  width: 40%;
+}
+
+.set-table {
+  text-align: center;
+}
+
+.set-table__column {
+  font-weight: normal;
+}
+
+.set-table td .input-field__input {
+  width: 8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.set-table__input-field {
+  font-size: 2rem;
+}
+
+.textarea-field {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.textarea-field__textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.delete {
+  font-size: 2rem;
+}
+
+.unit {
+  font-family: 'Quicksand', 'sans serif';
+  font-size: 1.5rem;
+}

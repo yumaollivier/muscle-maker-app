@@ -1,0 +1,36 @@
+<%- include('../includes/head.ejs') %>
+<link href="/css/admin/dashboard.css" rel="stylesheet"/>
+<link href="/css/admin/trainings.css" rel="stylesheet"/>
+    </head>
+
+    <body>
+        <%- include('../includes/banner.ejs', {goBack: false}) %>
+        <div class="trainings-container">
+            <h1 class="title bebas-font">
+                Mes entrainements
+            </h1> 
+            <div class="flag-link shadow-effect">
+                <h1 class="flag-link__title bebas-font">Programme Strong</h1>
+                <p class="flag-link__subtitle bebas-font">Semaine 1, Jour 1</p>
+                <p class="flag-link__details">Pec Abdos</p>
+                <span class="status green-font bebas-font">Terminé</span>
+                <div class="flag-link__buttons">
+                    <a class="btn btn-midwidth">Recommencer</a>
+                    <a class="btn btn-midwidth btn-outlined">Voir</a>
+                </div>
+            </div>
+            <div class="flag-link shadow-effect">
+                <h1 class="flag-link__title bebas-font">Programme Strong</h1>
+                <p class="flag-link__subtitle bebas-font">Semaine 1, Jour 2</p>
+                <p class="flag-link__details">Dos</p>
+                <div class="flag-link__buttons">
+                    <a class="btn btn-midwidth">Recommencer</a>
+                    <a class="btn btn-midwidth btn-outlined">Voir</a>
+                </div>
+            </div>
+            <div class="trainings-button mt-1">
+                <button class="btn btn-fullwidth">Créer un nouvel entrainement</button>
+            </div>
+        </div>
+    </body>
+<%- include('../includes/end.ejs') %>

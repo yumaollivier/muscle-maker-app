@@ -2,24 +2,27 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
+const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const compression = require('compression');
 const flash = require('flash');
 const csrf = require('csurf');
+const SessionStore = require('express-session-sequelize')(session.Store);
+
+const postgresDb = require('./database/database');
+const Users = require('../models/users');
+const Trainings = require('../models/users');
+const Programs = require('../models/users');
+const Exercices = require('../models/users');
 
 const errorController = require('./controllers/error');
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const sequelizeSessionStore = new SessionStore({
+  db: postgresDb,
+});
 
 const app = express();
-const store = new MongoDBStore({
-  uri: MONGODB_URI,
-  collection: 'sessions',
-});
-const csrfProtection = csrf();
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -29,62 +32,80 @@ const authRoutes = require('./routes/auth');
 app.use(helmet());
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(
-  session({
-    secret: process.env.APP_SECRET_KEY,
-    resave: false,
-    saveUninitialized: false,
-    store: store,
-  })
-  );
-  app.use(csrfProtection);
-  app.use(flash());
+app.use(cookieParser());
+app.use(csrf({ cookie: true }));
+app.use(flash());
 
 app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.session.isLoggedIn;
-  res.locals.csrfToken = req.csrfToken();
+  const token = req.csrfToken();
+  res.locals.connected = req.session?.isLoggedIn;
+  res.cookie('XSRF-TOKEN', token);
+  res.locals.csrfToken = token;
   next();
 });
 
-app.use((req, res, next) => {
-  if (!req.session.user) {
-    return next();
-  }
-  User.findById(req.session.user._id)
-    .then(user => {
-      if (!user) {
+console.log('Sync DB');
+postgresDb
+  .sync()
+  .then(() => {
+    app.use(express.static(path.join(__dirname, 'public')));
+    console.log('DB Synced');
+    app.use(
+      session({
+        secret: process.env.APP_SECRET_KEY,
+        resave: false,
+        saveUninitialized: false,
+        store: sequelizeSessionStore,
+        // cookie: app.get('env') === 'production' ? {secure: true} : {} //works only with https
+      })
+    );
+
+    app.use((req, res, next) => {
+      if (!req.session.user) {
         return next();
       }
-      req.user = user;
-      next();
-    })
-    .catch(err => {
-      next(new Error(err));
+      Users.findOne({ where: { _id: req.session.user._id } })
+        .then(user => {
+          if (!user) {
+            return next();
+          }
+          req.user = user;
+          next();
+        })
+        .catch(err => {
+          next(new Error(err));
+        });
     });
-});
 
-app.use(adminRoutes);
-app.use(authRoutes);
+    app.use(adminRoutes);
+    app.use(authRoutes);
 
-// app.get('/500', errorController.get500);
+    // Trainings.belongsTo(Programs, { constraints: true, onDelete: 'CASCADE' });
+    // User.hasMany(Product);
+    // User.hasOne(Cart);
+    // Cart.belongsTo(User);
+    // Cart.belongsToMany(Product, { through: CartItem });
+    // Product.belongsToMany(Cart, { through: CartItem });
+    // Order.belongsTo(User);
+    // User.hasMany(Order);
+    // Order.belongsToMany(Product, { through: OrderItem });
 
-// app.use(errorController.get404);
+    // app.get('/500', errorController.get500);
 
-// app.use((error, req, res, next) => {
-//   res.status(500).render('500', {
-//     pageTitle: 'Error !',
-//     path: '/500',
-//     isAuthenticated: req.session.isLoggedIn,
-//   });
-// });
+    // app.use(errorController.get404);
+    // app.use((error, req, res, next) => {
+    //   console.error(error);
+    //   res.status(500).render('500', {
+    //     pageTitle: 'Erreur !',
+    //     path: '/500',
+    //     connected: req.session?.isLoggedIn,
+    //     user: req.user,
+    //   });
+    // });
 
-mongoose
-  .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(result => {
-    console.log('CONNECTED');
-    app.listen(3000);
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+      console.log(`Server has started on port ${port}`);
+    });
   })
-  .catch(err => {
-    console.log(err);
-  });
+  .catch(err => console.log('could not sync DB:', err));

@@ -1,0 +1,75 @@
+<%- include('../includes/head.ejs') %>
+<link href="/css/admin/form.css" rel="stylesheet"/>
+    </head>
+
+    <body>
+        <%- include('../includes/banner.ejs', {goBack: true}) %>
+        <form class="container">
+           <h1 class="bebas-font">
+               Développé couché aux haltères
+           </h1>
+           <p class="details">2 séries dégressives à la dernière série</p>
+           <table class="set-table">
+                <tr class="set-table__header">
+                    <th class="set-table__column">Séries</th>
+                    <th class="set-table__column">Répétitions</th>
+                    <th class="set-table__column">Poids (en kg)</th>
+                    <th class="set-table__column">Repos (en s)</th>
+                </tr>
+                <tr class="set-table__input-field">
+                    <td class="set bebas-font">1</td>
+                    <td class="reps bebas-font">
+                        10
+                    </td>
+                    <td class="weight bebas-font">
+                        <span class="unit">kg</span>
+                    </td>
+                    <td class="rest bebas-font">
+                        60 
+                        <span class="unit">s</span>
+                    </td>
+                </tr>
+                <tr class="set-table__input-field">
+                    <td class="set bebas-font">1</td>
+                    <td class="reps bebas-font">
+                        10
+                    </td>
+                    <td class="weight bebas-font">
+                        <span class="unit">kg</span>
+                    </td>
+                    <td class="rest bebas-font">
+                        60 
+                        <span class="unit">s</span>
+                    </td>
+                </tr>
+                <tr class="set-table__input-field">
+                    <td class="set bebas-font">1</td>
+                    <td class="reps bebas-font">
+                        10
+                    </td>
+                    <td class="weight bebas-font">
+                        <span class="unit">kg</span>
+                    </td>
+                    <td class="rest bebas-font">
+                        60 
+                        <span class="unit">s</span>
+                    </td>
+                </tr>
+                <tr class="set-table__input-field">
+                    <td class="set bebas-font">1</td>
+                    <td class="reps bebas-font">
+                        10
+                    </td>
+                    <td class="weight bebas-font">
+                        <span class="unit">kg</span>
+                    </td>
+                    <td class="rest bebas-font">
+                        60 
+                        <span class="unit">s</span>
+                    </td>
+                </tr>
+           </table>
+            <button class="btn btn-fullwidth mt-1">Modifier</button>
+        </form>
+    </body>
+<%- include('../includes/end.ejs') %>

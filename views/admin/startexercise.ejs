@@ -1,0 +1,130 @@
+<%- include('../includes/head.ejs') %>
+<link href="/css/admin/startExercise.css" rel="stylesheet"/>
+    </head>
+
+    <body>
+        <%- include('../includes/banner.ejs', {goBack: true}) %>
+        <div class="start-container">
+            <div class="start-header shadow-effect">
+                <h1 class="title bebas-font">
+                    Développé couché aux haltères
+                </h1> 
+                <p class="start-details">2 séries dégressives à la dernière série</p>
+                <p class="start-details">5 séries x 10 reps</p>
+                <p class="start-details">60 secondes de repos</p>
+            </div>
+            <div class="flag-exercise shadow-effect">
+                <h1 class="flag-exercise__title bebas-font">Série 1</h1>
+                <p class="flag-exercise__details">10 reps</p>
+                <div class="flag-exercise__hidden-element">
+                    <div class="start-field__wrapper">
+                        <div class="start-field">
+                            <label class="start-fiel__label">Poids (en kg)</label>
+                            <div class="input-container">
+                                <span class="control-minus value-controller bebas-font" id="1">-</span>
+                                <input type="number" name="weight" step="0.25" min="0" id="1" class="start-field__input bordered bebas-font" value="0">
+                                <span class="control-plus value-controller bebas-font" id="1">+</span>
+                            </div>
+                        </div>
+                        <div class="start-field">
+                            <label class="start-fiel__label">Reps</label>
+                            <div class="input-container">
+                                <span class="control-minus value-controller bebas-font" id="2">-</span>
+                                <input type="number" name="weight" id="2" step="1" min="0" class="start-field__input bordered bebas-font" value="10">
+                                <span class="control-plus value-controller bebas-font" id="2">+</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button data-start="1" class="btn btn-fullwidth" id="startTimer">Enregistrer et lancer le chrono</button>
+                </div>
+            </div>
+            <div data-start="1" data-time="2" class="chrono start">
+                <span class="chrono__label">Repos</span>
+                <span class="chrono__counter bebas-font">01:00</span>
+                <div class="chrono__duration-bar">
+                    <span class="chrono__duration-level"></span>
+                </div>
+                <span class="chrono__cross">X</span>
+            </div>
+            <div class="flag-exercise shadow-effect ">
+                <h1 class="flag-exercise__title bebas-font">Série 2</h1>
+                <p class="flag-exercise__details">10 reps</p>
+                <div class="flag-exercise__hidden-element">
+                    <div class="start-field__wrapper">
+                        <div class="start-field">
+                            <label class="start-fiel__label">Poids (en kg)</label>
+                            <div class="input-container">
+                                <span class="control-minus value-controller bebas-font" id="1">-</span>
+                                <input type="number" name="weight" step="0.25" min="0" id="1" class="start-field__input bordered bebas-font" value="0">
+                                <span class="control-plus value-controller bebas-font" id="1">+</span>
+                            </div>
+                        </div>
+                        <div class="start-field">
+                            <label class="start-fiel__label">Reps</label>
+                            <div class="input-container">
+                                <span class="control-minus value-controller bebas-font" id="2">-</span>
+                                <input type="number" name="weight" id="2" step="1" min="0" class="start-field__input bordered bebas-font" value="10">
+                                <span class="control-plus value-controller bebas-font" id="2">+</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button data-start="2" class="btn btn-fullwidth" id="startTimer">Enregistrer et lancer le chrono</button>
+                </div>
+            </div>
+            <div data-start="2" data-time="2" class="chrono">
+                <span class="chrono__label">Repos</span>
+                <span class="chrono__counter bebas-font">00:30</span>
+                <div class="chrono__duration-bar">
+                    <span class="chrono__duration-level"></span>
+                </div>
+                <span class="chrono__cross">X</span>
+            </div>
+            <div class="flag-exercise shadow-effect ">
+                <h1 class="flag-exercise__title bebas-font">Série 3</h1>
+                <p class="flag-exercise__details">10 reps</p>
+                <div class="flag-exercise__hidden-element">
+                    <div class="start-field__wrapper">
+                        <div class="start-field">
+                            <label class="start-fiel__label">Poids (en kg)</label>
+                            <div class="input-container">
+                                <span class="value-controller bebas-font" id="5">-</span>
+                                <input type="number" name="weight" step="0.5" min="0" id="5" class="start-field__input bordered bebas-font" value="0">
+                                <span class="control-plus bebas-font" id="5">+</span>
+                            </div>
+                        </div>
+                        <div class="start-field">
+                            <label class="start-fiel__label">Reps</label>
+                            <div class="input-container">
+                                <span class="value-controller bebas-font" id="6">-</span>
+                                <input type="number" name="weight" step="0.5" min="0" id="6" class="start-field__input bordered bebas-font" value="10">
+                                <span class="control-plus bebas-font" id="6">+</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-fullwidth">Enregistrer et lancer le chrono</button>
+                </div>
+            </div>
+            <div class="flag-exercise shadow-effect  complete">
+                <h1 class="flag-exercise__title bebas-font">Série 4</h1>
+                <p class="flag-exercise__details">10 reps</p>
+                <div class="flag-exercise__hidden-element">
+                    <div class="start-field__wrapper">
+                        <div class="start-field">
+                            <label class="start-fiel__label">Poids (en kg)</label>
+                            <input type="number" name="weight" step="0.5" min="0" class="start-field__input bordered bebas-font" value="0">
+                        </div>
+                        <div class="start-field">
+                            <label class="start-fiel__label">Reps</label>
+                            <input type="number" name="weight" step="0.5" min="0" class="start-field__input bordered bebas-font" value="10">
+                        </div>
+                    </div>
+                    <button class="btn btn-fullwidth">Enregistrer et lancer le chrono</button>
+                </div>
+            </div>
+            <div class="start-footer shadow-effect">
+                <button class="btn btn-outlined btn-fullwidth">passer à l’exercice suivant</button>
+            </div>
+        </div>
+    </body>
+    <script src="/js/start.js"></script>
+<%- include('../includes/end.ejs') %>

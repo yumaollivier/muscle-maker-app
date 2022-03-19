@@ -1,0 +1,48 @@
+<%- include('../includes/head.ejs') %>
+<link href="/css/admin/form.css" rel="stylesheet"/>
+    </head>
+
+    <body>
+        <%- include('../includes/banner.ejs', {goBack: false}) %>
+        <form class="container">
+           <h1 class="title bebas-font">
+               Créer un programme
+           </h1> 
+           <div class="input-field">
+               <label for="programName" class="input-field__label">Nom du programme</label>
+               <input type="text" name="programName" id="programName" class="input-field__input">
+           </div>
+            <div class="input-field">
+                <label for="programDuration" class="input-field__label">Durée du programme (en semaine)</label>
+                <input type="number" name="programDuration" id="programDuration" class="input-field__input">
+            </div>
+            <div class="input-field">
+                <label for="numberOfWorkout" class="input-field__label">Nombre d'entrainements par semaine</label>
+                <input type="number" name="numberOfWorkout" id="numberOfWorkout" class="input-field__input">
+            </div>
+           
+           <div class="workouts-list">
+               <div class="card bordered">
+                   <h1 class="card__title bebas-font">Semaine 1, jour 1</h1>
+                   <p class="card__details">Pec Abdos</p>
+                   <div class="card__buttons">
+                       <button class="btn btn-m">Voir</button>
+                       <button class="btn btn-m btn-outlined">Modifier</button>
+                   </div>
+               </div>
+               <div class="card bordered">
+                   <h1 class="card__title bebas-font">Semaine 1, jour 2</h1>
+                   <p class="card__details">Dos</p>
+                   <div class="card__buttons">
+                       <a class="btn btn-m">Voir</a>
+                       <a class="btn btn-m btn-outlined">Modifier</a>
+                   </div>
+               </div>
+           </div>
+           <div class="buttons btns-fullwidth">
+               <a href="/newworkout" class="btn btn-outlined">Ajouter un entrainement</a>
+               <button class="btn">Enregistrer</button>
+           </div>
+        </form>
+    </body>
+<%- include('../includes/end.ejs') %>

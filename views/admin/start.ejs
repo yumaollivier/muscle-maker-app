@@ -1,0 +1,28 @@
+<%- include('../includes/head.ejs') %>
+<link href="/css/admin/form.css" rel="stylesheet"/>
+    </head>
+
+    <body>
+        <%- include('../includes/banner.ejs', {goBack: true}) %>
+        <div class="container">
+            <h1 class="title bebas-font">
+                Semaine 1, jour 1
+            </h1> 
+            <div class="card card-free-heigth bordered green-border">
+                <h1 class="card__title bebas-font">Développé couché</h1>
+                <p class="card__details">Série 1 : 10 reps à 100kg</p>
+                <p class="card__details">Série 2 : 10 reps à 100kg</p>
+                <p class="card__details">Série 3 : 10 reps à 100kg</p>
+                <p class="card__details">Série 4 : 10 reps à 100kg</p>
+                <p class="card__details">Série 5 : 10 reps à 100kg</p>
+            </div>
+            <div class="card card-free-heigth bordered">
+                <h1 class="card__title bebas-font">Développé couché Aux haltères</h1>
+                <p class="card__details">2 séries dégressives à la dernière série</p>
+                <p class="card__details">5 séries x 10 reps</p>
+                <p class="card__details">60 secondes</p>
+            </div>
+            <button class="btn btn-fullwidth mt-1">Terminer la séance</button>
+        </div>
+    </body>
+<%- include('../includes/end.ejs') %>

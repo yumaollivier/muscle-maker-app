@@ -1,0 +1,37 @@
+.trainings-container .title {
+  padding: 2.5rem 3rem;
+}
+
+.flag-link {
+  position: relative;
+}
+
+.flag-link__title {
+  margin-bottom: 0;
+}
+
+.flag-link__subtitle {
+  font-size: 1.5rem;
+}
+
+.flag-link__details {
+  opacity: 60%;
+}
+
+.status {
+  position: absolute;
+  top: 2.5rem;
+  right: 3rem;
+}
+
+.flag-link__buttons{
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.trainings-button{
+    margin: 0 3rem;
+}

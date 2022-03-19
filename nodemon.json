@@ -1,6 +1,9 @@
 {
-    "env": {
-      "APP_SECRET_KEY": "secret",
-      "MONGODB_URI": "mongodb+srv://yumaollivier:Ollivier.72@cluster0.tpcsv.mongodb.net/myFirstDatabase"
-    }
+  "env": {
+    "APP_SECRET_KEY": "secret",
+    "DB_HOST": "localhost",
+    "DB_USERNAME": "postgres",
+    "DB_PASSWORD": "localpassword",
+    "DB_NAME": "muscleprogrammer"
   }
+}

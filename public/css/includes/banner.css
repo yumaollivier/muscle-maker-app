@@ -1,14 +1,16 @@
 .page-title {
-  font-family: var(--bebas-family);
   font-size: 2rem;
-  letter-spacing: 0.1rem;
 }
 
 .banner {
+  width: 100%;
   padding: 2rem;
   background-color: var(--primary-color);
   color: var(--white-color);
-  position: relative;
+  position: fixed;
+  z-index: 100;
+  height: 6.3rem;
+  top: 0;
 }
 
 .hamburger-menu {
@@ -31,11 +33,15 @@
   opacity: 1;
 }
 
-.hamburger-menu.active {
+.hamburger-menu.active, .hamburger-menu.back {
   justify-content: center;
 }
 
-.hamburger-menu.active .line {
+.hamburger-menu.back{
+  align-items: start;
+}
+
+.hamburger-menu.active .line{
   position: absolute;
   left: 0;
 }
@@ -50,6 +56,18 @@
 
 .hamburger-menu.active .line:nth-child(3) {
   transform: rotate(-45deg);
+}
+
+.hamburger-menu.back .line:nth-child(1){
+  transform-origin: top left;
+  transform: rotate(-30deg) translateY(100%) translateX(-10%);
+  width: 60%;
+}
+
+.hamburger-menu.back .line:nth-child(3){
+  transform-origin: bottom left;
+  transform: rotate(30deg) translateY(-100%) translateX(-10%);
+  width: 60%;
 }
 
 .menu-container {

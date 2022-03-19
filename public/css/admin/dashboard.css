@@ -34,3 +34,14 @@
     width: calc(100% - 18rem);
 }
 
+.flag-link{
+    width: 100%;
+    padding: 2rem 5rem;
+    height: 13rem;
+    margin-bottom: 1.5rem;
+}
+
+.flag-link__title{
+    margin-bottom: .5rem;
+}
+
