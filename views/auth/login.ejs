@@ -7,7 +7,7 @@
 
     <body>
         <%- include('../includes/banner.ejs', {goBack: false}) %>
-        <form action="" class="form-container">
+        <form method="post" class="form-container">
             <div class="input-field">
                 <label for="email" class="input-field__label bold">Email</label>
                 <input type="email" name="email" id="email" class="input-field__input bordered" required>
@@ -17,8 +17,9 @@
                 <input type="password" name="password" id="password" class="input-field__input bordered" required>
                 <a href="" class="forget-link light">Mot de passe oublié ?</a>
             </div>
-            <button class="btn btn-xl">Connexion</button>
-            <button class="btn btn-xl btn-outlined bordered">Inscription</button>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="submit" class="btn btn-xl" value="Connexion">
+            <a href="/signup" class="btn btn-xl btn-outlined bordered">Inscription</a>
         </form>
     </body>
 <%- include('../includes/end.ejs') %>

@@ -4,42 +4,63 @@
 
     <body>
         <%- include('../includes/banner.ejs', {goBack: true}) %>
-        <form class="container">
+        <form class="container" method="post">
            <h1 class="title bebas-font">
-               Ajouter un exercice
+               <%= pageTitle %>
            </h1> 
            <div class="input-field">
                <label for="exerciseName" class="input-field__label">Nom de l'exercice</label>
-               <input type="text" name="exerciseName" id="exerciseName" class="input-field__input">
+               <input type="text" name="exerciseName" id="exerciseName" class="input-field__input" value="<%= exercise.name %>">
            </div>
             <div class="input-field">
                 <label for="muscleTarget" class="input-field__label">Groupe musculaire ciblé</label>
-                <input type="number" name="muscleTarget" id="muscleTarget" class="input-field__input">
+                <input type="text" name="muscleTarget" id="muscleTarget" class="input-field__input" value="<%= exercise.muscleTarget %>">
             </div>
             <table class="set-table">
-                <tr class="set-table__header">
-                    <th class="set-table__column">Série</th>
-                    <th class="set-table__column">Répétitions</th>
-                    <th class="set-table__column">Temps de repos (en s)</th>
-                    <th class="set-table__column"></th>
-                </tr>
-                <tr class="set-table__input-field" id="1">
-                    <td class="set">1</td>
-                    <td class="reps">
-                        <input type="number" class="input-field__input" name="reps">
-                    </td>
-                    <td class="rest">
-                        <input type="number" class="input-field__input" name="rest">
-                    </td>
-                </tr>
+                <tbody>
+                    <tr class="set-table__header">
+                        <th class="set-table__column">Série</th>
+                        <th class="set-table__column">Répétitions</th>
+                        <th class="set-table__column">Temps de repos (en s)</th>
+                        <th class="set-table__column"></th>
+                    </tr>
+                    <% if(typeof exercise.schema === object){ %>
+                        <% exercise.schema.forEach(schema => { %>
+                            <tr class="set-table__input-field" id="1">
+                                <td class="set"><%= schema.set %></td>
+                                <td class="reps">
+                                    <input type="number" class="input-field__input" name="reps" id="reps" value="<%= schema.reps %>">
+                                </td>
+                                <td class="rest">
+                                    <input type="number" class="input-field__input" name="rest" id="rest" value="<%= schema.rest %>">
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% } else { %>
+                        <tr class="set-table__input-field" id="1">
+                            <td class="set">1</td>
+                            <td class="reps">
+                                <input type="number" class="input-field__input" name="reps" id="reps">
+                            </td>
+                            <td class="rest">
+                                <input type="number" class="input-field__input" name="rest" id="rest">
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
             </table>
             <button class="btn btn-fullwidth" id="addSet" type="button">+ Ajouter une série</button>
             <div class="textarea-field">
                 <label for="trainingNotes" class="input-field__label">Notes de l'exercice</label>
-                <textarea class="textarea-field__textarea bordered" name="trainingNotes" id="trainingNotes" cols="30" rows="10"></textarea>
+                <textarea class="textarea-field__textarea bordered" name="trainingNotes" id="trainingNotes" cols="30" rows="10"><%= exercice.notes %></textarea>
             </div>
-            <button class="btn btn-fullwidth mt-1">Ajouter l'exercice</button>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="exerciseSchema" id="exerciseSchema">
+            <input type="hidden" name="exerciseId" id="exerciseId" value="<%= exercice.id %>">
+            <input type="hidden" name="programId" id="programId" value="<%= programId %>">
+            <input type="submit" class="btn btn-fullwidth mt-1" id="addExercise" value="Ajouter l'exercice">
         </form>
     </body>
+    <script src="/js/addExerciseData.js"></script>
     <script src="/js/workoutCreation.js"></script>
 <%- include('../includes/end.ejs') %>

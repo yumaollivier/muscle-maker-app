@@ -2,33 +2,30 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = require('../database/database');
 
-const programSchema = sequelize.define('Program', {
+const exerciseSchema = sequelize.define('Exercise', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },
-  name: {
+  name: DataTypes.STRING,
+  muscleTarget: {
     type: DataTypes.STRING,
     allowNull: true,
     defaultValue: "",
   },
-  duration: {
-    type: DataTypes.INTEGER,
+  schema: {
+    type: DataTypes.STRING,
     allowNull: true,
-    defaultValue: 0.
+    defaultValue: "",
   },
-  trainingNumber: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    defaultValue: 0.
-  },
-  trainingsIds: {
+  notes: DataTypes.TEXT,
+  performances: {
     type: DataTypes.STRING,
     allowNull: true,
     defaultValue: "",
   },
 });
 
-module.exports = programSchema;
+module.exports = exerciseSchema;

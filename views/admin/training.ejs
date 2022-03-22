@@ -6,16 +6,18 @@
         <%- include('../includes/banner.ejs', {goBack: true}) %>
         <div class="container">
             <h1 class="title bebas-font">
-                Semaine 1, jour 1
-            </h1> 
+                <%= pageTitle %>
+            </h1>
+            <% exercises.forEach(exercise => { %>
             <div class="card bordered">
-                <h1 class="card__title bebas-font">Développé couché</h1>
+                <h1 class="card__title bebas-font"><%= exercise.name %></h1>
                 <p class="card__details">5 séries x 10 reps</p>
                 <p class="card__details">60 secondes</p>
                 <div class="card__buttons">
                     <a href="/exercise" class="btn btn-fullwidth">Voir</a>
                 </div>
             </div>
+            <% }) %>
             <div class="card bordered">
                 <h1 class="card__title bebas-font">Développé couché Aux haltères</h1>
                 <p class="card__details">2 séries dégressives à la dernière série</p>

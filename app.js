@@ -11,10 +11,11 @@ const csrf = require('csurf');
 const SessionStore = require('express-session-sequelize')(session.Store);
 
 const postgresDb = require('./database/database');
-const Users = require('../models/users');
-const Trainings = require('../models/users');
-const Programs = require('../models/users');
-const Exercices = require('../models/users');
+
+const Users = require('./models/users');
+const Trainings = require('./models/trainings');
+const Programs = require('./models/programs');
+const Exercises = require('./models/exercises');
 
 const errorController = require('./controllers/error');
 
@@ -34,7 +35,6 @@ app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(csrf({ cookie: true }));
-app.use(flash());
 
 app.use((req, res, next) => {
   const token = req.csrfToken();
@@ -43,6 +43,15 @@ app.use((req, res, next) => {
   res.locals.csrfToken = token;
   next();
 });
+
+Users.hasMany(Programs);
+Users.hasMany(Exercises);
+Users.hasMany(Trainings);
+Programs.hasMany(Trainings);
+Trainings.hasMany(Exercises);
+Trainings.belongsTo(Users, {constraints: true, onDelete: 'CASCADE'});
+Exercises.belongsTo(Users, {constraints: true, onDelete: 'CASCADE'});
+Programs.belongsTo(Users, {constraints: true, onDelete: 'CASCADE'});
 
 console.log('Sync DB');
 postgresDb
@@ -60,11 +69,13 @@ postgresDb
       })
     );
 
+    app.use(flash());
+
     app.use((req, res, next) => {
       if (!req.session.user) {
         return next();
       }
-      Users.findOne({ where: { _id: req.session.user._id } })
+      Users.findByPk(req.session.user.id)
         .then(user => {
           if (!user) {
             return next();
@@ -79,16 +90,6 @@ postgresDb
 
     app.use(adminRoutes);
     app.use(authRoutes);
-
-    // Trainings.belongsTo(Programs, { constraints: true, onDelete: 'CASCADE' });
-    // User.hasMany(Product);
-    // User.hasOne(Cart);
-    // Cart.belongsTo(User);
-    // Cart.belongsToMany(Product, { through: CartItem });
-    // Product.belongsToMany(Cart, { through: CartItem });
-    // Order.belongsTo(User);
-    // User.hasMany(Order);
-    // Order.belongsToMany(Product, { through: OrderItem });
 
     // app.get('/500', errorController.get500);
 

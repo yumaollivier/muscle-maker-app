@@ -25,33 +25,27 @@ exports.getLogin = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).render('auth/login', {
       path: '/login',
       pageTitle: 'Connexion',
       errorMessage: errors.array()[0].msg,
-      oldInput: {
-        email: email,
-        password: password,
-      },
       validationErrors: errors.array(),
+      isAuth: false,
     });
   }
 
   Users.findOne({ where: { email: email } })
     .then(user => {
+      console.log(user);
       if (!user) {
         return res.status(422).render('auth/login', {
           path: '/login',
-          pageTitle: 'Login',
+          pageTitle: 'Connexion',
           errorMessage: 'Invalid email or password.',
-          oldInput: {
-            email: email,
-            password: password,
-          },
           validationErrors: [],
+          isAuth: false,
         });
       }
       bcrypt.compare(password, user.password).then(doMatch => {
@@ -65,13 +59,10 @@ exports.postLogin = (req, res, next) => {
         }
         return res.status(422).render('auth/login', {
           path: '/login',
-          pageTitle: 'Login',
+          pageTitle: 'Connexion',
           errorMessage: 'Invalid email or password.',
-          oldInput: {
-            email: email,
-            password: password,
-          },
           validationErrors: [],
+          isAuth: false,
         });
       });
     })
@@ -110,27 +101,23 @@ exports.postSignup = (req, res, next) => {
       path: '/signup',
       pageTitle: 'Inscription',
       errorMessage: errors.array()[0].msg,
-      oldInput: {
-        pseudo: pseudo,
-        age: age,
-        email: email,
-        password: password,
-      },
       validationErrors: errors.array(),
+      isAuth: false,
     });
   }
   return bcrypt
     .hash(password, 12)
     .then(hashedPassword => {
-      const user = new Users({
+      const User = new Users({
         pseudo: pseudo,
         age: age,
         email: email,
         password: hashedPassword,
       });
-      return user.save();
+      return User.save();
     })
     .then(user => {
+      console.log('User created');
       req.session.isLoggedIn = true;
       req.session.user = user;
       return req.session.save(err => {

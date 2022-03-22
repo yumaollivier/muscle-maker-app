@@ -71,10 +71,13 @@
 }
 
 .menu-container {
-  height: 100%;
-  position: relative;
+  width: 100%;
+  position: fixed;
+  top: 0;
   bottom: 0;
+  margin-top: 6.3rem;
   display: none;
+  z-index: 10;
 }
 
 .menu-container.active {
@@ -84,8 +87,7 @@
 .menu__background {
   z-index: -1;
   background-color: var(--black-color);
-  opacity: 5%;
-  /* filter: blur(0.2rem); */
+  opacity: 50%;
   position: absolute;
   top: 0;
   bottom: 0;

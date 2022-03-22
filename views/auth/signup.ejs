@@ -7,7 +7,7 @@
 
     <body>
         <%- include('../includes/banner.ejs', {goBack: false}) %>
-        <form action="" class="form-container">
+        <form method="post" class="form-container">
             <div class="input-field">
                 <label for="pseudo" class="input-field__label bold">Pseudo</label>
                 <input type="text" name="pseudo" id="pseudo" class="input-field__input bordered" required>
@@ -24,8 +24,9 @@
                 <label for="password" class="input-field__label bold">Mot de passe</label>
                 <input type="password" name="password" id="password" class="input-field__input bordered" required>
             </div>
-            <button class="btn btn-xl">Inscription</button>
-            <button class="btn btn-xl btn-outlined bordered">Déjà membre ?</button>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="submit" class="btn btn-xl" value="inscription">
+            <a href="/login" class="btn btn-xl btn-outlined bordered">Déjà membre ?</a>
         </form>
     </body>
 <%- include('../includes/end.ejs') %>

@@ -11,7 +11,7 @@ const userSchema = sequelize.define('User', {
   },
   pseudo: DataTypes.STRING,
   email: DataTypes.STRING,
-  age: DataTypes.NUMBER,
+  age: DataTypes.INTEGER,
   password: DataTypes.STRING,
   resetToken: DataTypes.STRING,
   resetTokenExpiration: DataTypes.DATE,

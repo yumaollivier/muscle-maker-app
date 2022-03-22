@@ -48,6 +48,7 @@
 .buttons {
   display: flex;
   margin-top: 1rem;
+  width: 100%;
 }
 
 .buttons .btn:nth-child(1) {

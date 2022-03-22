@@ -1,7 +1,10 @@
 const addButton = document.querySelector('#addSet');
-const table = document.querySelector('.set-table');
+const tbody = document.querySelector('tbody');
+const setInput = document.querySelectorAll('.set-table__input-field')
 
-let i = 1;
+const lastId = setInput[setInput.length - 1].getAttribute('id')
+
+let i = lastId;
 
 const addSet = () => {
   i++;
@@ -19,6 +22,7 @@ const addSet = () => {
   // Reps input
   const repsInput = document.createElement('input');
   repsInput.setAttribute('name', 'reps');
+  repsInput.setAttribute('id', 'reps');
   repsInput.setAttribute('type', 'number');
   repsInput.className = 'input-field__input';
   // TD with rest input
@@ -27,6 +31,7 @@ const addSet = () => {
   // Rest input
   const restInput = document.createElement('input');
   restInput.setAttribute('name', 'rest');
+  restInput.setAttribute('id', 'rest');
   restInput.setAttribute('type', 'number');
   restInput.className = 'input-field__input';
   // Delete cross
@@ -42,11 +47,12 @@ const addSet = () => {
   newSetEl.appendChild(newRepsNumber);
   newSetEl.appendChild(newRestNumber);
   newSetEl.appendChild(newDeleteCross);
-  table.appendChild(newSetEl);
+  tbody.appendChild(newSetEl);
 };
 
 const deleteElement = e => {
     e.target.parentNode.remove()
+    i--;
     const setElements = document.querySelectorAll('.set')
     setElements.forEach((element, index) => {
         console.log(element + " " + index);

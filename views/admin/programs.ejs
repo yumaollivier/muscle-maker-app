@@ -8,27 +8,19 @@
             <h1 class="title bebas-font">
                 Mes programmes
             </h1> 
-            <div class="card bordered">
-                <h1 class="card__title bebas-font">Strong</h1>
-                <p class="card__details">5 entrainements par semaine</p>
-                <p class="card__details">6 semaines</p>
-                <div class="card__buttons">
-                    <a href="/program" class="btn btn-fullwidth">Voir</a>
-                    <button class="btn btn-fullwidth btn-outlined">Modifier</button>
-                    <button class="btn btn-fullwidth">Supprimer</button>
-                </div>
-            </div> 
-            <div class="card bordered">
-                <h1 class="card__title bebas-font">Mass</h1>
-                <p class="card__details">5 entrainements par semaine</p>
-                <p class="card__details">6 semaines</p>
-                <div class="card__buttons">
-                    <button class="btn btn-fullwidth">Voir</button>
-                    <button class="btn btn-fullwidth btn-outlined">Modifier</button>
-                    <button class="btn btn-fullwidth">Supprimer</button>
-                </div>
-            </div> 
-            <button class="btn btn-fullwidth mt-1">Créer un nouveau programme</button>
+            <% programs.forEach(program => { %>
+                <div class="card bordered">
+                    <h1 class="card__title bebas-font"><% if (program.name !== "") {%><%= program.name %><% } else { %>Sans nom<%}%></h1>
+                    <p class="card__details"><%= program.trainingNumber %> entrainements par semaine</p>
+                    <p class="card__details"><%= program.duration %> semaines</p>
+                    <div class="card__buttons">
+                        <a href="/program/<%= program.id %>" class="btn btn-fullwidth">Voir</a>
+                        <a href="/newprogram/<%= program.id %>" class="btn btn-fullwidth btn-outlined">Modifier</a>
+                        <a href="/delete/program/<%= program.id %>" class="btn btn-fullwidth">Supprimer</a>
+                    </div>
+                </div> 
+            <% }) %>
+            <a href="/newprogram" class="btn btn-fullwidth mt-1">Créer un nouveau programme</a>
         </div>
     </body>
 <%- include('../includes/end.ejs') %>

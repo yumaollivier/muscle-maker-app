@@ -1,0 +1,38 @@
+<%- include('../includes/head.ejs') %>
+<link href="/css/admin/form.css" rel="stylesheet"/>
+    </head>
+
+    <body>
+        <%- include('../includes/banner.ejs', {goBack: true}) %>
+        <form class="container">
+           <h1 class="bebas-font">
+               <%= exercise.name %>
+           </h1>
+           <p class="details"><%= exercise.notes %></p>
+           <table class="set-table">
+                <tr class="set-table__header">
+                    <th class="set-table__column">Séries</th>
+                    <th class="set-table__column">Répétitions</th>
+                    <th class="set-table__column">Poids (en kg)</th>
+                    <th class="set-table__column">Repos (en s)</th>
+                </tr>
+                <% exercise.schema.forEach(schema => { %>
+                <tr class="set-table__input-field">
+                    <td class="set bebas-font"><%= schema.set %></td>
+                    <td class="reps bebas-font">
+                        <%= schema.reps %>
+                    </td>
+                    <td class="weight bebas-font">
+                        <span class="unit">kg</span>
+                    </td>
+                    <td class="rest bebas-font">
+                        <%= schema.rest %> 
+                        <span class="unit">s</span>
+                    </td>
+                </tr>
+                <% } %>
+           </table>
+            <a href="/newexercise/<%= exercise.id %>" class="btn btn-fullwidth mt-1">Modifier</a>
+        </form>
+    </body>
+<%- include('../includes/end.ejs') %>
