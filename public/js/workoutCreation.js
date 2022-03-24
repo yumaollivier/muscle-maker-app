@@ -1,9 +1,9 @@
 const addButton = document.querySelector('#addSet');
 const tbody = document.querySelector('tbody');
 const setInput = document.querySelectorAll('.set-table__input-field')
+const deleteCross = document.querySelectorAll('.delete')
 
 const lastId = setInput[setInput.length - 1].getAttribute('id')
-
 let i = lastId;
 
 const addSet = () => {
@@ -55,7 +55,6 @@ const deleteElement = e => {
     i--;
     const setElements = document.querySelectorAll('.set')
     setElements.forEach((element, index) => {
-        console.log(element + " " + index);
         element.innerHTML = index + 1;
     })
 };
@@ -63,3 +62,11 @@ const deleteElement = e => {
 addButton.addEventListener('click', () => {
   addSet();
 });
+
+if(deleteCross.length > 0){
+  deleteCross.forEach(cross => {
+    cross.addEventListener('click', e => {
+      deleteElement(e);
+    })
+  })
+}

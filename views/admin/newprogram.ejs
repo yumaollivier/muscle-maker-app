@@ -22,24 +22,25 @@
             </div>
            
            <div class="workouts-list">
-               <% trainings.forEach(training => {
+               <% trainings.forEach(training => { %>
                    <div class="card bordered" data-id="<%= training.id %>">
                        <h1 class="card__title bebas-font"><%= training.name %></h1>
+                       <p class="card__details"><%= training.exerciseIds.split(',').length %> exercice(s)</p>
                        <p class="card__details"><%= training.muscleTarget %></p>
                        <div class="card__buttons">
                             <a href="/training/<%= training.id %>" class="btn btn-fullwidth">Voir</a>
-                            <a href="/newtraining/<%= program.id%>/<%= training.id %>" class="btn btn-fullwidth btn-outlined">Modifier</a>
+                            <a href="/newtraining/<%= program.id %>/<%= training.id %>" class="btn btn-fullwidth btn-outlined">Modifier</a>
                             <a href="/delete/training/<%= training.id %>" class="btn btn-fullwidth">Supprimer</a>
                        </div>
                    </div>
-               }) %>
+              <% }) %>
            </div>
            <div class="buttons">
                 <input type="hidden" name="trainingIds" id="trainingIds">
                 <input type="hidden" name="programId" id="programId" value="<%= program.id %>">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <a href="/newtraining/<%= program.id %>" class="btn btn-60 btn-outlined">Ajouter un entrainement</a>
-                <input type="submit" class="btn btn-40" value="Enregistrer">
+                <input type="submit" name="submitAction" class="btn btn-60 btn-outlined" value="Ajouter un entrainement">
+                <input type="submit" name="submitAction" class="btn btn-40" value="Enregistrer">
            </div>
         </form>
     </body>

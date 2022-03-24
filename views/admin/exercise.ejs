@@ -30,9 +30,9 @@
                         <span class="unit">s</span>
                     </td>
                 </tr>
-                <% } %>
+                <% }) %>
            </table>
-            <a href="/newexercise/<%= exercise.id %>" class="btn btn-fullwidth mt-1">Modifier</a>
+            <a href="/newexercise/<%= exercise.TrainingId %>/<%= exercise.id %>" class="btn btn-fullwidth mt-1">Modifier</a>
         </form>
     </body>
 <%- include('../includes/end.ejs') %>

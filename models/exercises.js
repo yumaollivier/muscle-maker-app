@@ -26,6 +26,11 @@ const exerciseSchema = sequelize.define('Exercise', {
     allowNull: true,
     defaultValue: "",
   },
+  finished: {
+    type: DataTypes.BOOLEAN,
+    allowNull: true,
+    defaultValue: false,
+  },
 });
 
 module.exports = exerciseSchema;

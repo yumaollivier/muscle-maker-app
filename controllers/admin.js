@@ -6,6 +6,16 @@ const Programs = require('../models/programs');
 const Trainings = require('../models/trainings');
 const Exercises = require('../models/exercises');
 
+const getErrors = req => {
+  let error = req.flash('error');
+  if (error.length > 0) {
+    error = error[0];
+  } else {
+    error = null;
+  }
+  return error;
+};
+
 const allEqual = arr => arr.every(v => v === arr[0]);
 
 const getExerciseData = (exercise, minimize = true) => {
@@ -23,10 +33,12 @@ const getExerciseData = (exercise, minimize = true) => {
     const exerciseData = {
       id: exercise.id,
       name: exercise.name,
+      muscleTarget: exercise.muscleTarget,
       set: Math.max(...set),
       reps: allEqual(reps) ? reps[0] : reps.join(', '),
       rest: allEqual(rest) ? rest[0] : rest.join(', '),
       notes: exercise.notes,
+      TrainingId: exercise.TrainingId,
     };
     return exerciseData;
   } else {
@@ -39,23 +51,32 @@ const getExerciseData = (exercise, minimize = true) => {
       dataObject.rest = schemaArray[2];
       schemaData.push(dataObject);
     });
+    const set = [];
+    const reps = [];
+    const rest = [];
+    schema.forEach(el => {
+      const schemaArray = el.split(',');
+      set.push(schemaArray[0]);
+      reps.push(schemaArray[1]);
+      rest.push(schemaArray[2]);
+    });
     const exerciseData = {
       id: exercise.id,
       name: exercise.name,
+      muscleTarget: exercise.muscleTarget,
+      set: Math.max(...set),
+      reps: allEqual(reps) ? reps[0] : reps.join(', '),
+      rest: allEqual(rest) ? rest[0] : rest.join(', '),
       schema: schemaData,
       notes: exercise.notes,
+      TrainingId: exercise.TrainingId,
     };
     return exerciseData;
   }
 };
 
 exports.getDashboard = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
+  let message = getErrors(req);
   res.render('admin/dashboard', {
     path: '/dashboard',
     pageTitle: 'Dashboard',
@@ -67,12 +88,7 @@ exports.getDashboard = (req, res, next) => {
 };
 
 exports.getProfile = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
+  let message = getErrors(req);
   res.render('admin/profile', {
     path: '/profile',
     pageTitle: 'Mon compte',
@@ -80,22 +96,22 @@ exports.getProfile = (req, res, next) => {
     errorMessage: message,
     validationErrors: [],
     isAuth: true,
+    user: req.user,
   });
 };
 
 exports.getNewProgram = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
+  let message = getErrors(req);
   const programId = req.params.programId;
   const trainings = [];
   if (programId !== undefined) {
     Programs.findByPk(programId).then(program => {
-      Trainings.findAll({where: {UserId: req.user.id, ProgramId: programId}}).then(trainings => {
-        console.log(trainings)
+      Trainings.findAll({
+        where: { UserId: req.user.id, ProgramId: programId },
+      }).then(trainings => {
+        trainings = trainings.sort((a, b) => {
+          return a.createdAt - b.createdAt;
+        });
         res.render('admin/newprogram', {
           path: `/newprogram/${programId}`,
           pageTitle: `${program.name}`,
@@ -103,9 +119,9 @@ exports.getNewProgram = (req, res, next) => {
           validationErrors: [],
           isAuth: true,
           program: program,
-          trainings
+          trainings,
         });
-      })
+      });
     });
   } else {
     req.user.createProgram({}).then(program => {
@@ -117,19 +133,15 @@ exports.getNewProgram = (req, res, next) => {
         validationErrors: [],
         isAuth: true,
         program: program,
-        trainings
+        trainings,
       });
     });
   }
 };
 
 exports.postNewProgram = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
+  let message = getErrors(req);
+  const inputValue = req.body.submitAction;
   const name = req.body.programName;
   const duration = req.body.programDuration;
   const trainingNumber = req.body.numberOfWorkout;
@@ -142,9 +154,12 @@ exports.postNewProgram = (req, res, next) => {
       program.duration = duration;
       program.trainingNumber = trainingNumber;
       program.trainingsIds = trainingIds;
-      return program.save().then(result => {
-        console.log('New program created');
-        res.redirect('/programs');
+      return program.save().then(program => {
+        if (inputValue === 'Enregistrer') {
+          res.redirect('/programs');
+        } else {
+          res.redirect(`/newtraining/${program.id}`);
+        }
       });
     })
     .catch(err => {
@@ -155,11 +170,58 @@ exports.postNewProgram = (req, res, next) => {
 };
 
 exports.getNewExpressWorkout = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
+  let message = getErrors(req);
+  const trainingId = req.params.trainingId;
+  const exercises = [];
+  if (trainingId !== undefined) {
+    Trainings.findOne({
+      where: { UserId: req.user.id, ProgramId: programId, id: trainingId },
+    }).then(training => {
+      if (training.exerciseIds.length > 0) {
+        Exercises.findAll({
+          where: { UserId: req.user.id, TrainingId: training.id },
+        }).then(trainingExercises => {
+          trainingExercises = trainingExercises.sort((a, b) => {
+            return a.createdAt - b.createdAt;
+          });
+          trainingExercises.forEach(exercise => {
+            const exerciseData = getExerciseData(exercise);
+            exercises.push(exerciseData);
+          });
+          res.render('admin/newtraining', {
+            path: `/newtraining/${trainingId}`,
+            pageTitle: `${training.name}`,
+            errorMessage: message,
+            validationErrors: [],
+            isAuth: true,
+            training,
+            exercises,
+          });
+        });
+      }
+    });
   } else {
-    message = null;
+    Programs.findOne({ where: { UserId: req.user.id, id: programId } }).then(
+      program => {
+        program
+          .createTraining({
+            ProgramId: programId,
+            UserId: req.user.id,
+          })
+          .then(training => {
+            console.log('New training created');
+            res.render('admin/newtraining', {
+              path: '/newtraining',
+              pageTitle: 'Nouvelle séance',
+              errorMessage: message,
+              validationErrors: [],
+              isAuth: true,
+              training,
+              exercises,
+            });
+          });
+      }
+    );
   }
   res.render('admin/newexpressworkout', {
     path: '/newexpressworkout',
@@ -172,43 +234,53 @@ exports.getNewExpressWorkout = (req, res, next) => {
 };
 
 exports.getNewTraining = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
+  let message = getErrors(req);
   const trainingId = req.params.trainingId;
   const programId = req.params.programId;
+  const exercises = [];
   if (trainingId !== undefined) {
     Trainings.findOne({
       where: { UserId: req.user.id, ProgramId: programId, id: trainingId },
     }).then(training => {
-      const exerciseIds = training.exerciseIds.split(',');
-      const exercises = [];
-      exerciseIds.forEach(exerciseId => {
-        Exercises.findOne({
-          where: { UserId: req.user.id, id: exerciseId },
-        }).then(exercise => {
-          const exerciseData = getExerciseData(exercise);
-          exercises.push(exerciseData);
+      if (training.exerciseIds.length > 0) {
+        Exercises.findAll({
+          where: { UserId: req.user.id, TrainingId: training.id },
+        }).then(trainingExercises => {
+          trainingExercises = trainingExercises.sort((a, b) => {
+            return a.createdAt - b.createdAt;
+          });
+          trainingExercises.forEach(exercise => {
+            const exerciseData = getExerciseData(exercise);
+            exercises.push(exerciseData);
+          });
+          res.render('admin/newtraining', {
+            path: `/newtraining/${trainingId}`,
+            pageTitle: `${training.name}`,
+            errorMessage: message,
+            validationErrors: [],
+            isAuth: true,
+            training,
+            exercises,
+          });
         });
-      });
-      res.render('admin/newtraining', {
-        path: `/newtraining/${trainingId}`,
-        pageTitle: `${training.name}`,
-        errorMessage: message,
-        validationErrors: [],
-        isAuth: true,
-        training,
-        exercises,
-      });
+      } else {
+        res.render('admin/newtraining', {
+          path: `/newtraining/${trainingId}`,
+          pageTitle: `${training.name}`,
+          errorMessage: message,
+          validationErrors: [],
+          isAuth: true,
+          training,
+          exercises,
+        });
+      }
     });
   } else {
     Programs.findOne({ where: { UserId: req.user.id, id: programId } }).then(
       program => {
         program
           .createTraining({
+            ProgramId: programId,
             UserId: req.user.id,
           })
           .then(training => {
@@ -220,6 +292,7 @@ exports.getNewTraining = (req, res, next) => {
               validationErrors: [],
               isAuth: true,
               training,
+              exercises,
             });
           });
       }
@@ -228,12 +301,8 @@ exports.getNewTraining = (req, res, next) => {
 };
 
 exports.postNewTraining = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
+  let message = getErrors(req);
+  const inputValue = req.body.submitAction;
   const name = req.body.workoutName;
   const muscleTarget = req.body.muscleTarget;
   const exercises = req.body.exercisesIds;
@@ -244,7 +313,13 @@ exports.postNewTraining = (req, res, next) => {
       training.name = name;
       training.muscleTarget = muscleTarget;
       training.exerciseIds = exercises;
-      res.redirect('/programs');
+      return training.save().then(training => {
+        if (inputValue === 'Enregistrer') {
+          res.redirect(`/newprogram/${training.ProgramId}`);
+        } else {
+          res.redirect(`/newexercise/${training.id}`);
+        }
+      });
     })
     .catch(err => {
       const error = new Error(err);
@@ -254,12 +329,7 @@ exports.postNewTraining = (req, res, next) => {
 };
 
 exports.getNewExercise = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
+  let message = getErrors(req);
   const exerciseId = req.params.exerciseId;
   const trainingId = req.params.trainingId;
   if (exerciseId !== undefined) {
@@ -277,7 +347,7 @@ exports.getNewExercise = (req, res, next) => {
             validationErrors: [],
             isAuth: true,
             exercise: exerciseData,
-            trainingId: training.ProgramId,
+            programId: training.ProgramId,
           });
         });
       }
@@ -286,8 +356,9 @@ exports.getNewExercise = (req, res, next) => {
     Trainings.findOne({ where: { UserId: req.user.id, id: trainingId } }).then(
       training => {
         training.createExercise({ UserId: req.user.id }).then(exercise => {
+          console.log('New Exercise Created');
           res.render('admin/newexercise', {
-            path: '/newexercise',
+            path: `/newexercise/${exercise.id}`,
             pageTitle: 'Ajouter un exercice',
             user: false,
             errorMessage: message,
@@ -303,42 +374,44 @@ exports.getNewExercise = (req, res, next) => {
 };
 
 exports.postNewExercise = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
+  let message = getErrors(req);
   const exerciseId = req.body.exerciseId;
   const programId = req.body.programId;
   const name = req.body.exerciseName;
   const muscleTarget = req.body.muscleTarget;
   const setSchema = req.body.exerciseSchema;
   const notes = req.body.trainingNotes;
-  Exercises.findOne({ where: { UserId: req.user.id, id: exerciseId } })
-    .then(exercise => {
+  Exercises.findOne({ where: { UserId: req.user.id, id: exerciseId } }).then(
+    exercise => {
       exercise.name = name;
       exercise.muscleTarget = muscleTarget;
       exercise.schema = setSchema;
       exercise.notes = notes;
-    })
-    .then(result => {
-      res.redirect(`/programs/${programId}`);
-    })
-    .catch(err => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(err);
-    });
+      return exercise
+        .save()
+        .then(exercise => {
+          Trainings.findOne({
+            where: { UserId: req.user.id, id: exercise.TrainingId },
+          }).then(training => {
+            training.exerciseIds += `${exercise.id},`;
+            return training.save().then(training => {
+              res.redirect(
+                `/newtraining/${training.ProgramId}/${exercise.TrainingId}`
+              );
+            });
+          });
+        })
+        .catch(err => {
+          const error = new Error(err);
+          error.httpStatusCode = 500;
+          return next(err);
+        });
+    }
+  );
 };
 
 exports.getExercise = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
+  let message = getErrors(req);
   const exerciseId = req.params.exerciseId;
   Exercises.findOne({ where: { UserId: req.user.id, id: exerciseId } }).then(
     exercise => {
@@ -357,12 +430,7 @@ exports.getExercise = (req, res, next) => {
 };
 
 exports.getPrograms = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
+  let message = getErrors(req);
   Programs.findAll({ where: { UserId: req.user.id } }).then(programs => {
     res.render('admin/programs', {
       path: '/programs',
@@ -377,121 +445,187 @@ exports.getPrograms = (req, res, next) => {
 };
 
 exports.getTrainings = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
-  res.render('admin/trainings', {
-    path: '/trainings',
-    pageTitle: 'Mes entrainements',
-    user: false,
-    errorMessage: message,
-    validationErrors: [],
-    isAuth: true,
+  let message = getErrors(req);
+  Trainings.findAll({ where: { UserId: req.user.id } }).then(trainings => {
+    const trainingArr = [];
+    trainings.forEach(training => {
+      trainingArr.push(training);
+    });
+    Programs.findAll({
+      where: { UserId: req.user.id },
+    }).then(programs => {
+      if (programs) {
+        trainings.forEach(training => {
+          programs.forEach(program => {
+            if (training.ProgramId === program.id) {
+              training.programName = `Programme ${program.name}`;
+            } else {
+              training.programName = `Séance express ${training.name}`;
+            }
+          });
+        });
+      }
+      res.render('admin/trainings', {
+        path: '/trainings',
+        pageTitle: 'Mes entrainements',
+        user: false,
+        errorMessage: message,
+        validationErrors: [],
+        isAuth: true,
+        trainings: trainingArr,
+      });
+    });
   });
 };
 
 exports.getProgram = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
+  let message = getErrors(req);
   const programId = req.params.programId;
   Programs.findOne({
     where: { UserId: req.user.id, id: programId },
   }).then(program => {
-    console.log(program);
-    const trainingIds = program.trainingsIds.split(',');
     const trainings = [];
-    trainingIds.forEach(trainingId => {
-      Trainings.findOne({
-        where: { UserId: req.user.id, id: trainingId },
-      }).then(training => {
-        trainings.push(training);
+    Trainings.findAll({
+      where: { UserId: req.user.id, ProgramId: program.id },
+    }).then(programTrainings => {
+      if (programTrainings.length > 0) {
+        programTrainings.forEach(training => {
+          trainings.push(training);
+        });
+      }
+      res.render('admin/program', {
+        path: '/program',
+        pageTitle: `${program.name}`,
+        user: false,
+        errorMessage: message,
+        validationErrors: [],
+        isAuth: true,
+        program,
+        trainings,
       });
-    });
-    res.render('admin/program', {
-      path: '/program',
-      pageTitle: `${program.name}`,
-      user: false,
-      errorMessage: message,
-      validationErrors: [],
-      isAuth: true,
-      program,
-      trainings,
     });
   });
 };
 
 exports.getTraining = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
+  let message = getErrors(req);
   const trainingId = req.params.trainingId;
   Trainings.findOne({
     where: { UserId: req.user.id, id: trainingId },
   }).then(training => {
-    const exerciseIds = training.exerciseIds.split(',');
     const exercises = [];
-    exerciseIds.forEach(exerciseId => {
-      Exercises.findOne({
-        where: { UserId: req.user.id, id: exerciseId },
-      }).then(exercise => {
-        const exerciseData = getExerciseData(exercise);
-        exercises.push(exerciseData);
+    Exercises.findAll({
+      where: { UserId: req.user.id, TrainingId: training.id },
+    }).then(trainingExercises => {
+      trainingExercises = trainingExercises.sort((a, b) => {
+        return a.createdAt - b.createdAt;
       });
-    });
-    res.render('admin/program', {
-      path: '/program',
-      pageTitle: `${training.name}`,
-      user: false,
-      errorMessage: message,
-      validationErrors: [],
-      isAuth: true,
-      exercises,
+      if (trainingExercises.length > 0) {
+        trainingExercises.forEach(exercise => {
+          const exerciseData = getExerciseData(exercise);
+          exercises.push(exerciseData);
+        });
+      }
+      res.render('admin/training', {
+        path: `/training/${training.id}`,
+        pageTitle: `${training.name}`,
+        user: false,
+        errorMessage: message,
+        validationErrors: [],
+        isAuth: true,
+        exercises,
+      });
     });
   });
 };
 
 exports.getStart = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
-  res.render('admin/start', {
-    path: '/start',
-    pageTitle: 'Nom du programme',
-    user: false,
-    errorMessage: message,
-    validationErrors: [],
-    isAuth: true,
-  });
+  let message = getErrors(req);
+  const trainingId = req.params.trainingId;
+  Trainings.findOne({ where: { UserId: req.user.id, id: trainingId } }).then(
+    training => {
+      training.finished = false;
+      return training.save().then(training => {
+        const exercises = [];
+        Exercises.findAll({
+          where: { UserId: req.user.id, TrainingId: training.id },
+        }).then(trainingExercises => {
+          if (trainingExercises.length > 0) {
+            trainingExercises = trainingExercises.sort((a, b) => {
+              return a.createdAt - b.createdAt;
+            });
+            trainingExercises.forEach(exercise => {
+              exercise.finished = false;
+              exercise.save();
+              const exerciseData = getExerciseData(exercise);
+              exercises.push(exerciseData);
+            });
+          }
+          Programs.findByPk(training.ProgramId).then(program => {
+            res.render('admin/start', {
+              path: `/start/${training.id}`,
+              pageTitle: program.name,
+              user: false,
+              errorMessage: message,
+              validationErrors: [],
+              isAuth: true,
+              training,
+              exercises,
+            });
+          });
+        });
+      });
+    }
+  );
+};
+
+exports.postStart = (req, res, next) => {
+  let message = getErrors(req);
+  const trainingId = req.params.trainingId;
+  Trainings.findOne({ where: { UserId: req.user.id, id: trainingId } }).then(
+    training => {
+      training.finished = true;
+      return training.save().then(training => {
+        res.redirect(`/program/${training.ProgramId}`);
+      });
+    }
+  );
 };
 
 exports.getStartExercise = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
-  res.render('admin/startexercise', {
-    path: '/startexercise',
-    pageTitle: 'Nom du programme',
-    user: false,
-    errorMessage: message,
-    validationErrors: [],
-    isAuth: true,
-  });
+  let message = getErrors(req);
+  const exerciseId = req.params.exerciseId;
+  const userId = req.user.id;
+  Exercises.findOne({ where: { UserId: req.user.id, id: exerciseId } }).then(
+    exercise => {
+      const exerciseData = getExerciseData(exercise, false);
+      res.render('admin/startexercise', {
+        path: '/startexercise',
+        pageTitle: 'Nom du programme',
+        user: false,
+        errorMessage: message,
+        validationErrors: [],
+        isAuth: true,
+        exercise: exerciseData,
+      });
+    }
+  );
+};
+
+exports.postStartExercise = (req, res, next) => {
+  let message = getErrors(req);
+  const exerciseId = req.params.exerciseId;
+  const userId = req.user.id;
+  const exercisePerformance = req.body.exercisePerf;
+  Exercises.findOne({ where: { UserId: req.user.id, id: exerciseId } }).then(
+    trainingExercise => {
+      trainingExercise.finished = true;
+      trainingExercise.performances += exercisePerformance;
+      return trainingExercise.save().then(exercise => {
+        res.redirect(`/start/${exercise.TrainingId}`);
+      });
+    }
+  );
 };
 
 exports.getDelete = (req, res, next) => {
@@ -507,14 +641,28 @@ exports.getDelete = (req, res, next) => {
       );
       break;
     case 'exercise':
-      Exercises.destroy({ where: { UserId: userId, id: elementId } }).then(exercise => {
-        res.redirect(`/newtraining/${exercise.TrainingId}`);
-      });
+      Exercises.findOne({ where: { UserId: userId, id: elementId } }).then(
+        exercise => {
+          const trainingId = exercise.TrainingId;
+          return exercise.destroy().then(result => {
+            Trainings.findOne({
+              where: { UserId: userId, id: trainingId },
+            }).then(training => {
+              res.redirect(`/newtraining/${training.ProgramId}/${trainingId}`);
+            });
+          });
+        }
+      );
       break;
     case 'training':
-      Trainings.destroy({ where: { UserId: userId, id: elementId } }).then(training => {
-        res.redirect(`/newprogram/${training.ProgramId}`);
-      });
+      Trainings.findOne({ where: { UserId: userId, id: elementId } }).then(
+        training => {
+          const programId = training.ProgramId;
+          return training.destroy().then(result => {
+            res.redirect(`/newprogram/${programId}`);
+          });
+        }
+      );
       break;
     case 'user':
       Users.destroy({ where: { UserId: userId, id: elementId } }).then(

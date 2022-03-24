@@ -24,7 +24,6 @@ valueControllers.forEach(valueController => {
     let inputValue = inputTarget.value;
     if (valueController.innerHTML == '-' && inputValue > 0) {
       inputTarget.value = +inputValue - stepInput;
-      console.log(inputValue);
     } else if (valueController.innerHTML == '+' && inputValue >= 0) {
       inputTarget.value = +inputValue + stepInput;
     }
@@ -84,11 +83,11 @@ startBtns.forEach(btn => {
     timer.style.display = 'flex';
     startTimer(timer);
     const visibleElement = document.querySelector('.visible');
-    flags.forEach(flag => {
-      if (flag === visibleElement) {
-        console.log(flags[flag]);
-      }
-    });
+    // flags.forEach(flag => {
+    //   if (flag === visibleElement) {
+    //     console.log(flags[flag]);
+    //   }
+    // });
   });
 });
 

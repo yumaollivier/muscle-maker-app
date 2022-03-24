@@ -20,6 +20,11 @@ const trainingSchema = sequelize.define('Training', {
     allowNull: true,
     defaultValue: "",
   },
+  finished: {
+    type: DataTypes.BOOLEAN,
+    allowNull: true,
+    defaultValue: false,
+  },
 });
 
 module.exports = trainingSchema;

@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/yumaollivier/muscle-maker-app#readme",
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "sequelize-cli": "^6.4.1"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

@@ -4,17 +4,17 @@
 
     <body>
         <%- include('../includes/banner.ejs', {goBack: true}) %>
-        <form class="container" method="post">
+        <form class="container" method="post" >
            <h1 class="title bebas-font">
             <% if(training.name !== "") { %>Modifier ma séance<% } else { %>Créer une séance<% } %>
            </h1> 
            <div class="input-field">
                <label for="workoutName" class="input-field__label">Nom de la séance</label>
-               <input type="text" name="workoutName" id="workoutName" class="input-field__input" vallue="<%= training.name %>">
+               <input type="text" name="workoutName" id="workoutName" class="input-field__input" value="<%= training.name %>">
            </div>
            <div class="input-field">
                <label for="muscleTarget" class="input-field__label">Groupe musculaire ciblés</label>
-               <input type="text" name="muscleTarget" id="muscleTarget" class="input-field__input" vallue="<%= training.muscleTarget %>">
+               <input type="text" name="muscleTarget" id="muscleTarget" class="input-field__input" value="<%= training.muscleTarget %>">
            </div>
             <div class="exercises-list">
                 <% exercises.forEach(exercise => { %>
@@ -25,18 +25,18 @@
                         <p class="card__details"><%= exercise.rest %> secondes de repos</p>
                         <div class="card__buttons">
                             <a href="/exercise/<%= exercise.id %>" class="btn btn-fullwidth">Voir</a>
-                            <a href="/newexercise/:<%= exercise.id %>" class="btn btn-fullwidth btn-outlined">Modifier</a>
+                            <a href="/newexercise/<%= training.id %>/<%= exercise.id %>" class="btn btn-fullwidth btn-outlined">Modifier</a>
                             <a href="/delete/exercise/<%= exercise.id %>" class="btn btn-fullwidth">supprimer</a>
                         </div>
                     </div>
-                <% } %>
+                <% }) %>
             </div>
            <div class="buttons">
                <input type="hidden" name="exercisesIds" id="trainingIds">
                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                <input type="hidden" name="trainingId" id="trainingId" value="<%= training.id %>">
-               <a href="/newexercise" class="btn btn-outlined">Ajouter un exercice</a>
-               <input type="submit" class="btn" value="Enregistrer">
+               <input type="submit" name="submitAction" class="btn btn-60 btn-outlined" value="Ajouter un exercice">
+               <input type="submit" name="submitAction" class="btn btn-40" value="Enregistrer">
            </div>
         </form>
     </body>

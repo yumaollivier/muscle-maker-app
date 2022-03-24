@@ -24,18 +24,31 @@
                         <th class="set-table__column">Temps de repos (en s)</th>
                         <th class="set-table__column"></th>
                     </tr>
-                    <% if(typeof exercise.schema === object){ %>
-                        <% exercise.schema.forEach(schema => { %>
-                            <tr class="set-table__input-field" id="1">
-                                <td class="set"><%= schema.set %></td>
-                                <td class="reps">
-                                    <input type="number" class="input-field__input" name="reps" id="reps" value="<%= schema.reps %>">
-                                </td>
-                                <td class="rest">
-                                    <input type="number" class="input-field__input" name="rest" id="rest" value="<%= schema.rest %>">
-                                </td>
-                            </tr>
-                        <% } %>
+                    <% if(typeof exercise.schema === "object"){ %>
+                        <% exercise.schema.forEach((schema, i) => { %>
+                            <% if (i === 0) { %>
+                                <tr class="set-table__input-field" id="1">
+                                    <td class="set"><%= schema.set %></td>
+                                    <td class="reps">
+                                        <input type="number" class="input-field__input" name="reps" id="reps" value="<%= schema.reps %>">
+                                    </td>
+                                    <td class="rest">
+                                        <input type="number" class="input-field__input" name="rest" id="rest" value="<%= schema.rest %>">
+                                    </td>
+                                </tr>
+                            <% } else { %>
+                                <tr class="set-table__input-field" id="<%= i + 1 %>">
+                                    <td class="set"><%= schema.set %></td>
+                                    <td class="reps">
+                                        <input type="number" class="input-field__input" name="reps" id="reps" value="<%= schema.reps %>">
+                                    </td>
+                                    <td class="rest">
+                                        <input type="number" class="input-field__input" name="rest" id="rest" value="<%= schema.rest %>">
+                                    </td>
+                                    <td class="delete red-font bold" id="<%= i + 1 %>">X</td>
+                                </tr>
+                            <% } %>
+                        <% }) %>
                     <% } else { %>
                         <tr class="set-table__input-field" id="1">
                             <td class="set">1</td>
@@ -52,13 +65,13 @@
             <button class="btn btn-fullwidth" id="addSet" type="button">+ Ajouter une série</button>
             <div class="textarea-field">
                 <label for="trainingNotes" class="input-field__label">Notes de l'exercice</label>
-                <textarea class="textarea-field__textarea bordered" name="trainingNotes" id="trainingNotes" cols="30" rows="10"><%= exercice.notes %></textarea>
+                <textarea class="textarea-field__textarea bordered" name="trainingNotes" id="trainingNotes" cols="30" rows="10"><%= exercise.notes %></textarea>
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input type="hidden" name="exerciseSchema" id="exerciseSchema">
-            <input type="hidden" name="exerciseId" id="exerciseId" value="<%= exercice.id %>">
+            <input type="hidden" name="exerciseId" id="exerciseId" value="<%= exercise.id %>">
             <input type="hidden" name="programId" id="programId" value="<%= programId %>">
-            <input type="submit" class="btn btn-fullwidth mt-1" id="addExercise" value="Ajouter l'exercice">
+            <input type="submit" class="btn btn-fullwidth mt-1" id="addExercise" value="<% if(pageTitle === 'Modifier un exercice'){ %>Modifier l'exercice<% } else { %>Ajouter l'exercice<% } %>">
         </form>
     </body>
     <script src="/js/addExerciseData.js"></script>
