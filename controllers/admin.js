@@ -45,6 +45,7 @@ const getExerciseData = (exercise, minimize = true) => {
       rest: allEqual(rest) ? rest[0] : rest.join(', '),
       notes: exercise.notes,
       TrainingId: exercise.TrainingId,
+      finished: exercise.finished,
     };
     return exerciseData;
   } else {
@@ -76,6 +77,7 @@ const getExerciseData = (exercise, minimize = true) => {
       schema: schemaData,
       notes: exercise.notes,
       TrainingId: exercise.TrainingId,
+      finished: exercise.finished,
     };
     return exerciseData;
   }
@@ -83,6 +85,16 @@ const getExerciseData = (exercise, minimize = true) => {
 
 exports.getDashboard = (req, res, next) => {
   let message = getErrors(req);
+  const userId = req.user.id;
+  Programs.findAll({ where: { UserId: userId } }).then(programs => {
+    let currentProgram;
+    if (programs.length > 0) {
+      programs = programs.sort((a, b) => {
+        return b.updatedAt - a.updatedAt;
+      });
+      console.log(programs);
+    }
+  });
   res.render('admin/dashboard', {
     path: '/dashboard',
     pageTitle: 'Dashboard',
@@ -513,6 +525,7 @@ exports.getProgram = (req, res, next) => {
         res.render('admin/program', {
           path: '/program',
           pageTitle: `${program.name}`,
+          prevPath: '/programs',
           user: false,
           errorMessage: message,
           validationErrors: [],
@@ -548,7 +561,7 @@ exports.getTraining = (req, res, next) => {
           });
         }
         res.render('admin/training', {
-          path: `/training/${training.id}`,
+          path: '/training/',
           pageTitle: `${training.name}`,
           user: false,
           errorMessage: message,
@@ -579,8 +592,6 @@ exports.getStart = (req, res, next) => {
           if (trainingExercises.length > 0) {
             trainingExercises = sortArray(trainingExercises);
             trainingExercises.forEach(exercise => {
-              exercise.finished = false;
-              exercise.save();
               const exerciseData = getExerciseData(exercise);
               exercises.push(exerciseData);
             });
@@ -588,6 +599,7 @@ exports.getStart = (req, res, next) => {
           Programs.findByPk(training.ProgramId).then(program => {
             res.render('admin/start', {
               path: `/start/${training.id}`,
+              prevPath: `/program/${training.ProgramId}`,
               pageTitle: program.name,
               user: false,
               errorMessage: message,
@@ -628,12 +640,13 @@ exports.getStartExercise = (req, res, next) => {
   let message = getErrors(req);
   const exerciseId = req.params.exerciseId;
   const userId = req.user.id;
-  Exercises.findOne({ where: { UserId: req.user.id, id: exerciseId } })
+  Exercises.findOne({ where: { UserId: userId, id: exerciseId } })
     .then(exercise => {
       const exerciseData = getExerciseData(exercise, false);
       res.render('admin/startexercise', {
         path: `/startexercise/${exercise.id}`,
         pageTitle: 'Entrainement',
+        prevPath: `/start/${exercise.TrainingId}`,
         user: false,
         errorMessage: message,
         validationErrors: [],
@@ -660,11 +673,20 @@ exports.postStartExercise = (req, res, next) => {
       return trainingExercise.save().then(exercise => {
         Exercises.findAll({ where: { TrainingId: exercise.TrainingId } }).then(
           exercises => {
+            let exerciseIndex;
             exercises = sortArray(exercises);
-            const exerciseIndex = exercises.indexOf(exercise);
-            console.log(exerciseIndex);
-            if (exerciseIndex + 1 !== exercises.length - 1) {
-              res.redirect(`/startexercise/${exerciseIndex + 1}`);
+            for (let i = 0; i < exercises.length; i++) {
+              if (exercises[i].id === exercise.id) {
+                exerciseIndex = i;
+              }
+            }
+            const nextExerciseIndex = exerciseIndex + 1;
+            if (
+              exerciseIndex + 1 <= exercises.length - 1 &&
+              exerciseIndex !== undefined
+            ) {
+              const nextExerciseId = exercises[nextExerciseIndex].id;
+              res.redirect(`/startexercise/${nextExerciseId}`);
             } else {
               res.redirect(`/start/${exercise.TrainingId}`);
             }

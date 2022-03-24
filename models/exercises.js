@@ -22,7 +22,7 @@ const exerciseSchema = sequelize.define('Exercise', {
   },
   notes: DataTypes.TEXT,
   performances: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true,
     defaultValue: "",
   },

@@ -22,7 +22,7 @@ const addSchemaArray = () => {
     schemaArray.push(exerciseSchema);
   });
   const schemaString = schemaArray.join('-');
-  exercisePerfInput.value = schemaString;
+  exercisePerfInput.value = schemaString + '/';
 };
 
 completeButton.addEventListener('click', e => {
