@@ -14,7 +14,9 @@
                     <h1 class="flag-link__title bebas-font"><%= training.programName %></h1>
                     <p class="flag-link__subtitle bebas-font"><%= training.name %></p>
                     <p class="flag-link__details"><%= training.muscleTarget %></p>
-                    <!-- <span class="status green-font bebas-font">Terminé</span> -->
+                    <% if(training.finished){ %>
+                        <span class="status green-font bebas-font">Terminé</span>
+                    <% } %>
                     <div class="flag-link__buttons">
                         <a class="btn btn-midwidth">Commencer</a>
                         <a href="/training/<%= training.id %>" class="btn btn-midwidth btn-outlined">Voir</a>

@@ -17,7 +17,7 @@
                 <p class="card__details">Série 5 : 10 reps à 100kg</p>
             </div> -->
             <% exercises.forEach(exercise => { %>
-            <a href="/startexercise/<%= exercise.id %>" class="card card-free-heigth bordered ">
+            <a href="/startexercise/<%= exercise.id %>" class="card card-free-heigth bordered <% if(exercise.finished){ %>green-border<% } %>">
                 <h1 class="card__title bebas-font"><%= exercise.name %></h1>
                 <p class="card__details"><%= exercise.notes %></p>
                 <p class="card__details"><%= exercise.set %> séries x <%= exercise.reps %> reps</p>

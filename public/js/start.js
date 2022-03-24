@@ -4,18 +4,6 @@ const chronos = document.querySelectorAll('.chrono');
 const chronoCross = document.querySelectorAll('.chrono__cross');
 const valueControllers = document.querySelectorAll('.value-controller');
 
-const bipSound = new Audio('/sound/bip.mp3');
-
-const playAudio = (audio) => {
-    audio.play()
-    audio.loop = false;
-}
-
-const stopAudio = (audio) => {
-    audio.pause()
-    audio.currentTime = 0;
-}
-
 valueControllers.forEach(valueController => {
   valueController.addEventListener('click', e => {
     const parentElement = valueController.parentNode;
@@ -30,13 +18,15 @@ valueControllers.forEach(valueController => {
   });
 });
 
-flags.forEach(flag => {
+flags.forEach((flag, i) => {
   flag.addEventListener('click', e => {
-    const visibleElement = document.querySelector('.visible');
-    if (visibleElement != null) {
-      visibleElement.classList.remove('visible');
+    if (e.target !== startBtns[i]) {
+      const visibleElement = document.querySelector('.visible');
+      if (visibleElement != null) {
+        visibleElement.classList.remove('visible');
+      }
+      flag.classList.add('visible');
     }
-    flag.classList.add('visible');
   });
 });
 
@@ -53,6 +43,8 @@ const startTimer = element => {
   const timerDurationInS = element.getAttribute('data-time');
   const chronoCounter = element.querySelector('.chrono__counter');
   const chronoLevel = element.querySelector('.chrono__duration-level');
+  const bipSound = element.querySelector('#bipSound');
+  const cross = element.querySelector('.chrono__cross');
   let duration = timerDurationInS;
   chronoLevel.style.animationDuration = timerDurationInS + 's';
   element.classList.add('start');
@@ -74,27 +66,27 @@ const startTimer = element => {
       element.style.display = 'none';
     }
   }, 1000);
+  cross.addEventListener('click', e => {
+    clearInterval(interval);
+    bipSound.pause();
+    bipSound.currentTime = 0;
+    cross.parentNode.style.display = 'none';
+  });
 };
 
 startBtns.forEach(btn => {
   btn.addEventListener('click', e => {
+    const visibleElement = e.target.parentElement.parentElement;
+    visibleElement.classList.remove('visible');
+    visibleElement.classList.add('bordered', 'green-border')
+    const allFlags = [...flags];
+    const nextElement = allFlags[allFlags.indexOf(visibleElement) + 1];
+    if (nextElement !== undefined) {
+      nextElement.classList.add('visible');
+    }
     const attr = e.target.getAttribute('data-start');
     const timer = document.querySelector(`.chrono[data-start='${attr}']`);
     timer.style.display = 'flex';
     startTimer(timer);
-    const visibleElement = document.querySelector('.visible');
-    // flags.forEach(flag => {
-    //   if (flag === visibleElement) {
-    //     console.log(flags[flag]);
-    //   }
-    // });
-  });
-});
-
-chronoCross.forEach(cross => {
-  cross.addEventListener('click', e => {
-    cross.parentNode.style.display = 'none';
-    bipSound.pause();
-    bipSound.currentTime = 0;
   });
 });

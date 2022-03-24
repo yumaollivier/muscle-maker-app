@@ -16,6 +16,12 @@ const getErrors = req => {
   return error;
 };
 
+const sortArray = array => {
+  return array.sort((a, b) => {
+    return a.createdAt - b.createdAt;
+  });
+}
+
 const allEqual = arr => arr.every(v => v === arr[0]);
 
 const getExerciseData = (exercise, minimize = true) => {
@@ -109,9 +115,7 @@ exports.getNewProgram = (req, res, next) => {
       Trainings.findAll({
         where: { UserId: req.user.id, ProgramId: programId },
       }).then(trainings => {
-        trainings = trainings.sort((a, b) => {
-          return a.createdAt - b.createdAt;
-        });
+        trainings = sortArray(trainings)
         res.render('admin/newprogram', {
           path: `/newprogram/${programId}`,
           pageTitle: `${program.name}`,
@@ -181,9 +185,7 @@ exports.getNewExpressWorkout = (req, res, next) => {
         Exercises.findAll({
           where: { UserId: req.user.id, TrainingId: training.id },
         }).then(trainingExercises => {
-          trainingExercises = trainingExercises.sort((a, b) => {
-            return a.createdAt - b.createdAt;
-          });
+          trainingExercises = sortArray(trainingExercises)
           trainingExercises.forEach(exercise => {
             const exerciseData = getExerciseData(exercise);
             exercises.push(exerciseData);
@@ -246,9 +248,7 @@ exports.getNewTraining = (req, res, next) => {
         Exercises.findAll({
           where: { UserId: req.user.id, TrainingId: training.id },
         }).then(trainingExercises => {
-          trainingExercises = trainingExercises.sort((a, b) => {
-            return a.createdAt - b.createdAt;
-          });
+          trainingExercises = sortArray(trainingExercises)
           trainingExercises.forEach(exercise => {
             const exerciseData = getExerciseData(exercise);
             exercises.push(exerciseData);
@@ -426,7 +426,11 @@ exports.getExercise = (req, res, next) => {
         trainingId: exercise.TrainingId,
       });
     }
-  );
+  ).catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(err);
+  });
 };
 
 exports.getPrograms = (req, res, next) => {
@@ -441,6 +445,10 @@ exports.getPrograms = (req, res, next) => {
       isAuth: true,
       programs,
     });
+  }).catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(err);
   });
 };
 
@@ -475,6 +483,10 @@ exports.getTrainings = (req, res, next) => {
         trainings: trainingArr,
       });
     });
+  }).catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(err);
   });
 };
 
@@ -504,6 +516,10 @@ exports.getProgram = (req, res, next) => {
         trainings,
       });
     });
+  }).catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(err);
   });
 };
 
@@ -517,9 +533,7 @@ exports.getTraining = (req, res, next) => {
     Exercises.findAll({
       where: { UserId: req.user.id, TrainingId: training.id },
     }).then(trainingExercises => {
-      trainingExercises = trainingExercises.sort((a, b) => {
-        return a.createdAt - b.createdAt;
-      });
+      trainingExercises = sortArray(trainingExercises)
       if (trainingExercises.length > 0) {
         trainingExercises.forEach(exercise => {
           const exerciseData = getExerciseData(exercise);
@@ -536,6 +550,10 @@ exports.getTraining = (req, res, next) => {
         exercises,
       });
     });
+  }).catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(err);
   });
 };
 
@@ -551,9 +569,7 @@ exports.getStart = (req, res, next) => {
           where: { UserId: req.user.id, TrainingId: training.id },
         }).then(trainingExercises => {
           if (trainingExercises.length > 0) {
-            trainingExercises = trainingExercises.sort((a, b) => {
-              return a.createdAt - b.createdAt;
-            });
+            trainingExercises = sortArray(trainingExercises)
             trainingExercises.forEach(exercise => {
               exercise.finished = false;
               exercise.save();
@@ -576,7 +592,11 @@ exports.getStart = (req, res, next) => {
         });
       });
     }
-  );
+  ).catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(err);
+  });
 };
 
 exports.postStart = (req, res, next) => {
@@ -589,7 +609,11 @@ exports.postStart = (req, res, next) => {
         res.redirect(`/program/${training.ProgramId}`);
       });
     }
-  );
+  ).catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(err);
+  });
 };
 
 exports.getStartExercise = (req, res, next) => {
@@ -600,8 +624,8 @@ exports.getStartExercise = (req, res, next) => {
     exercise => {
       const exerciseData = getExerciseData(exercise, false);
       res.render('admin/startexercise', {
-        path: '/startexercise',
-        pageTitle: 'Nom du programme',
+        path: `/startexercise/${exercise.id}`,
+        pageTitle: 'Entrainement',
         user: false,
         errorMessage: message,
         validationErrors: [],
@@ -609,7 +633,11 @@ exports.getStartExercise = (req, res, next) => {
         exercise: exerciseData,
       });
     }
-  );
+  ).catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(err);
+  });
 };
 
 exports.postStartExercise = (req, res, next) => {
@@ -617,15 +645,28 @@ exports.postStartExercise = (req, res, next) => {
   const exerciseId = req.params.exerciseId;
   const userId = req.user.id;
   const exercisePerformance = req.body.exercisePerf;
-  Exercises.findOne({ where: { UserId: req.user.id, id: exerciseId } }).then(
+  Exercises.findOne({ where: { UserId: userId, id: exerciseId } }).then(
     trainingExercise => {
       trainingExercise.finished = true;
       trainingExercise.performances += exercisePerformance;
       return trainingExercise.save().then(exercise => {
-        res.redirect(`/start/${exercise.TrainingId}`);
+        Exercises.findAll({where: {TrainingId: exercise.TrainingId}}).then(exercises => {
+          exercises = sortArray(exercises)
+          const exerciseIndex = exercises.indexOf(exercise);
+          console.log(exerciseIndex)
+          if(exerciseIndex + 1 !== exercises.length - 1){
+            res.redirect(`/startexercise/${exerciseIndex + 1}`);
+          } else {
+            res.redirect(`/start/${exercise.TrainingId}`);
+          }
+        })
       });
     }
-  );
+  ).catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(err);
+  });
 };
 
 exports.getDelete = (req, res, next) => {
