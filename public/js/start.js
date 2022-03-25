@@ -79,9 +79,12 @@ startBtns.forEach(btn => {
     const visibleElement = e.target.parentElement.parentElement;
     visibleElement.classList.remove('visible');
     visibleElement.classList.add('bordered', 'green-border')
+    const weightValue = visibleElement.querySelector('[name="weight"]').value
     const allFlags = [...flags];
     const nextElement = allFlags[allFlags.indexOf(visibleElement) + 1];
     if (nextElement !== undefined) {
+      const nextWeightInput = nextElement.querySelector('[name="weight"]')
+      nextWeightInput.value = weightValue;
       nextElement.classList.add('visible');
     }
     const attr = e.target.getAttribute('data-start');

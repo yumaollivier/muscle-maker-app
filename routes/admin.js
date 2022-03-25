@@ -10,12 +10,14 @@ router.get('/', isAuth, adminController.getDashboard);
 
 router.get('/profile', isAuth, adminController.getProfile);
 
-router.get('/newprogram/:programId', isAuth, adminController.getNewProgram);
-
-router.get('/newprogram', isAuth, adminController.getNewProgram);
+router.get(
+  ['/newprogram', '/newprogram/:programId'],
+  isAuth,
+  adminController.getNewProgram
+);
 
 router.post(
-  '/newprogram',
+  ['/newprogram', '/newprogram/:programId'],
   [
     body('programName').trim(),
     body('programDuration').isNumeric(),
@@ -24,32 +26,21 @@ router.post(
   isAuth,
   adminController.postNewProgram
 );
-
-router.post(
-  '/newprogram/:programId',
-  [
-    body('programName').trim(),
-    body('programDuration').isNumeric(),
-    body('numberOfWorkout').isNumeric(),
-  ],
-  isAuth,
-  adminController.postNewProgram
-);
-
-router.get('/newexpressworkout', isAuth, adminController.getNewExpressWorkout);
-
-router.get('/newexpressworkout/:trainingId', isAuth, adminController.getNewExpressWorkout);
-
-router.get('/newtraining/:programId', isAuth, adminController.getNewTraining);
 
 router.get(
-  '/newtraining/:programId/:trainingId',
+  ['/newexpresstraining', '/newexpresstraining/:trainingId'],
+  isAuth,
+  adminController.getNewExpressTraining
+);
+
+router.get(
+  ['/newtraining/:programId', '/newtraining/:programId/:trainingId'],
   isAuth,
   adminController.getNewTraining
 );
 
 router.post(
-  '/newtraining/:programId',
+  ['/newtraining', '/newtraining/:programId', '/newexpresstraining', '/newexpresstraining/:trainingId'],
   [
     body('workoutName').trim(),
     body('muscleTarget').isNumeric(),
@@ -70,24 +61,14 @@ router.post(
   adminController.postNewTraining
 );
 
-router.get('/newexercise/:trainingId', isAuth, adminController.getNewExercise);
-
-router.get('/newexercise/:trainingId/:exerciseId', isAuth, adminController.getNewExercise);
-
-router.post(
-  '/newexercise/:trainingId',
-  [
-    body('exerciseName').trim(),
-    body('muscleTarget').trim(),
-    body('reps').isNumeric(),
-    body('rest').isNumeric(),
-  ],
+router.get(
+  ['/newexercise/:trainingId', '/newexercise/:trainingId/:exerciseId'],
   isAuth,
-  adminController.postNewExercise
+  adminController.getNewExercise
 );
 
 router.post(
-  '/newexercise/:trainingId/:exerciseId',
+  ['/newexercise/:trainingId', '/newexercise/:trainingId/:exerciseId'],
   [
     body('exerciseName').trim(),
     body('muscleTarget').trim(),
@@ -114,8 +95,16 @@ router.get('/start/:trainingId', isAuth, adminController.getStart);
 
 router.post('/start/:trainingId', isAuth, adminController.postStart);
 
-router.get('/startexercise/:exerciseId', isAuth, adminController.getStartExercise);
+router.get(
+  '/startexercise/:exerciseId',
+  isAuth,
+  adminController.getStartExercise
+);
 
-router.post('/startexercise/:exerciseId', isAuth, adminController.postStartExercise);
+router.post(
+  '/startexercise/:exerciseId',
+  isAuth,
+  adminController.postStartExercise
+);
 
 module.exports = router;

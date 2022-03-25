@@ -18,12 +18,13 @@
                         <span class="status green-font bebas-font">Terminé</span>
                     <% } %>
                     <div class="flag-link__buttons">
-                        <a class="btn btn-midwidth">Commencer</a>
+                        <a href="/start/<% training.id %>" class="btn btn-midwidth">Commencer</a>
                         <a href="/training/<%= training.id %>" class="btn btn-midwidth btn-outlined">Voir</a>
+                        <a href="/delete/training/<%= training.id %>" class="btn btn-midwidth">Supprimer</a>
                     </div>
                 </div>
             <% }) %>
-            <div class="trainings-button mt-1">
+            <div class="trainings-button">
                 <a href="/newexpressworkout" class="btn btn-fullwidth">Créer un nouvel entrainement</a>
             </div>
         </div>

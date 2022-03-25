@@ -1,51 +1,50 @@
-.card-container{
-    padding: 2.5rem 0;
+.card-container {
+  padding: 2.5rem 0;
+  display: grid;
+  grid-template-columns: repeat(1, 100%);
+  grid-template-rows: 1fr;
+  overflow: auto;
 }
 
-.card{
-    width: 80%;
-    margin: 0 auto;
+.card {
+  width: 80%;
+  margin: 0 auto;
 }
 
-.card__content{
-    padding: 1rem 1.5rem;
+.card__content {
+  padding: 1rem 1.5rem;
+  height: 8rem;
 }
 
-.card__buttons{
-    display: flex;
-    width: 100;
-    position: relative;
-    bottom: -2px;
-    left: -2px;
+.card__buttons {
+  position: relative;
+  bottom: 0px;
+  left: -2px;
+  width: calc(100% + 4px);
+  display: flex;
+  justify-content: stretch;
+  align-content: stretch;
 }
 
-.card__header{
-    margin-top: 1rem;
-    font-size: 2.5rem;
+.card__header {
+  margin-top: 1rem;
+  font-size: 2.5rem;
 }
 
-.card__buttons{
-    width: calc(100% + 4px);
-    display: flex;
-    justify-content: stretch;
-    align-content: stretch;
-}
-
-.card__buttons .btn:nth-child(1) {
+/* .card__buttons .btn:nth-child(1) {
     width: 18rem;
 }
 .card__buttons .btn:nth-child(2) {
     width: calc(100% - 18rem);
+} */
+
+.flag-link {
+  width: 100%;
+  padding: 2rem 5rem;
+  height: 13rem;
+  margin-bottom: 1.5rem;
 }
 
-.flag-link{
-    width: 100%;
-    padding: 2rem 5rem;
-    height: 13rem;
-    margin-bottom: 1.5rem;
+.flag-link__title {
+  margin-bottom: 0.5rem;
 }
-
-.flag-link__title{
-    margin-bottom: .5rem;
-}
-

@@ -6,7 +6,7 @@
         <%- include('../includes/banner.ejs', {goBack: true}) %>
         <form class="container" method="post" >
            <h1 class="title bebas-font">
-            <% if(training.name !== "") { %>Modifier ma séance<% } else { %>Créer une séance<% } %>
+            <% if(training.name !== null) { %>Modifier ma séance<% } else { %>Créer une séance<% } %>
            </h1> 
            <div class="input-field">
                <label for="workoutName" class="input-field__label">Nom de la séance</label>
@@ -36,7 +36,7 @@
                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                <input type="hidden" name="trainingId" id="trainingId" value="<%= training.id %>">
                <input type="submit" name="submitAction" class="btn btn-60 btn-outlined" value="Ajouter un exercice">
-               <input type="submit" name="submitAction" class="btn btn-40" value="Enregistrer">
+               <input type="submit" name="submitAction" class="btn btn-40" value="<% if (path.split('/').includes("newexpresstraining")) { %>Commencer<% } else { %>Enregistrer<% } %>">
            </div>
         </form>
     </body>

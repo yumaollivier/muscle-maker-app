@@ -8,6 +8,10 @@ let i = lastId;
 
 const addSet = () => {
   i++;
+  const allRepsInputs = document.querySelectorAll('#reps')
+  const allRestInputs = document.querySelectorAll('#rest')
+  const lastSetRepsValue = allRepsInputs[allRepsInputs.length - 1].value
+  const lastSetRestValue = allRestInputs[allRepsInputs.length - 1].value
   //   TR
   const newSetEl = document.createElement('tr');
   newSetEl.setAttribute('id', i);
@@ -25,6 +29,7 @@ const addSet = () => {
   repsInput.setAttribute('id', 'reps');
   repsInput.setAttribute('type', 'number');
   repsInput.className = 'input-field__input';
+  repsInput.value = lastSetRepsValue;
   // TD with rest input
   const newRestNumber = document.createElement('td');
   newRestNumber.className = 'rest';
@@ -34,6 +39,7 @@ const addSet = () => {
   restInput.setAttribute('id', 'rest');
   restInput.setAttribute('type', 'number');
   restInput.className = 'input-field__input';
+  restInput.value = lastSetRestValue;
   // Delete cross
   const newDeleteCross = document.createElement('td');
   newDeleteCross.setAttribute('id', i);

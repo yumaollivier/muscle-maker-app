@@ -4,17 +4,18 @@
 
     <body>
         <%- include('../includes/banner.ejs', {goBack: false}) %>
-        <div class="card-container">
+        <div class="card-container" style="grid-template-columns:repeat(<%= programs.length %>, 100%)">
+            <% programs.forEach(program => { %>
             <div class="card bordered shadow-effect">
                 <div class="card__content">
-                    <span class="card__description bold">Programme en cours</span>
-                    <h1 class="card__header bebas-font">Strong</h1>
+                    <span class="card__description bold">Programme</span>
+                    <h1 class="card__header bebas-font"><%= program.name %></h1>
                 </div>
                 <div class="card__buttons">
-                    <button class="btn">commencer l'entrainement</button>                
-                    <button class="btn btn-outlined">voir</button>                
+                    <a href="/program/<%= program.id %>" class="btn btn-fullwidth">commencer l'entrainement</a>
                 </div>
             </div>
+            <% }) %>
         </div>
         <a href="/newprogram">
             <div class="flag-link shadow-effect">
@@ -22,7 +23,7 @@
                 <p class="flag-link__description">Concevoir son propre programme d’entrainement avec ses propres exos, le nombre de série, le temps de repos, les techniques d’entrainement et plus encore 💪</p>
             </div>
         </a>
-        <a href="/newexpressworkout">
+        <a href="/newexpresstraining">
             <div class="flag-link shadow-effect">
                 <h1 class="flag-link__title bebas-font">Nouvelle séance express ✊</h1>
                 <p class="flag-link__description">Concevoir une séance sur le pouce quand on a pas le temps oun l’envie de suivre la routine habituelle ! 🌱</p>

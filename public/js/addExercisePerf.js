@@ -8,7 +8,8 @@ buttons.forEach(button => {
 });
 
 const addSchemaArray = () => {
-  const schemaArray = [];
+  const date = new Date();
+  const schemaArray = [`${date}`];
   const exerciseSets = document.querySelectorAll('.flag-exercise');
   const exercisePerfInput = document.querySelector('#exercisePerf');
   exerciseSets.forEach(exerciseSet => {
