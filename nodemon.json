@@ -1,6 +1,6 @@
 {
   "env": {
-    "APP_SECRET_KEY": "secret",
+    "APP_SECRET_KEY": "test",
     "DB_HOST": "localhost",
     "DB_USERNAME": "postgres",
     "DB_PASSWORD": "localpassword",
