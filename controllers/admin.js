@@ -476,6 +476,7 @@ exports.getTrainings = (req, res, next) => {
   let message = getErrors(req);
   Trainings.findAll({ where: { UserId: req.user.id } })
     .then(trainings => {
+      trainings = sortArray(trainings);
       const trainingArr = [];
       trainings.forEach(training => {
         trainingArr.push(training);
