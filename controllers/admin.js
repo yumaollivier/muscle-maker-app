@@ -523,6 +523,7 @@ exports.getProgram = (req, res, next) => {
       Trainings.findAll({
         where: { UserId: req.user.id, ProgramId: program.id },
       }).then(programTrainings => {
+        programTrainings = sortArray(programTrainings)
         if (programTrainings.length > 0) {
           programTrainings.forEach(training => {
             trainings.push(training);
@@ -647,7 +648,11 @@ exports.postStart = (req, res, next) => {
     .then(training => {
       training.finished = true;
       return training.save().then(training => {
-        res.redirect(`/program/${training.ProgramId}`);
+        if(training.ProgramId){
+          res.redirect(`/program/${training.ProgramId}`);
+        } else {
+          res.redirect(`/trainings`);
+        }
       });
     })
     .catch(err => {
