@@ -38,7 +38,7 @@ app.use(csrf({ cookie: true }));
 
 app.use((req, res, next) => {
   const token = req.csrfToken();
-  res.locals.connected = req.session.isLoggedIn;
+  res.locals.connected = req.session?.isLoggedIn;
   res.cookie('XSRF-TOKEN', token);
   res.locals.csrfToken = token;
   next();
