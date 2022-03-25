@@ -6,7 +6,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const compression = require('compression');
-const flash = require('flash');
+const flash = require('connect-flash');
 const csrf = require('csurf');
 const SessionStore = require('express-session-sequelize')(session.Store);
 
@@ -36,24 +36,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(csrf({ cookie: true }));
 
-app.use((req, res, next) => {
-  const token = req.csrfToken();
-  if(req.session.isLoggedIn){
-    res.locals.connected = req.session.isLoggedIn;
-  }
-  res.cookie('XSRF-TOKEN', token);
-  res.locals.csrfToken = token;
-  next();
-});
-
 Users.hasMany(Programs);
 Users.hasMany(Exercises);
 Users.hasMany(Trainings);
 Programs.hasMany(Trainings);
 Trainings.hasMany(Exercises);
-Trainings.belongsTo(Users, {constraints: true, onDelete: 'CASCADE'});
-Exercises.belongsTo(Users, {constraints: true, onDelete: 'CASCADE'});
-Programs.belongsTo(Users, {constraints: true, onDelete: 'CASCADE'});
+Trainings.belongsTo(Users, { constraints: true, onDelete: 'CASCADE' });
+Exercises.belongsTo(Users, { constraints: true, onDelete: 'CASCADE' });
+Programs.belongsTo(Users, { constraints: true, onDelete: 'CASCADE' });
 
 console.log('Sync DB');
 postgresDb
@@ -70,6 +60,14 @@ postgresDb
         // cookie: app.get('env') === 'production' ? {secure: true} : {} //works only with https
       })
     );
+
+    app.use((req, res, next) => {
+      const token = req.csrfToken();
+      res.locals.connected = req.session.isLoggedIn;
+      res.cookie('XSRF-TOKEN', token);
+      res.locals.csrfToken = token;
+      next();
+    });
 
     app.use(flash());
 
