@@ -4,6 +4,7 @@
 
     <body>
         <%- include('../includes/banner.ejs', {goBack: false}) %>
+        <% if (programs.length > 0) { %>
         <div class="card-container" style="grid-template-columns:repeat(<%= programs.length %>, 100%)">
             <% programs.forEach(program => { %>
             <div class="card bordered shadow-effect">
@@ -17,6 +18,7 @@
             </div>
             <% }) %>
         </div>
+        <% } %>
         <a href="/newprogram">
             <div class="flag-link shadow-effect">
                 <h1 class="flag-link__title bebas-font">Nouveau programme 🎯</h1>
