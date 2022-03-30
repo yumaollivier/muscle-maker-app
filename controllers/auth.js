@@ -38,7 +38,6 @@ exports.postLogin = (req, res, next) => {
 
   Users.findOne({ where: { email: email } })
     .then(user => {
-      console.log(user);
       if (!user) {
         return res.status(422).render('auth/login', {
           path: '/login',

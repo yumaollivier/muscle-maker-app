@@ -728,6 +728,30 @@ exports.postStartExercise = (req, res, next) => {
     });
 };
 
+exports.getPerformances = (req, res, next) => {
+  let message = getErrors(req);
+  const userId = req.user.id;
+  Exercises.findOne({ where: { UserId: userId, id: exerciseId } })
+    .then(exercise => {
+      const exerciseData = getExerciseData(exercise, false);
+      res.render('admin/performances', {
+        path: '/performances',
+        pageTitle: 'Mes performances',
+        prevPath: undefined,
+        user: false,
+        errorMessage: message,
+        validationErrors: [],
+        isAuth: true,
+        exercise: exerciseData,
+      });
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(err);
+    });
+}
+
 exports.getDelete = (req, res, next) => {
   const userId = req.user.id;
   const elementId = req.params.id;

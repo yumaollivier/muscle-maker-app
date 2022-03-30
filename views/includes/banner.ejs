@@ -1,7 +1,7 @@
 <div class="banner center shadow-effect">
     <h1 class="page-title bebas-font"><%= pageTitle %></h1>
     <% if (isAuth) { %>
-    <div class="hamburger-menu <% if (goBack) { %>back<% } %>" <% if (goBack) { %><% if (prevPath !== undefined) { %>onClick="location.href='<%= prevPath %>'"<% } else { %>onclick="history.go(-1);"<% } %><% } %>>
+    <div class="hamburger-menu <% if (goBack) { %>back<% } %>" <% if (goBack) { %><% if (prevPath !== undefined) { %>data-path="<%= prevPath %>"<% } %><% } %>>
         <div class="line"></div>
         <div class="line"></div>
         <div class="line"></div>
