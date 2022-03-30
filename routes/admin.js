@@ -107,10 +107,10 @@ router.post(
   adminController.postStartExercise
 );
 
-router.get(
-  '/performance',
-  isAuth,
-  adminController.getPerformances
-);
+// router.get(
+//   '/performance',
+//   isAuth,
+//   adminController.getPerformances
+// );
 
 module.exports = router;

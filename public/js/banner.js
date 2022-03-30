@@ -15,7 +15,7 @@ if(backArrow){
     if (prevPath) {
       return (location.href = prevPath);
     } else {
-      return history.back();
+      window.history.back();
     }
   });
 }
