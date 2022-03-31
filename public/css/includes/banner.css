@@ -33,12 +33,8 @@
   opacity: 1;
 }
 
-.hamburger-menu.active, .hamburger-menu.back {
+.hamburger-menu.active{
   justify-content: center;
-}
-
-.hamburger-menu.back{
-  align-items: start;
 }
 
 .hamburger-menu.active .line{
@@ -56,18 +52,6 @@
 
 .hamburger-menu.active .line:nth-child(3) {
   transform: rotate(-45deg);
-}
-
-.hamburger-menu.back .line:nth-child(1){
-  transform-origin: top left;
-  transform: rotate(-30deg) translateY(100%) translateX(-10%);
-  width: 60%;
-}
-
-.hamburger-menu.back .line:nth-child(3){
-  transform-origin: bottom left;
-  transform: rotate(30deg) translateY(-100%) translateX(-10%);
-  width: 60%;
 }
 
 .menu-container {

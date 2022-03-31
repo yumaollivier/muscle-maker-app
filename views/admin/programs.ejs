@@ -10,9 +10,11 @@
             </h1> 
             <% programs.forEach(program => { %>
                 <div class="card bordered">
-                    <h1 class="card__title bebas-font"><% if (program.name !== "") {%><%= program.name %><% } else { %>Sans nom<%}%></h1>
-                    <p class="card__details"><%= program.trainingNumber %> entrainements par semaine</p>
-                    <p class="card__details"><%= program.duration %> semaines</p>
+                    <a href="/program/<%= program.id %>">
+                        <h1 class="card__title bebas-font"><% if (program.name !== "") {%><%= program.name %><% } else { %>Sans nom<%}%></h1>
+                        <p class="card__details"><%= program.trainingNumber %> entrainements par semaine</p>
+                        <p class="card__details"><%= program.duration %> semaines</p>
+                    </a>
                     <div class="card__buttons">
                         <a href="/program/<%= program.id %>" class="btn btn-fullwidth">Commencer</a>
                         <a href="/newprogram/<%= program.id %>" class="btn btn-fullwidth btn-outlined">Modifier</a>

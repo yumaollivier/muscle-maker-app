@@ -19,6 +19,7 @@
 }
 
 .status {
+  background-color: var(--white-color);
   position: absolute;
   top: 2.5rem;
   right: 3rem;

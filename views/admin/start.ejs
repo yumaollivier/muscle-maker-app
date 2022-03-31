@@ -25,6 +25,7 @@
             </a>
             <% }) %>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <a href="/newexercise/<%= training.id %>" class="btn btn-outlined btn-fullwidth mt-1">Ajouter un exercice</a>
             <input type="submit" class="btn btn-fullwidth mt-1" value="Terminer la séance">
         </form>
     </body>
