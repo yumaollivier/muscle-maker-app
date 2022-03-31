@@ -132,7 +132,7 @@ exports.getNewProgram = (req, res, next) => {
           errorMessage: message,
           validationErrors: [],
           isAuth: true,
-          program: program,
+          program,
           trainings,
         });
       });
@@ -146,7 +146,7 @@ exports.getNewProgram = (req, res, next) => {
         errorMessage: message,
         validationErrors: [],
         isAuth: true,
-        program: program,
+        program,
         trainings,
       });
     });
@@ -298,7 +298,6 @@ exports.getNewExpressTraining = (req, res, next) => {
           });
           res.render('admin/newtraining', {
             path: `/newexpresstraining`,
-            prevPath: undefined,
             pageTitle: `${training.name}`,
             errorMessage: message,
             validationErrors: [],
@@ -320,7 +319,6 @@ exports.getNewExpressTraining = (req, res, next) => {
         console.log('New Training created')
         res.render('admin/newtraining', {
           path: `/newexpresstraining`,
-          prevPath: undefined,
           pageTitle: `Séance express`,
           errorMessage: message,
           validationErrors: [],
@@ -349,7 +347,6 @@ exports.getNewExercise = (req, res, next) => {
           const exerciseData = getExerciseData(exercise, false);
           res.render('admin/newexercise', {
             path: `/newexercise/${exerciseId}`,
-            prevPath: undefined,
             pageTitle: 'Modifier un exercice',
             user: false,
             errorMessage: message,
@@ -368,7 +365,6 @@ exports.getNewExercise = (req, res, next) => {
           console.log('New Exercise Created');
           res.render('admin/newexercise', {
             path: `/newexercise/${exercise.id}`,
-            prevPath: undefined,
             pageTitle: 'Ajouter un exercice',
             user: false,
             errorMessage: message,
@@ -434,7 +430,6 @@ exports.getExercise = (req, res, next) => {
       const exerciseData = getExerciseData(exercise, false);
       res.render('admin/exercise', {
         path: '/exercise',
-        prevPath: undefined,
         pageTitle: exercise.name,
         errorMessage: message,
         validationErrors: [],
@@ -456,7 +451,6 @@ exports.getPrograms = (req, res, next) => {
     .then(programs => {
       res.render('admin/programs', {
         path: '/programs',
-        prevPath: undefined,
         pageTitle: 'Mes programmes',
         user: false,
         errorMessage: message,
@@ -533,7 +527,6 @@ exports.getProgram = (req, res, next) => {
         res.render('admin/program', {
           path: '/program',
           pageTitle: `${program.name}`,
-          prevPath: '/programs',
           user: false,
           errorMessage: message,
           validationErrors: [],
@@ -570,7 +563,6 @@ exports.getTraining = (req, res, next) => {
         }
         res.render('admin/training', {
           path: '/training/',
-          prevPath: undefined,
           pageTitle: `${training.name}`,
           user: false,
           errorMessage: message,
@@ -609,7 +601,6 @@ exports.getStart = (req, res, next) => {
             Programs.findByPk(training.ProgramId).then(program => {
               res.render('admin/start', {
                 path: `/start/${training.id}`,
-                prevPath: `/program/${training.ProgramId}`,
                 pageTitle: program.name,
                 user: false,
                 errorMessage: message,
@@ -622,7 +613,6 @@ exports.getStart = (req, res, next) => {
           } else {
             res.render('admin/start', {
               path: `/start/${training.id}`,
-              prevPath: `/trainings`,
               pageTitle: training.name,
               user: false,
               errorMessage: message,
@@ -673,7 +663,6 @@ exports.getStartExercise = (req, res, next) => {
       res.render('admin/startexercise', {
         path: `/startexercise/${exercise.id}`,
         pageTitle: 'Entrainement',
-        prevPath: `/start/${exercise.TrainingId}`,
         user: false,
         errorMessage: message,
         validationErrors: [],
