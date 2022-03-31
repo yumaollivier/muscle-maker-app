@@ -40,7 +40,12 @@ router.get(
 );
 
 router.post(
-  ['/newtraining', '/newtraining/:programId', '/newexpresstraining', '/newexpresstraining/:trainingId'],
+  [
+    '/newtraining',
+    '/newtraining/:programId',
+    '/newexpresstraining',
+    '/newexpresstraining/:trainingId',
+  ],
   [
     body('workoutName').trim(),
     body('muscleTarget').isNumeric(),
@@ -107,10 +112,6 @@ router.post(
   adminController.postStartExercise
 );
 
-// router.get(
-//   '/performance',
-//   isAuth,
-//   adminController.getPerformances
-// );
+router.get('/statistic', isAuth, adminController.getStats);
 
 module.exports = router;

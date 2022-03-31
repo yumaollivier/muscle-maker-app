@@ -3,7 +3,7 @@
     </head>
 
     <body>
-        <%- include('../includes/banner.ejs', {goBack: false}) %>
+        <%- include('../includes/banner.ejs') %>
         <form method="post" class="container">
            <h1 class="title bebas-font">
                <% if(program.name !== "") { %>Modifier mon programme<% } else { %>Créer un programme<% } %>

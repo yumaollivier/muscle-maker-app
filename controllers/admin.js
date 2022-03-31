@@ -717,29 +717,29 @@ exports.postStartExercise = (req, res, next) => {
     });
 };
 
-// exports.getPerformances = (req, res, next) => {
-//   let message = getErrors(req);
-//   const userId = req.user.id;
-//   Exercises.findOne({ where: { UserId: userId } })
-//     .then(exercise => {
-//       const exerciseData = getExerciseData(exercise, false);
-//       res.render('admin/performance', {
-//         path: '/performance',
-//         pageTitle: 'Mes performances',
-//         prevPath: undefined,
-//         user: false,
-//         errorMessage: message,
-//         validationErrors: [],
-//         isAuth: true,
-//         exercise: exerciseData,
-//       });
-//     })
-//     .catch(err => {
-//       const error = new Error(err);
-//       error.httpStatusCode = 500;
-//       return next(err);
-//     });
-// }
+exports.getStats = (req, res, next) => {
+  let message = getErrors(req);
+  const userId = req.user.id;
+  Exercises.findOne({ where: { UserId: userId } })
+    .then(exercise => {
+      const exerciseData = getExerciseData(exercise, false);
+      res.render('admin/statistic', {
+        path: '/statistic',
+        pageTitle: 'Mes stats',
+        prevPath: undefined,
+        user: false,
+        errorMessage: message,
+        validationErrors: [],
+        isAuth: true,
+        exercise: exerciseData,
+      });
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(err);
+    });
+}
 
 exports.getDelete = (req, res, next) => {
   const userId = req.user.id;

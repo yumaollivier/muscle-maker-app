@@ -3,7 +3,7 @@
     </head>
 
     <body>
-        <%- include('../includes/banner.ejs', {goBack: false}) %>
+        <%- include('../includes/banner.ejs') %>
         <% if (programs.length > 0) { %>
         <div class="card-container" style="grid-template-columns:repeat(<%= programs.length %>, 100%)">
             <% programs.forEach(program => { %>

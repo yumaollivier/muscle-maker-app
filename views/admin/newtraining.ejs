@@ -3,7 +3,7 @@
     </head>
 
     <body>
-        <%- include('../includes/banner.ejs', {goBack: true}) %>
+        <%- include('../includes/banner.ejs') %>
         <form class="container" method="post" >
            <h1 class="title bebas-font">
             <% if(training.name !== null) { %>Modifier ma séance<% } else { %>Créer une séance<% } %>
