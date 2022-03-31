@@ -1,17 +1,17 @@
 const addButton = document.querySelector('#addSet');
 const tbody = document.querySelector('tbody');
-const setInput = document.querySelectorAll('.set-table__input-field')
-const deleteCross = document.querySelectorAll('.delete')
+const setInput = document.querySelectorAll('.set-table__input-field');
+const deleteCross = document.querySelectorAll('.delete');
 
-const lastId = setInput[setInput.length - 1].getAttribute('id')
+const lastId = setInput[setInput.length - 1].getAttribute('id');
 let i = lastId;
 
 const addSet = () => {
   i++;
-  const allRepsInputs = document.querySelectorAll('#reps')
-  const allRestInputs = document.querySelectorAll('#rest')
-  const lastSetRepsValue = allRepsInputs[allRepsInputs.length - 1].value
-  const lastSetRestValue = allRestInputs[allRepsInputs.length - 1].value
+  const allRepsInputs = document.querySelectorAll('#reps');
+  const allRestInputs = document.querySelectorAll('#rest');
+  const lastSetRepsValue = allRepsInputs[allRepsInputs.length - 1].value;
+  const lastSetRestValue = allRestInputs[allRepsInputs.length - 1].value;
   //   TR
   const newSetEl = document.createElement('tr');
   newSetEl.setAttribute('id', i);
@@ -57,22 +57,56 @@ const addSet = () => {
 };
 
 const deleteElement = e => {
-    e.target.parentNode.remove()
-    i--;
-    const setElements = document.querySelectorAll('.set')
-    setElements.forEach((element, index) => {
-        element.innerHTML = index + 1;
-    })
+  e.target.parentNode.remove();
+  i--;
+  const setElements = document.querySelectorAll('.set');
+  setElements.forEach((element, index) => {
+    element.innerHTML = index + 1;
+  });
 };
 
 addButton.addEventListener('click', () => {
   addSet();
 });
 
-if(deleteCross.length > 0){
+if (deleteCross.length > 0) {
   deleteCross.forEach(cross => {
     cross.addEventListener('click', e => {
       deleteElement(e);
-    })
-  })
+    });
+  });
 }
+
+const MuscularGroupContainer = document.querySelector('.group-container');
+const groupChoices = document.querySelectorAll('#groupChoice');
+
+const addInputGroupData = () => {
+  const muscleTargetInput = document.querySelector('#muscleTarget')
+  const musclesTarget = document.querySelectorAll('.group-choice')
+  const musclesArr = [];
+  musclesTarget.forEach(muscle => {
+    const muscleGroup = muscle.getAttribute('data-group')
+    musclesArr.push(muscleGroup);
+  })
+  muscleTargetInput.value = musclesArr.join(' ')
+}
+
+MuscularGroupContainer.addEventListener('change', e => {
+  const muscleName = e.target.value;
+  if (muscleName !== 'aucun') {
+    const muscleTag = document.createElement('div');
+    muscleTag.classList.add('group-choice');
+    muscleTag.setAttribute('data-group', muscleName)
+    muscleTag.innerHTML = muscleName;
+    const deleteSpan = document.createElement('span');
+    deleteSpan.classList.add('cross');
+    deleteSpan.innerHTML = 'X';
+    deleteSpan.addEventListener('click', e => {
+      e.target.parentNode.remove();
+      addInputGroupData()
+    });
+    muscleTag.appendChild(deleteSpan);
+    MuscularGroupContainer.appendChild(muscleTag);
+  }
+  addInputGroupData()
+});

@@ -13,8 +13,23 @@
                <input type="text" name="exerciseName" id="exerciseName" class="input-field__input" value="<%= exercise.name %>">
            </div>
             <div class="input-field">
-                <label for="muscleTarget" class="input-field__label">Groupe musculaire ciblé</label>
-                <input type="text" name="muscleTarget" id="muscleTarget" class="input-field__input" value="<%= exercise.muscleTarget %>">
+                <p class="input-field__label">Groupe(s) musculaire ciblé(s)</p>
+                <div class="group-container">
+                    <select name="group" id="group" class="dropdown-btn btn-outlined">
+                        <option id="groupChoice" value="aucun">Aucun</option>
+                        <option id="groupChoice" value="Pectoraux">Pectoraux</option>
+                        <option id="groupChoice" value="Dos">Dos</option>
+                        <option id="groupChoice" value="Biceps">Biceps</option>
+                        <option id="groupChoice" value="Triceps">Triceps</option>
+                        <option id="groupChoice" value="Quadriceps">Quadriceps</option>
+                        <option id="groupChoice" value="Ischios">Ischios</option>
+                        <option id="groupChoice" value="Épaules">Épaules</option>
+                        <option id="groupChoice" value="Avant-bras">Avant-bras</option>
+                        <option id="groupChoice" value="Abdos">Abdos</option>
+                        <option id="groupChoice" value="Cou">Cou</option>
+                    </select>
+                </div>
+                <input type="hidden" name="muscleTarget" id="muscleTarget" class="input-field__input" value="<%= exercise.muscleTarget %>">
             </div>
             <table class="set-table">
                 <tbody>

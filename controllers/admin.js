@@ -720,18 +720,27 @@ exports.postStartExercise = (req, res, next) => {
 exports.getStats = (req, res, next) => {
   let message = getErrors(req);
   const userId = req.user.id;
-  Exercises.findOne({ where: { UserId: userId } })
-    .then(exercise => {
-      const exerciseData = getExerciseData(exercise, false);
+  Exercises.findAll({ where: { UserId: userId } })
+    .then(exercises => {
+      let allMusclesTargeted = []
+      exercises.forEach(exercise => {
+        const muscleTarget = exercise.muscleTarget.split(/(?:,| )+/)
+        muscleTarget.forEach(muscle => {
+          if(muscle !== ''){
+            const muscleCapitalize = muscle.charAt(0).toUpperCase() + muscle.slice(1);
+            allMusclesTargeted.push(muscleCapitalize)
+          }
+        })
+      })
+      allMusclesTargeted = [...new Set(allMusclesTargeted)]
+      console.log(allMusclesTargeted)
       res.render('admin/statistic', {
         path: '/statistic',
         pageTitle: 'Mes stats',
-        prevPath: undefined,
         user: false,
         errorMessage: message,
         validationErrors: [],
         isAuth: true,
-        exercise: exerciseData,
       });
     })
     .catch(err => {

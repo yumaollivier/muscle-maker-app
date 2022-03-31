@@ -89,8 +89,9 @@ a {
   border-color: var(--secondary-color);
 }
 
-.btn-m {
-  width: 9rem;
+.btn-s {
+  width: 14
+  rem;
 }
 
 .btn-lg {
