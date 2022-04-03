@@ -9,6 +9,7 @@
             <h1 class="title bebas-font">
                 Mes entrainements
             </h1> 
+            <% if(trainings.length > 0) { %>
             <% trainings.forEach(training => { %>
                 <div class="flag-link shadow-effect">
                     <h1 class="flag-link__title bebas-font"><%= training.programName %></h1>
@@ -24,8 +25,12 @@
                     </div>
                 </div>
             <% }) %>
+            <% } else { %>
+                <p class="message">Tu n'as pas encore d'entrainement à afficher ici.</p>
+                <p class="message">N'hésite pas à en créer un en cliquant sur le bouton ci dessous. 👇</p>
+            <% } %>
             <div class="trainings-button">
-                <a href="/newexpressworkout" class="btn btn-fullwidth">Créer un nouvel entrainement</a>
+                <a href="/newexpressworkout" class="btn btn-fullwidth">Créer un nouvel entrainement express</a>
             </div>
         </div>
     </body>
