@@ -90,8 +90,7 @@ a {
 }
 
 .btn-s {
-  width: 14
-  rem;
+  width: 14rem;
 }
 
 .btn-lg {
@@ -139,4 +138,8 @@ a {
 
 .mt-1{
   margin-top: 1rem;
+}
+
+.message {
+  
 }

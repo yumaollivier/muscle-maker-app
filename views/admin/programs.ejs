@@ -8,6 +8,7 @@
             <h1 class="title bebas-font">
                 Mes programmes
             </h1> 
+            <% if (programs.length > 0){ %>
             <% programs.forEach(program => { %>
                 <div class="card bordered">
                     <a href="/program/<%= program.id %>">
@@ -22,6 +23,10 @@
                     </div>
                 </div> 
             <% }) %>
+            <% } else { %>
+                <p class="message">Tu n'as pas encore de programme à afficher ici.</p>
+                <p class="message">N'hésite pas à en créer un en cliquant sur le bouton ci dessous. 👇</p>
+            <% } %>
             <a href="/newprogram" class="btn btn-fullwidth mt-1">Créer un nouveau programme</a>
         </div>
     </body>

@@ -138,7 +138,7 @@ exports.getNewProgram = (req, res, next) => {
       });
     });
   } else {
-    req.user.createProgram({ name: 'Sans nom' }).then(program => {
+    req.user.createProgram({}).then(program => {
       console.log('New program created');
       res.render('admin/newprogram', {
         path: '/newprogram',
