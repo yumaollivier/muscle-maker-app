@@ -6,16 +6,16 @@
         <%- include('../includes/banner.ejs') %>
         <div class="container">
             <h1 class="title bebas-font">
-                Mes Stats
+                <%= muscleTarget %>
             </h1>
-            <% if (musclesTargeted.length > 0) { %>
-                <% musclesTargeted.forEach( muscleTarget => { %>
+            <% if (exercisesTargeted.length > 0) { %>
+                <% exercisesTargeted.forEach( exerciseTargeted => { %>
                     <div class="card bordered minimize-height">
-                        <a href="/statisticgroup/<%= muscleTarget %>">
-                            <h1 class="card__title bebas-font"><%= muscleTarget %></h1>
+                        <a href="/exercisestat/<%= exerciseTargeted.id %>">
+                            <h1 class="card__title bebas-font"><%= exerciseTargeted.name %></h1>
                         </a>
                         <div class="card__buttons">
-                            <a href="/statisticgroup/<%= muscleTarget %>" class="btn btn-fullwidth">Voir</a>
+                            <a href="/exercisestat/<%= exerciseTargeted.id %>" class="btn btn-fullwidth">Statistiques</a>
                         </div>
                     </div> 
                 <% }) %>

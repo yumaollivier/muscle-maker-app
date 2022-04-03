@@ -10,24 +10,26 @@
                 Mes entrainements
             </h1> 
             <% if(trainings.length > 0) { %>
-            <% trainings.forEach(training => { %>
-                <div class="flag-link shadow-effect">
-                    <h1 class="flag-link__title bebas-font"><%= training.programName %></h1>
-                    <p class="flag-link__subtitle bebas-font"><%= training.name %></p>
-                    <p class="flag-link__details"><%= training.muscleTarget %></p>
-                    <% if(training.finished){ %>
-                        <span class="status green-font bebas-font">Terminé</span>
-                    <% } %>
-                    <div class="flag-link__buttons">
-                        <a href="/start/<%= training.id %>" class="btn btn-midwidth">Commencer</a>
-                        <a href="/training/<%= training.id %>" class="btn btn-midwidth btn-outlined">Voir</a>
-                        <a href="/delete/training/<%= training.id %>" class="btn btn-midwidth">Supprimer</a>
+                <% trainings.forEach(training => { %>
+                    <div class="flag-link shadow-effect">
+                        <h1 class="flag-link__title bebas-font"><%= training.programName %></h1>
+                        <p class="flag-link__subtitle bebas-font"><%= training.name %></p>
+                        <p class="flag-link__details"><%= training.muscleTarget %></p>
+                        <% if(training.finished){ %>
+                            <span class="status green-font bebas-font">Terminé</span>
+                        <% } %>
+                        <div class="flag-link__buttons">
+                            <a href="/start/<%= training.id %>" class="btn btn-midwidth">Commencer</a>
+                            <a href="/training/<%= training.id %>" class="btn btn-midwidth btn-outlined">Voir</a>
+                            <a href="/delete/training/<%= training.id %>" class="btn btn-midwidth">Supprimer</a>
+                        </div>
                     </div>
-                </div>
-            <% }) %>
+                <% }) %>
             <% } else { %>
-                <p class="message">Tu n'as pas encore d'entrainement à afficher ici.</p>
-                <p class="message">N'hésite pas à en créer un en cliquant sur le bouton ci dessous. 👇</p>
+                <div class="message-container">
+                    <p class="message">Tu n'as pas encore d'entrainement à afficher ici.</p>
+                    <p class="message">N'hésite pas à en créer un en cliquant sur le bouton ci dessous. 👇</p>
+                </div>
             <% } %>
             <div class="trainings-button">
                 <a href="/newexpressworkout" class="btn btn-fullwidth">Créer un nouvel entrainement express</a>

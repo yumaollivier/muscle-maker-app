@@ -8,19 +8,16 @@
             <h1 class="title bebas-font">
                 <%= training.name %>
             </h1>
-            <!-- <% if (exercise.finished){ %>
+            <!-- 
                 <div class="card card-free-heigth bordered green-border">
-                    <h1 class="card__title bebas-font"><%= exercise.name %></h1>
-                    <% exercise.set%>
+                    <h1 class="card__title bebas-font"></h1>
+                    
                     <p class="card__details">Série 1 : 10 reps à 100kg</p>
                     <p class="card__details">Série 2 : 10 reps à 100kg</p>
                     <p class="card__details">Série 3 : 10 reps à 100kg</p>
                     <p class="card__details">Série 4 : 10 reps à 100kg</p>
                     <p class="card__details">Série 5 : 10 reps à 100kg</p>
-                </div>
-            <% } else { %>
-
-            <% } %> -->
+                </div> -->
             <% exercises.forEach(exercise => { %>
             <a href="/startexercise/<%= exercise.id %>" class="card card-free-heigth bordered<% if(exercise.finished){ %> green-border<% } %>">
                 <h1 class="card__title bebas-font"><%= exercise.name %></h1>

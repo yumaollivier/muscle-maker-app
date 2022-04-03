@@ -8,6 +8,11 @@
     <body>
         <%- include('../includes/banner.ejs') %>
         <form method="post" class="form-container">
+            <% if (errorMessage) { %>
+                <div class="invalid">
+                    <p><%= errorMessage %></p>
+                </div>
+            <% } %>
             <div class="input-field">
                 <label for="pseudo" class="input-field__label bold">Pseudo</label>
                 <input type="text" name="pseudo" id="pseudo" class="input-field__input bordered" required>

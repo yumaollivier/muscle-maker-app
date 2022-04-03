@@ -86,6 +86,8 @@ router.post(
 
 router.get('/exercise/:exerciseId', isAuth, adminController.getExercise);
 
+router.get('/exercisestat/:exerciseId', isAuth, adminController.getExerciseStat);
+
 router.get('/programs', isAuth, adminController.getPrograms);
 
 router.get('/trainings', isAuth, adminController.getTrainings);
@@ -113,5 +115,7 @@ router.post(
 );
 
 router.get('/statistic', isAuth, adminController.getStats);
+
+router.get('/statisticgroup/:muscleTarget', isAuth, adminController.getStats);
 
 module.exports = router;

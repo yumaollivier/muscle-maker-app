@@ -42,7 +42,7 @@ exports.postLogin = (req, res, next) => {
         return res.status(422).render('auth/login', {
           path: '/login',
           pageTitle: 'Connexion',
-          errorMessage: 'Invalid email or password.',
+          errorMessage: 'Le mot de passe ou l\'adresse mail n\'est pas correct.',
           validationErrors: [],
           isAuth: false,
         });
@@ -59,7 +59,7 @@ exports.postLogin = (req, res, next) => {
         return res.status(422).render('auth/login', {
           path: '/login',
           pageTitle: 'Connexion',
-          errorMessage: 'Invalid email or password.',
+          errorMessage: 'Le mot de passe ou l\'adresse mail n\'est pas correct.',
           validationErrors: [],
           isAuth: false,
         });
@@ -99,7 +99,7 @@ exports.postSignup = (req, res, next) => {
     return res.status(422).render('auth/signup', {
       path: '/signup',
       pageTitle: 'Inscription',
-      errorMessage: errors.array()[0].msg,
+      errorMessage: 'Ton inscription n\'a pas fonctionné. Vérifie tes données et réessaie à nouveau et si l\'erreur persiste n\'hésite pas à me contacter.',
       validationErrors: errors.array(),
       isAuth: false,
     });

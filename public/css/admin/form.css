@@ -23,7 +23,7 @@
   height: 13.5rem;
 }
 
-.card-free-heigth{
+.card-free-heigth {
   height: auto;
 }
 
@@ -96,27 +96,33 @@
   font-size: 1.5rem;
 }
 
-.group-container{
+.group-container {
   display: flex;
   align-items: center;
-
 }
 
-.dropdown-btn{
+.dropdown-btn {
   margin: 1rem 1rem 1rem 0;
   width: 10rem;
-  padding: .1rem;
+  padding: 0.1rem;
 }
 
-.group-choice{
+.group-choice {
   background-color: var(--black-color);
   color: var(--white-color);
-  padding: .5rem;
-  margin-right: .5rem;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
 }
 
-.cross{
+.cross {
   color: var(--primary-color);
-  margin-left: .5rem;
+  margin-left: 0.5rem;
   font-weight: bold;
+}
+
+.date {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin: 2rem 0 1rem 0;
 }

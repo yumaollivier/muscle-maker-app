@@ -26,6 +26,7 @@ const allEqual = arr => arr.every(v => v === arr[0]);
 
 const getExerciseData = (exercise, minimize = true) => {
   const schema = exercise.schema.split('-');
+  let stats = exercise.performances.split('/');
   if (minimize) {
     const set = [];
     const reps = [];
@@ -67,6 +68,31 @@ const getExerciseData = (exercise, minimize = true) => {
       reps.push(schemaArray[1]);
       rest.push(schemaArray[2]);
     });
+    const performance = [];
+    // {date: date, stats:[{set: 1, reps: 10, weight: 100, rest: 60}, {set: 2, reps: 10, weight: 100, rest: 60}]}
+    stats.forEach(stat => {
+      if (stat !== '') {
+        const fullStats = stat.split('-');
+        const date = fullStats.shift();
+        const setStat = {};
+        setStat.date = date;
+        setStat.stats = [];
+        fullStats.forEach(fullStat => {
+          const statistic = {};
+          const setPerf = fullStat.split(',');
+          const setNumber = setPerf[0];
+          const repsNumber = setPerf[1];
+          const weight = setPerf[2];
+          const restTime = setPerf[3];
+          statistic.set = setNumber;
+          statistic.reps = repsNumber;
+          statistic.weight = weight;
+          statistic.rest = restTime;
+          setStat.stats.push(statistic);
+        });
+        performance.push(setStat);
+      }
+    });
     const exerciseData = {
       id: exercise.id,
       name: exercise.name,
@@ -76,6 +102,7 @@ const getExerciseData = (exercise, minimize = true) => {
       rest: allEqual(rest) ? rest[0] : rest.join(', '),
       schema: schemaData,
       notes: exercise.notes,
+      performances: performance,
       TrainingId: exercise.TrainingId,
       finished: exercise.finished,
     };
@@ -316,7 +343,7 @@ exports.getNewExpressTraining = (req, res, next) => {
     req.user
       .createTraining({ UserId: req.user.id })
       .then(training => {
-        console.log('New Training created')
+        console.log('New Training created');
         res.render('admin/newtraining', {
           path: `/newexpresstraining`,
           pageTitle: `Séance express`,
@@ -401,14 +428,12 @@ exports.postNewExercise = (req, res, next) => {
           }).then(training => {
             training.exerciseIds += `${exercise.id},`;
             return training.save().then(training => {
-              if(training.ProgramId){
+              if (training.ProgramId) {
                 res.redirect(
                   `/newtraining/${training.ProgramId}/${exercise.TrainingId}`
                 );
               } else {
-                res.redirect(
-                  `/newexpresstraining/${exercise.TrainingId}`
-                );
+                res.redirect(`/newexpresstraining/${exercise.TrainingId}`);
               }
             });
           });
@@ -436,6 +461,28 @@ exports.getExercise = (req, res, next) => {
         isAuth: true,
         exercise: exerciseData,
         trainingId: exercise.TrainingId,
+      });
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(err);
+    });
+};
+
+exports.getExerciseStat = (req, res, next) => {
+  let message = getErrors(req);
+  const exerciseId = req.params.exerciseId;
+  Exercises.findOne({ where: { UserId: req.user.id, id: exerciseId } })
+    .then(exercise => {
+      const exerciseData = getExerciseData(exercise, false);
+      res.render('admin/exercisestat', {
+        path: '/exercisestat',
+        pageTitle: exercise.name,
+        errorMessage: message,
+        validationErrors: [],
+        isAuth: true,
+        exercise: exerciseData,
       });
     })
     .catch(err => {
@@ -484,7 +531,7 @@ exports.getTrainings = (req, res, next) => {
             programs.forEach(program => {
               if (training.ProgramId === program.id) {
                 programName = `Programme ${program.name}`;
-              } 
+              }
             });
             training.programName = programName;
           });
@@ -518,7 +565,7 @@ exports.getProgram = (req, res, next) => {
       Trainings.findAll({
         where: { UserId: req.user.id, ProgramId: program.id },
       }).then(programTrainings => {
-        programTrainings = sortArray(programTrainings)
+        programTrainings = sortArray(programTrainings);
         if (programTrainings.length > 0) {
           programTrainings.forEach(training => {
             trainings.push(training);
@@ -597,7 +644,7 @@ exports.getStart = (req, res, next) => {
               exercises.push(exerciseData);
             });
           }
-          if(training.ProgramId){
+          if (training.ProgramId) {
             Programs.findByPk(training.ProgramId).then(program => {
               res.render('admin/start', {
                 path: `/start/${training.id}`,
@@ -639,7 +686,7 @@ exports.postStart = (req, res, next) => {
     .then(training => {
       training.finished = true;
       return training.save().then(training => {
-        if(training.ProgramId){
+        if (training.ProgramId) {
           res.redirect(`/program/${training.ProgramId}`);
         } else {
           res.redirect(`/trainings`);
@@ -720,35 +767,59 @@ exports.postStartExercise = (req, res, next) => {
 exports.getStats = (req, res, next) => {
   let message = getErrors(req);
   const userId = req.user.id;
+  const muscleTarget = req.params.muscleTarget;
   Exercises.findAll({ where: { UserId: userId } })
     .then(exercises => {
-      let allMusclesTargeted = []
-      exercises.forEach(exercise => {
-        const muscleTarget = exercise.muscleTarget.split(/(?:,| )+/)
-        muscleTarget.forEach(muscle => {
-          if(muscle !== ''){
-            const muscleCapitalize = muscle.charAt(0).toUpperCase() + muscle.slice(1);
-            allMusclesTargeted.push(muscleCapitalize)
+      if (muscleTarget === undefined) {
+        let musclesTargeted = [];
+        exercises.forEach(exercise => {
+          const muscleTarget = exercise.muscleTarget.split(/(?:,| )+/);
+          muscleTarget.forEach(muscle => {
+            if (muscle !== '') {
+              const muscleCapitalize =
+                muscle.charAt(0).toUpperCase() + muscle.slice(1);
+              musclesTargeted.push(muscleCapitalize);
+            }
+          });
+        });
+        musclesTargeted = [...new Set(musclesTargeted)];
+        res.render('admin/statistic', {
+          path: '/statistic',
+          pageTitle: 'Mes stats',
+          user: false,
+          errorMessage: message,
+          validationErrors: [],
+          isAuth: true,
+          musclesTargeted,
+        });
+      } else {
+        const exercisesTargeted = [];
+        exercises.forEach(exercise => {
+          if (
+            exercise.muscleTarget.includes(muscleTarget) ||
+            exercise.muscleTarget.includes(muscleTarget.toLowerCase())
+          ) {
+            exercisesTargeted.push(exercise);
           }
-        })
-      })
-      allMusclesTargeted = [...new Set(allMusclesTargeted)]
-      console.log(allMusclesTargeted)
-      res.render('admin/statistic', {
-        path: '/statistic',
-        pageTitle: 'Mes stats',
-        user: false,
-        errorMessage: message,
-        validationErrors: [],
-        isAuth: true,
-      });
+        });
+        return res.render('admin/statisticgroup', {
+          path: '/statisticgroup',
+          pageTitle: 'Mes stats',
+          user: false,
+          errorMessage: message,
+          validationErrors: [],
+          isAuth: true,
+          muscleTarget,
+          exercisesTargeted,
+        });
+      }
     })
     .catch(err => {
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(err);
     });
-}
+};
 
 exports.getDelete = (req, res, next) => {
   const userId = req.user.id;
@@ -772,8 +843,10 @@ exports.getDelete = (req, res, next) => {
               where: { UserId: userId, id: trainingId },
             }).then(training => {
               console.log('Exercise deleted successfully');
-              if(training.ProgramId){
-                res.redirect(`/newtraining/${training.ProgramId}/${trainingId}`);
+              if (training.ProgramId) {
+                res.redirect(
+                  `/newtraining/${training.ProgramId}/${trainingId}`
+                );
               } else {
                 res.redirect(`/newexpresstraining/${trainingId}`);
               }

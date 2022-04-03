@@ -1,0 +1,45 @@
+<%- include('../includes/head.ejs') %>
+<link href="/css/admin/form.css" rel="stylesheet"/>
+    </head>
+
+    <body>
+        <%- include('../includes/banner.ejs') %>
+        <div class="container">
+            <h1 class="bebas-font">
+                <%= exercise.name %>
+            </h1>
+            <% if (exercise.performances.length > 0) { %>
+                <% exercise.performances.forEach(perf => { %>
+                    <p class="date">Séance du <%= perf.date %></p>
+                    <table class="set-table">
+                        <tr class="set-table__header">
+                            <th class="set-table__column">Séries</th>
+                            <th class="set-table__column">Répétitions</th>
+                            <th class="set-table__column">Poids (en kg)</th>
+                            <th class="set-table__column">Repos (en s)</th>
+                        </tr>
+                        <% perf.stats.forEach(stat => { %>
+                        <tr class="set-table__input-field">
+                            <td class="set bebas-font"><%= stat.set %></td>
+                            <td class="reps bebas-font">
+                                <%= stat.reps %>
+                            </td>
+                            <td class="weight bebas-font">
+                                <%= stat.weight %>
+                                <span class="unit">kg</span>
+                            </td>
+                            <td class="rest bebas-font">
+                                <%= stat.rest %> 
+                                <span class="unit">s</span>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </table>
+                <% }) %>
+                <% console.log(exercise) %>
+           <% } else { %>
+                <p class="message mt-1">Tu n'as pas encore suivi cet exercice. Il n'y a donc aucune performance à afficher. 😞</p>
+            <% } %>
+        </div>
+    </body>
+<%- include('../includes/end.ejs') %>

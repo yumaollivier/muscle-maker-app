@@ -13,8 +13,29 @@
                <input type="text" name="workoutName" id="workoutName" class="input-field__input" value="<%= training.name %>">
            </div>
            <div class="input-field">
-               <label for="muscleTarget" class="input-field__label">Groupe musculaire ciblés</label>
-               <input type="text" name="muscleTarget" id="muscleTarget" class="input-field__input" value="<%= training.muscleTarget %>">
+               <label for="muscleTarget" class="input-field__label">Groupe(s) musculaire ciblés</label>
+               <div class="group-container">
+                    <select name="group" id="group" class="dropdown-btn btn-outlined">
+                        <option id="groupChoice" value="aucun">Aucun</option>
+                        <option id="groupChoice" value="Pectoraux">Pectoraux</option>
+                        <option id="groupChoice" value="Dos">Dos</option>
+                        <option id="groupChoice" value="Biceps">Biceps</option>
+                        <option id="groupChoice" value="Triceps">Triceps</option>
+                        <option id="groupChoice" value="Quadriceps">Quadriceps</option>
+                        <option id="groupChoice" value="Ischios">Ischios</option>
+                        <option id="groupChoice" value="Épaules">Épaules</option>
+                        <option id="groupChoice" value="Avant-bras">Avant-bras</option>
+                        <option id="groupChoice" value="Abdos">Abdos</option>
+                        <option id="groupChoice" value="Cou">Cou</option>
+                    </select>
+                    <% if (training.muscleTarget.length > 0) { %>
+                        <% const musclesTargeted = training.muscleTarget.split(' ') %>
+                        <% musclesTargeted.forEach(muscle => { %>
+                            <div class="group-choice" data-group="<%= muscle %>"><%= muscle %><span class="cross">X</span></div>
+                        <% }) %>
+                    <% } %>
+                </div>
+               <input type="hidden" name="muscleTarget" id="muscleTarget" class="input-field__input" value="<%= training.muscleTarget %>">
            </div>
             <div class="exercises-list">
                 <% exercises.forEach(exercise => { %>
@@ -41,4 +62,5 @@
         </form>
     </body>
     <script src="/js/addWorkoutData.js"></script>
+    <script src="/js/dropdownTags.js"></script>
 <%- include('../includes/end.ejs') %>

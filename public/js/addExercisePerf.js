@@ -7,9 +7,18 @@ buttons.forEach(button => {
   });
 });
 
+// "date-set,reps,weight,rest-set,reps,weight,rest-set,reps,weight,rest/date-set,reps,weight,rest-set,reps,weight,rest-set,reps,weight,rest"
+const daysName = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
+const monthsName = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
+const date = new Date()
+const day = daysName[date.getDay()]
+const dayDate = date.getDate()
+const month = monthsName[date.getMonth()]
+const year = date.getFullYear()
+const fullDate = `${day} ${dayDate} ${month} ${year}`
+
 const addSchemaArray = () => {
-  const date = new Date();
-  const schemaArray = [`${date}`];
+  const schemaArray = [fullDate];
   const exerciseSets = document.querySelectorAll('.flag-exercise');
   const exercisePerfInput = document.querySelector('#exercisePerf');
   exerciseSets.forEach(exerciseSet => {
