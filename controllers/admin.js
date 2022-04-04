@@ -361,6 +361,7 @@ exports.getNewExpressTraining = (req, res, next) => {
       });
   }
 };
+
 exports.getNewExercise = (req, res, next) => {
   let message = getErrors(req);
   const exerciseId = req.params.exerciseId;
@@ -405,6 +406,141 @@ exports.getNewExercise = (req, res, next) => {
     );
   }
 };
+
+// exports.getNewSuperset = (req, res, next) => {
+//   let message = getErrors(req);
+//   const exerciseId = req.params.exerciseId;
+//   const trainingId = req.params.trainingId;
+//   if (exerciseId !== undefined) {
+//     Exercises.findOne({ where: { UserId: req.user.id, id: exerciseId } }).then(
+//       exercise => {
+//         Trainings.findOne({
+//           where: { UserId: req.user.id, id: trainingId },
+//         }).then(training => {
+//           const exerciseData = getExerciseData(exercise, false);
+//           res.render('admin/newexercise', {
+//             path: `/newexercise/${exerciseId}`,
+//             pageTitle: 'Modifier un exercice',
+//             user: false,
+//             errorMessage: message,
+//             validationErrors: [],
+//             isAuth: true,
+//             exercise: exerciseData,
+//             programId: training.ProgramId,
+//           });
+//         });
+//       }
+//     );
+//   } else {
+//     Trainings.findOne({ where: { UserId: req.user.id, id: trainingId } }).then(
+//       training => {
+//         training.createExercise({ UserId: req.user.id }).then(exercise => {
+//           console.log('New Exercise Created');
+//           res.render('admin/newexercise', {
+//             path: `/newexercise/${exercise.id}`,
+//             pageTitle: 'Ajouter un exercice',
+//             user: false,
+//             errorMessage: message,
+//             validationErrors: [],
+//             isAuth: true,
+//             exercise,
+//             programId: training.ProgramId,
+//           });
+//         });
+//       }
+//     );
+//   }
+// };
+
+// exports.getNewTriset = (req, res, next) => {
+//   let message = getErrors(req);
+//   const exerciseId = req.params.exerciseId;
+//   const trainingId = req.params.trainingId;
+//   if (exerciseId !== undefined) {
+//     Exercises.findOne({ where: { UserId: req.user.id, id: exerciseId } }).then(
+//       exercise => {
+//         Trainings.findOne({
+//           where: { UserId: req.user.id, id: trainingId },
+//         }).then(training => {
+//           const exerciseData = getExerciseData(exercise, false);
+//           res.render('admin/newexercise', {
+//             path: `/newexercise/${exerciseId}`,
+//             pageTitle: 'Modifier un exercice',
+//             user: false,
+//             errorMessage: message,
+//             validationErrors: [],
+//             isAuth: true,
+//             exercise: exerciseData,
+//             programId: training.ProgramId,
+//           });
+//         });
+//       }
+//     );
+//   } else {
+//     Trainings.findOne({ where: { UserId: req.user.id, id: trainingId } }).then(
+//       training => {
+//         training.createExercise({ UserId: req.user.id }).then(exercise => {
+//           console.log('New Exercise Created');
+//           res.render('admin/newexercise', {
+//             path: `/newexercise/${exercise.id}`,
+//             pageTitle: 'Ajouter un exercice',
+//             user: false,
+//             errorMessage: message,
+//             validationErrors: [],
+//             isAuth: true,
+//             exercise,
+//             programId: training.ProgramId,
+//           });
+//         });
+//       }
+//     );
+//   }
+// };
+
+// exports.getNewCircuit = (req, res, next) => {
+//   let message = getErrors(req);
+//   const exerciseId = req.params.exerciseId;
+//   const trainingId = req.params.trainingId;
+//   if (exerciseId !== undefined) {
+//     Exercises.findOne({ where: { UserId: req.user.id, id: exerciseId } }).then(
+//       exercise => {
+//         Trainings.findOne({
+//           where: { UserId: req.user.id, id: trainingId },
+//         }).then(training => {
+//           const exerciseData = getExerciseData(exercise, false);
+//           res.render('admin/newexercise', {
+//             path: `/newexercise/${exerciseId}`,
+//             pageTitle: 'Modifier un exercice',
+//             user: false,
+//             errorMessage: message,
+//             validationErrors: [],
+//             isAuth: true,
+//             exercise: exerciseData,
+//             programId: training.ProgramId,
+//           });
+//         });
+//       }
+//     );
+//   } else {
+//     Trainings.findOne({ where: { UserId: req.user.id, id: trainingId } }).then(
+//       training => {
+//         training.createExercise({ UserId: req.user.id }).then(exercise => {
+//           console.log('New Exercise Created');
+//           res.render('admin/newexercise', {
+//             path: `/newexercise/${exercise.id}`,
+//             pageTitle: 'Ajouter un exercice',
+//             user: false,
+//             errorMessage: message,
+//             validationErrors: [],
+//             isAuth: true,
+//             exercise,
+//             programId: training.ProgramId,
+//           });
+//         });
+//       }
+//     );
+//   }
+// };
 
 exports.postNewExercise = (req, res, next) => {
   let message = getErrors(req);

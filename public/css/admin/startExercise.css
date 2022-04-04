@@ -143,3 +143,14 @@
     width: 100%;
   }
 }
+
+.stat-btn{
+  position: absolute;
+  top: 1.5rem;
+  right: 0;
+  z-index: 100;
+}
+
+.stat-btn path {
+  fill: var(--white-color);
+}

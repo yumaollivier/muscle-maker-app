@@ -1,5 +1,6 @@
 <%- include('../includes/head.ejs') %>
 <link href="/css/admin/form.css" rel="stylesheet"/>
+<link href="/css/admin/modal.css" rel="stylesheet"/>
     </head>
 
     <body>
@@ -56,11 +57,25 @@
                <input type="hidden" name="exercisesIds" id="trainingIds">
                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                <input type="hidden" name="trainingId" id="trainingId" value="<%= training.id %>">
-               <input type="submit" name="submitAction" class="btn btn-60 btn-outlined" value="Ajouter un exercice">
+               <button type="button" name="submitAction" data-modal="addExercise" class="btn btn-60 btn-outlined">Ajouter un exercice</button>
                <input type="submit" name="submitAction" class="btn btn-40" value="<% if (path.split('/').includes("newexpresstraining")) { %>Commencer<% } else { %>Enregistrer<% } %>">
            </div>
         </form>
+        <div class="modal" data-modal="addExercise">
+            <div class="modal-bg" data-close="addExercise"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title bebas-font">Ajouter un exercice</h1>
+                    <span class="modal-cross" data-close="addExercise">X</span>
+                </div>
+                <a href="/newexercise" class="type-item shadow-effect">Simple</a>
+                <a href="/newsuperset" class="type-item shadow-effect">Superset</a>
+                <a href="/newtriset" class="type-item shadow-effect">Triset</a>
+                <a href="/newcircuit" class="type-item shadow-effect">Circuit</a>
+            </div>
+        </div>
     </body>
     <script src="/js/addWorkoutData.js"></script>
     <script src="/js/dropdownTags.js"></script>
+    <script src="/js/modal.js"></script>
 <%- include('../includes/end.ejs') %>
