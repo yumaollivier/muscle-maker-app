@@ -9,7 +9,7 @@
                 <%= pageTitle %>
             </h1>
             <% exercises.forEach(exercise => { %>
-            <div class="card bordered">
+            <div class="card bordered<% if (exercise.type !== 'simple'){ %> m-0<% } %>">
                 <h1 class="card__title bebas-font"><%= exercise.name %></h1>
                 <p class="card__details"><%= exercise.notes %></p>
                 <p class="card__details"><%= exercise.set %> séries x <%= exercise.reps %> reps</p>
@@ -18,6 +18,11 @@
                     <a href="/exercise/<%= exercise.id %>" class="btn btn-fullwidth">Voir</a>
                 </div>
             </div>
+            <% if (exercise.type !== 'simple'){ %>
+                <div class="circuit-detail">
+                    <p>En <%= exercise.type %> avec</p>
+                </div>    
+            <% } %>
             <% }) %>
         </div>
     </body>

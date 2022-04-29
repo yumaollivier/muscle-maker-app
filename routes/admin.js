@@ -73,7 +73,11 @@ router.get(
 );
 
 router.post(
-  ['/newexercise/:trainingId', '/newexercise/:trainingId/:exerciseId'],
+  [
+    '/newexercise/:trainingId',
+    '/newexercise/:trainingId/:exerciseId',
+    '/newexercise/:trainingId/circuit/:firstExerciseId',
+  ],
   [
     body('exerciseName').trim(),
     body('muscleTarget').trim(),
@@ -84,9 +88,33 @@ router.post(
   adminController.postNewExercise
 );
 
+router.get(
+  '/newexercise/:trainingId/circuit/:exerciseId',
+  isAuth,
+  adminController.getNewCircuit
+);
+
+// router.get('/newcircuit/:trainingId/:numberOfExercise', isAuth, adminController.getNewSuperset);
+
+// router.post(
+//   '/newcircuit/:trainingId/:numberOfExercise',
+//   [
+//     body('exerciseName').trim(),
+//     body('muscleTarget').trim(),
+//     body('reps').isNumeric(),
+//     body('rest').isNumeric(),
+//   ],
+//   isAuth,
+//   adminController.postNewSuperset
+// );
+
 router.get('/exercise/:exerciseId', isAuth, adminController.getExercise);
 
-router.get('/exercisestat/:exerciseId', isAuth, adminController.getExerciseStat);
+router.get(
+  '/exercisestat/:exerciseId',
+  isAuth,
+  adminController.getExerciseStat
+);
 
 router.get('/programs', isAuth, adminController.getPrograms);
 

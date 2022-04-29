@@ -1,6 +1,6 @@
 <%- include('../includes/head.ejs') %>
 <link href="/css/admin/form.css" rel="stylesheet"/>
-<link href="/css/admin/modal.css" rel="stylesheet"/>
+<!-- <link href="/css/admin/modal.css" rel="stylesheet"/> -->
     </head>
 
     <body>
@@ -40,7 +40,7 @@
            </div>
             <div class="exercises-list">
                 <% exercises.forEach(exercise => { %>
-                    <div class="card bordered" data-id="<%= exercise.id %>">
+                    <div class="card bordered<% if (exercise.type !== 'simple'){ %> m-0<% } %>" data-id="<%= exercise.id %>">
                         <h1 class="card__title bebas-font"><%= exercise.name %></h1>
                         <p class="card__details"><%= exercise.notes %></p>
                         <p class="card__details"><%= exercise.set %> séries x <%= exercise.reps %> reps</p>
@@ -51,31 +51,38 @@
                             <a href="/delete/exercise/<%= exercise.id %>" class="btn btn-fullwidth">supprimer</a>
                         </div>
                     </div>
+                    <% if (exercise.type !== 'simple'){ %>
+                        <div class="circuit-detail">
+                            <p>En <%= exercise.type %> avec</p>
+                        </div>    
+                    <% } %>
                 <% }) %>
             </div>
            <div class="buttons">
                <input type="hidden" name="exercisesIds" id="trainingIds">
                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                <input type="hidden" name="trainingId" id="trainingId" value="<%= training.id %>">
-               <button type="button" name="submitAction" data-modal="addExercise" class="btn btn-60 btn-outlined">Ajouter un exercice</button>
+               <input type="submit" name="submitAction" data-modal="addExercise" class="btn btn-60 btn-outlined" value="Ajouter un exercice">
                <input type="submit" name="submitAction" class="btn btn-40" value="<% if (path.split('/').includes("newexpresstraining")) { %>Commencer<% } else { %>Enregistrer<% } %>">
            </div>
+           <!-- <div class="modal" data-modal="addExercise">
+               <div class="modal-bg" data-close="addExercise"></div>
+               <div class="modal-content">
+                   <div class="modal-header">
+                       <h1 class="modal-title bebas-font">Ajouter un exercice</h1>
+                       <span class="modal-cross" data-close="addExercise">X</span>
+                   </div>
+                   <input type="submit" name="submitAction" class="type-item shadow-effect" value="Simple">
+                   <input type="submit" name="submitAction" class="type-item shadow-effect" value="Superset">
+                   <input type="submit" name="submitAction" class="type-item shadow-effect" value="Triset">
+                   <input type="submit" name="submitAction" class="type-item shadow-effect" value="Circuit">
+                   <a href="/newcircuit/<%= training.id %>" class="type-item shadow-effect">Cardio</a>
+                   <a href="/newcircuit/<%= training.id %>" class="type-item shadow-effect">Échauffement</a>
+               </div>
+           </div> -->
         </form>
-        <div class="modal" data-modal="addExercise">
-            <div class="modal-bg" data-close="addExercise"></div>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title bebas-font">Ajouter un exercice</h1>
-                    <span class="modal-cross" data-close="addExercise">X</span>
-                </div>
-                <a href="/newexercise" class="type-item shadow-effect">Simple</a>
-                <a href="/newsuperset" class="type-item shadow-effect">Superset</a>
-                <a href="/newtriset" class="type-item shadow-effect">Triset</a>
-                <a href="/newcircuit" class="type-item shadow-effect">Circuit</a>
-            </div>
-        </div>
     </body>
     <script src="/js/addWorkoutData.js"></script>
     <script src="/js/dropdownTags.js"></script>
-    <script src="/js/modal.js"></script>
+    <!-- <script src="/js/modal.js"></script> -->
 <%- include('../includes/end.ejs') %>

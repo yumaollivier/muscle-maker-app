@@ -19,7 +19,7 @@
 .card {
   padding: 1rem;
   position: relative;
-  margin: 1rem 0;
+  margin-bottom: 1rem;
   height: 13.5rem;
 }
 
@@ -125,4 +125,14 @@
   font-size: 1.5rem;
   color: var(--primary-color);
   margin: 2rem 0 1rem 0;
+}
+
+.separator{
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.exercise-container{
+  display: flex;
+  flex-direction: column;
 }

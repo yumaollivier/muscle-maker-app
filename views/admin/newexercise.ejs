@@ -1,13 +1,35 @@
 <%- include('../includes/head.ejs') %>
 <link href="/css/admin/form.css" rel="stylesheet"/>
+<link href="/css/admin/modal.css" rel="stylesheet"/>
     </head>
 
     <body>
         <%- include('../includes/banner.ejs') %>
+        <% const muscleTarget = ['Dos', 'Pectoraux', 'Épaules', 'Biceps', 'Triceps', 'Quadriceps', 'Ischios', 'Fessiers', 'Cou', 'Avant-bras']; %>
         <form class="container" method="post">
            <h1 class="title bebas-font">
                <%= pageTitle %>
            </h1> 
+           <button class="btn" data-modal="exerciseChoices">Sélectionner un exercice</button>
+           <div class="modal" data-modal="exerciseChoices">
+               <div class="modal-bg" data-close="exerciseChoices"></div>
+               <div class="modal-content">
+                   <div class="modal-header">
+                       <h1 class="modal-title bebas-font">Sélectionner un exercice</h1>
+                       <span class="modal-cross" data-close="exerciseChoices">X</span>
+                   </div>
+                   <% muscleTarget.forEach(muscle => { %>
+                    <select name="group" id="group" class="modal-dropdown dropdown-btn shadow-effect">
+                        <option id="groupChoice" value=""><%= muscle %></option>
+                        <% defaultExercises.forEach(exerciseTarget => { %>
+                            <% if (exerciseTarget.muscleTarget === muscle) { %>
+                                <option id="groupChoice" value="<%= exerciseTarget.name %>"><%= exerciseTarget.name %></option>
+                            <% } %>
+                        <% }) %>
+                    </select>
+                    <% }) %>
+               </div>
+           </div>
            <div class="input-field">
                <label for="exerciseName" class="input-field__label">Nom de l'exercice</label>
                <input type="text" name="exerciseName" id="exerciseName" class="input-field__input" value="<%= exercise.name %>">
@@ -28,6 +50,12 @@
                         <option id="groupChoice" value="Abdos">Abdos</option>
                         <option id="groupChoice" value="Cou">Cou</option>
                     </select>
+                    <% if (exercise.muscleTarget.length > 0) { %>
+                        <% const musclesTargeted = exercise.muscleTarget.split(' ') %>
+                        <% musclesTargeted.forEach(muscle => { %>
+                            <div class="group-choice" data-group="<%= muscle %>"><%= muscle %><span class="cross">X</span></div>
+                        <% }) %>
+                    <% } %>
                 </div>
                 <input type="hidden" name="muscleTarget" id="muscleTarget" class="input-field__input" value="<%= exercise.muscleTarget %>">
             </div>
@@ -39,30 +67,35 @@
                         <th class="set-table__column">Temps de repos (en s)</th>
                         <th class="set-table__column"></th>
                     </tr>
-                    <% if(typeof exercise.schema === "object"){ %>
-                        <% exercise.schema.forEach((schema, i) => { %>
-                            <% if (i === 0) { %>
-                                <tr class="set-table__input-field" id="1">
-                                    <td class="set"><%= schema.set %></td>
-                                    <td class="reps">
-                                        <input type="number" class="input-field__input" name="reps" id="reps" value="<%= schema.reps %>">
-                                    </td>
-                                    <td class="rest">
-                                        <input type="number" class="input-field__input" name="rest" id="rest" value="<%= schema.rest %>">
-                                    </td>
-                                </tr>
-                            <% } else { %>
-                                <tr class="set-table__input-field" id="<%= i + 1 %>">
-                                    <td class="set"><%= schema.set %></td>
-                                    <td class="reps">
-                                        <input type="number" class="input-field__input" name="reps" id="reps" value="<%= schema.reps %>">
-                                    </td>
-                                    <td class="rest">
-                                        <input type="number" class="input-field__input" name="rest" id="rest" value="<%= schema.rest %>">
-                                    </td>
+                    <% if (firstExerciseSetNumber > 1) { %>
+                        <% for (let i = 0; i < firstExerciseSetNumber; i++) { %>
+                            <tr class="set-table__input-field" id="<%= i + 1 %>">
+                                <td class="set"><%= i + 1 %></td>
+                                <td class="reps">
+                                    <input type="number" class="input-field__input" name="reps" id="reps">
+                                </td>
+                                <td class="rest">
+                                    <input type="number" class="input-field__input" name="rest" id="rest">
+                                </td>
+                                <% if (i > 0) { %>
                                     <td class="delete red-font bold" id="<%= i + 1 %>">X</td>
-                                </tr>
-                            <% } %>
+                                <% } %>
+                            </tr>
+                        <% } %>
+                    <% } else if(typeof exercise.schema === "object"){ %>
+                        <% exercise.schema.forEach((schema, i) => { %>
+                            <tr class="set-table__input-field" id="<%= i + 1 %>">
+                                <td class="set"><%= schema.set %></td>
+                                <td class="reps">
+                                    <input type="number" class="input-field__input" name="reps" id="reps" value="<%= schema.reps %>">
+                                </td>
+                                <td class="rest">
+                                    <input type="number" class="input-field__input" name="rest" id="rest" value="<%= schema.rest %>">
+                                </td>
+                                <% if (i > 0) { %>
+                                    <td class="delete red-font bold" id="<%= i + 1 %>">X</td>
+                                <% } %>                                
+                            </tr>
                         <% }) %>
                     <% } else { %>
                         <tr class="set-table__input-field" id="1">
@@ -86,10 +119,12 @@
             <input type="hidden" name="exerciseSchema" id="exerciseSchema">
             <input type="hidden" name="exerciseId" id="exerciseId" value="<%= exercise.id %>">
             <input type="hidden" name="programId" id="programId" value="<%= programId %>">
-            <input type="submit" class="btn btn-fullwidth mt-1" id="addExercise" value="<% if(pageTitle === 'Modifier un exercice'){ %>Modifier l'exercice<% } else { %>Ajouter l'exercice<% } %>">
+            <input type="submit" name="submitAction" class="btn btn-fullwidth btn-outlined mt-1" id="addExercise" value="Lier avec un autre exercice">
+            <input type="submit" name="submitAction" class="btn btn-fullwidth mt-1" id="addExercise" value="<% if(pageTitle === 'Modifier un exercice'){ %>Modifier l'exercice<% } else { %>Ajouter l'exercice<% } %>">
         </form>
     </body>
     <script src="/js/addExerciseData.js"></script>
     <script src="/js/workoutCreation.js"></script>
     <script src="/js/dropdownTags.js"></script>
+    <script src="/js/modal.js"></script>
     <%- include('../includes/end.ejs') %>

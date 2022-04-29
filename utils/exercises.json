@@ -1,0 +1,102 @@
+[
+    {
+        "name": "Développé couché à la barre",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé couché aux haltères",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé couché à la barre guidée",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé couché à la machine convergente",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé couché aux poulies basses",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé incliné à la barre",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé incliné aux haltères",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé incliné à la barre guidée",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé incliné à la machine convergente",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé incliné aux poulies basses",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé décliné à la barre",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé décliné aux haltères",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé décliné à la barre guidée",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé décliné aux poulies basses",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé couché prise neutre",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé couché prise serrée à la barre",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé couché prise large à la barre",
+        "muscleTarget": "Pectoraux"
+    },
+    {
+        "name": "Développé assis à la barre",
+        "muscleTarget": "Épaules"
+    },
+    {
+        "name": "Développé assis aux haltères",
+        "muscleTarget": "Épaules"
+    },
+    {
+        "name": "Développé assis à la barre guidée",
+        "muscleTarget": "Épaules"
+    },
+    {
+        "name": "Développé assis aux poulies basses",
+        "muscleTarget": "Épaules"
+    },
+    {
+        "name": "Développé debout à la barre",
+        "muscleTarget": "Épaules"
+    },
+    {
+        "name": "Développé debout aux haltères",
+        "muscleTarget": "Épaules"
+    },
+    {
+        "name": "Développé debout à la barre guidée",
+        "muscleTarget": "Épaules"
+    },
+    {
+        "name": "Développé debout aux poulies basses",
+        "muscleTarget": "Épaules"
+    }
+]

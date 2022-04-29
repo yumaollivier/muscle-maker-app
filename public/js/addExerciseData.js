@@ -1,5 +1,5 @@
 const addSetButton = document.querySelector('#addSet');
-const addTrainingButton = document.querySelector('#addExercise');
+const addTrainingButtons = document.querySelectorAll('#addExercise');
 
 const addSchemaArray = () => {
   const schemaArray = [];
@@ -21,6 +21,8 @@ addSetButton.addEventListener('click', e => {
   addSchemaArray();
 });
 
-addTrainingButton.addEventListener('click', () => {
-  addSchemaArray();
-});
+addTrainingButtons.forEach(addTrainingButton => {
+  addTrainingButton.addEventListener('click', () => {
+    addSchemaArray();
+  });
+})
