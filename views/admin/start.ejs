@@ -1,5 +1,6 @@
 <%- include('../includes/head.ejs') %>
 <link href="/css/admin/form.css" rel="stylesheet"/>
+<link href="/css/admin/start.css" rel="stylesheet"/>
     </head>
 
     <body>
@@ -19,12 +20,30 @@
                     <p class="card__details">Série 5 : 10 reps à 100kg</p>
                 </div> -->
             <% exercises.forEach(exercise => { %>
-            <a href="/startexercise/<%= exercise.id %>" class="card card-free-heigth bordered<% if(exercise.finished){ %> green-border<% } %>">
-                <h1 class="card__title bebas-font"><%= exercise.name %></h1>
-                <p class="card__details"><%= exercise.notes %></p>
-                <p class="card__details"><%= exercise.set %> séries x <%= exercise.reps %> reps</p>
-                <p class="card__details"><%= exercise.rest %> secondes</p>
-            </a>
+                <% if (exercise.type === 'simple') { %>
+                    <a href="/startexercise/<%= exercise.id %>" class="card card-free-heigth bordered<% if(exercise.finished){ %> green-border<% } %>">
+                        <h1 class="card__title bebas-font"><%= exercise.exercisesList.name %></h1>
+                        <p class="card__details"><%= exercise.exercisesList.notes %></p>
+                        <p class="card__details"><%= exercise.exercisesList.set %> séries x <%= exercise.exercisesList.reps %> reps</p>
+                        <p class="card__details"><%= exercise.exercisesList.rest %> secondes de repos</p>
+                    </a>
+                <% } else { %>
+                    <a href="/startexercise/<%= exercise.id %>" class="card card-free-heigth bordered<% if(exercise.finished){ %> green-border<% } %>">
+                        <span class="circuit-banner">
+                            <p class="circuit-type bebas-font">circuit</p>
+                        </span>
+                        <% exercise.exercisesList.forEach(circuitExercise => { %>
+                            <div class="circuit-exercise <% if (circuitExercise !== exercise.exercisesList.slice(-1)[0]) { %>mb-1<% } %>">
+                                <h1 class="card__title bebas-font"><%= circuitExercise.name %></h1>
+                                <p class="card__details"><%= circuitExercise.notes %></p>
+                                <p class="card__details"><%= circuitExercise.set %> séries x <%= circuitExercise.reps %> reps</p>
+                                <% if (circuitExercise === exercise.exercisesList.slice(-1)[0]) { %>
+                                    <p class="card__details"><%= circuitExercise.rest %> secondes de repos</p>
+                                <% } %>
+                            </div>
+                        <% }) %>
+                    </a>
+                <% } %>
             <% }) %>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <a href="/newexercise/<%= training.id %>" class="btn btn-outlined btn-fullwidth mt-1">Ajouter un exercice</a>

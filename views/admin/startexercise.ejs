@@ -4,63 +4,74 @@
 
     <body>
         <%- include('../includes/banner.ejs') %>
-        <a href="/exercisestat/<%= exercise.id %>" class="stat-btn">
+        <a ref="/exercisestat/<%= exercise.id %>" class="stat-btn">
             <svg class="menu__item--icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M23.25 22.5H22.5V7.5C22.5 6.67125 21.8288 6 21 6H18C17.1712 6 16.5 6.67125 16.5 7.5V22.5H15V13.5C15 12.6713 14.3287 12 13.5 12H10.5C9.67125 12 9 12.6713 9 13.5V22.5H7.5V1.5C7.5 0.67125 6.82875 0 6 0H3C2.17125 0 1.5 0.67125 1.5 1.5V22.5H0.75C0.336 22.5 0 22.836 0 23.25C0 23.664 0.336 24 0.75 24H23.25C23.664 24 24 23.664 24 23.25C24 22.836 23.664 22.5 23.25 22.5ZM13.5 22.5V18V15.75V13.5V22.5Z" fill="white"/>
             </svg>
         </a>
-        <form method="post" class="start-container">
-            <div class="start-header shadow-effect">
-                <h1 class="title bebas-font">
-                    <%= exercise.name %>
-                </h1> 
-                <p class="start-details"><%= exercise.notes %></p>
-                <p class="start-details"><%= exercise.set %> séries x <%= exercise.reps %> reps</p>
-                <p class="start-details"><%= exercise.rest %> secondes de repos</p>
-            </div>
-            <% exercise.schema.forEach(schema => { %>
-            <div class="flag-exercise shadow-effect">
-                <h1 class="flag-exercise__title bebas-font" data-set="<%= schema.set %>">Série <%= schema.set %></h1>
-                <p class="flag-exercise__details"><%= schema.reps %> reps</p>
-                <div class="flag-exercise__hidden-element">
-                    <div class="start-field__wrapper">
-                        <div class="start-field">
-                            <label class="start-fiel__label">Poids (en kg)</label>
-                            <div class="input-container">
-                                <span class="control-minus value-controller bebas-font" id="1">-</span>
-                                <input type="number" name="weight" step="0.25" min="0" id="1" class="start-field__input bordered bebas-font" value="0">
-                                <span class="control-plus value-controller bebas-font" id="1">+</span>
+        <% if (exercise.type === 'simple') { %>
+            <%- include('../includes/startForms/startformsimple.ejs', {exercise: exercise}) %>
+        <% } else { %>
+            <form method="post" class="start-container circuit-container">
+                <div class="start-header shadow-effect">
+                    <h1 class="title bebas-font">
+                        <% if(exercise.exercisesList.length === 2) { %>
+                            Superset
+                        <% } else if (exercise.exercisesList.length === 3) {%>
+                            Triset
+                        <% } else { %>
+                            Circuit
+                        <% } %> 
+                    </h1> 
+                    <p class="start-details">Enchaine les exercices sans temps de repos.</p>
+                </div>
+                <% for(let i = 0; i < exercise.exercisesList[0].set; i++) { %>
+                    <% exercise.exercisesList.forEach(circuitExercise => { %>
+                        <div class="flag-exercise shadow-effect circuit-exercise">
+                            <h1 class="flag-exercise__title bebas-font" data-set="<%= circuitExercise.schema[i].set %>"><%= circuitExercise.name %></h1>
+                            <p class="flag-exercise__details"><%= circuitExercise.schema[i].reps %> reps</p>
+                            <div class="flag-exercise__hidden-element">
+                                <p class="set-number-tag">Série <%= circuitExercise.schema[i].set %></p>
+                                <div class="start-field__wrapper">
+                                    <div class="start-field">
+                                        <label class="start-fiel__label">Poids (en kg)</label>
+                                        <div class="input-container">
+                                            <span class="control-minus value-controller bebas-font" id="1">-</span>
+                                            <input type="number" name="weight" step="0.25" min="0" id="1" class="start-field__input bordered bebas-font" value="0">
+                                            <span class="control-plus value-controller bebas-font" id="1">+</span>
+                                        </div>
+                                    </div>
+                                    <div class="start-field">
+                                        <label class="start-fiel__label">Reps</label>
+                                        <div class="input-container">
+                                            <span class="control-minus value-controller bebas-font" id="2">-</span>
+                                            <input type="number" name="reps" id="2" step="1" min="0" class="start-field__input bordered bebas-font" value="<%= circuitExercise.schema[i].reps %>">
+                                            <span class="control-plus value-controller bebas-font" id="2">+</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button data-start="<%= circuitExercise.schema[i].set %>" class="btn btn-fullwidth" id="startTimer">Lancer le chrono</button>
+                                <input type="hidden" id="restTimer" value ="<%= circuitExercise.schema[i].rest %>">
                             </div>
                         </div>
-                        <div class="start-field">
-                            <label class="start-fiel__label">Reps</label>
-                            <div class="input-container">
-                                <span class="control-minus value-controller bebas-font" id="2">-</span>
-                                <input type="number" name="reps" id="2" step="1" min="0" class="start-field__input bordered bebas-font" value="<%= schema.reps %>">
-                                <span class="control-plus value-controller bebas-font" id="2">+</span>
+                        <div data-start="<%= circuitExercise.schema[i].set %>" data-time="<%= circuitExercise.schema[i].rest %>" class="chrono start">
+                            <audio src="/sound/bip.mp3" id="bipSound"></audio>
+                            <span class="chrono__label">Repos</span>
+                            <span class="chrono__counter bebas-font">00:00</span>
+                            <div class="chrono__duration-bar">
+                                <span class="chrono__duration-level"></span>
                             </div>
+                            <span class="chrono__cross">X</span>
                         </div>
-                    </div>
-                    <button data-start="<%= schema.set %>" class="btn btn-fullwidth" id="startTimer">Lancer le chrono</button>
-                    <input type="hidden" id="restTimer" value ="<%= schema.rest %>">
-                </div>
-            </div>
-            <div data-start="<%= schema.set %>" data-time="<%= schema.rest %>" class="chrono start">
-                <audio src="/sound/bip.mp3" id="bipSound"></audio>
-                <span class="chrono__label">Repos</span>
-                <span class="chrono__counter bebas-font">00:00</span>
-                <div class="chrono__duration-bar">
-                    <span class="chrono__duration-level"></span>
-                </div>
-                <span class="chrono__cross">X</span>
-            </div>
-            <% }) %>
-            <div class="start-footer shadow-effect">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <input type="hidden" name="exercisePerf" id="exercisePerf">
-                <input type="submit" value="Terminer et passer à l'exercie suivant" class="btn btn-outlined btn-fullwidth" id="complete">
-            </div>
-        </form>
+                        <% }) %>
+                    <% } %>
+                        <div class="start-footer shadow-effect">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <input type="hidden" name="exercisePerf" id="exercisePerf">
+                            <input type="submit" value="Terminer et passer à l'exercie suivant" class="btn btn-outlined btn-fullwidth" id="complete">
+                        </div>
+            </form>
+        <% } %>
     </body>
     <script src="/js/start.js"></script>
     <script src="/js/addExercisePerf.js"></script>

@@ -9,20 +9,35 @@
                 <%= pageTitle %>
             </h1>
             <% exercises.forEach(exercise => { %>
-            <div class="card bordered<% if (exercise.type !== 'simple'){ %> m-0<% } %>">
-                <h1 class="card__title bebas-font"><%= exercise.name %></h1>
-                <p class="card__details"><%= exercise.notes %></p>
-                <p class="card__details"><%= exercise.set %> séries x <%= exercise.reps %> reps</p>
-                <p class="card__details"><%= exercise.rest %> secondes</p>
-                <div class="card__buttons">
-                    <a href="/exercise/<%= exercise.id %>" class="btn btn-fullwidth">Voir</a>
-                </div>
-            </div>
-            <% if (exercise.type !== 'simple'){ %>
-                <div class="circuit-detail">
-                    <p>En <%= exercise.type %> avec</p>
-                </div>    
-            <% } %>
+                <% console.log(exercise) %>
+                <% if (exercise.type === 'simple') { %>
+                    <div class="card bordered">
+                        <h1 class="card__title bebas-font"><%= exercise.exercisesList.name %></h1>
+                        <p class="card__details"><%= exercise.exercisesList.notes %></p>
+                        <p class="card__details"><%= exercise.exercisesList.set %> séries x <%= exercise.exercisesList.reps %> reps</p>
+                        <p class="card__details"><%= exercise.exercisesList.rest %> secondes</p>
+                        <div class="card__buttons">
+                            <a href="/exercise/<%= exercise.id %>" class="btn btn-fullwidth">Voir</a>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <% exercise.exercisesList.forEach(circuitExercise => { %>
+                        <div class="card bordered m-0">
+                            <h1 class="card__title bebas-font"><%= circuitExercise.name %></h1>
+                            <p class="card__details"><%= circuitExercise.notes %></p>
+                            <p class="card__details"><%= circuitExercise.set %> séries x <%= circuitExercise.reps %> reps</p>
+                            <p class="card__details"><%= circuitExercise.rest %> secondes</p>
+                            <div class="card__buttons">
+                                <a href="/exercise/<%= circuitExercise.id %>" class="btn btn-fullwidth">Voir</a>
+                            </div>
+                        </div>
+                        <% if (circuitExercise !== exercise.exercisesList.slice(-1)[0]) { %>
+                            <div class="circuit-detail">
+                                <p>En <%= exercise.type %> avec</p>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                <% } %>
             <% }) %>
         </div>
     </body>

@@ -25,7 +25,7 @@
                <% trainings.forEach(training => { %>
                    <div class="card bordered" data-id="<%= training.id %>">
                        <h1 class="card__title bebas-font"><%= training.name %></h1>
-                       <p class="card__details"><%= training.exerciseIds.split(',').length %> exercice(s)</p>
+                       <p class="card__details"><%= training.exerciseIds.split(',').length - 1 %> exercice(s)</p>
                        <p class="card__details"><%= training.muscleTarget %></p>
                        <div class="card__buttons">
                             <a href="/training/<%= training.id %>" class="btn btn-fullwidth">Voir</a>

@@ -12,7 +12,7 @@
             <% trainings.forEach(training => { %>
                 <div class="flag-link shadow-effect">
                     <h1 class="flag-link__title bebas-font"><%= training.name %></h1>
-                    <p class="flag-link__details"><%= training.exerciseIds.split(',').length %> exercice <% if(training.exerciseIds.split(',').length > 1) { %>s<% } %></p>
+                    <p class="flag-link__details"><%= training.exerciseIds.split(',').length %> exercice<% if(training.exerciseIds.split(',').length > 1) { %>s<% } %></p>
                     <p class="flag-link__details"><%= training.muscleTarget %></p>
                     <% if(training.finished){ %>
                         <span class="status green-font bebas-font">Terminé</span>

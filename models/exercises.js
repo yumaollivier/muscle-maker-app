@@ -16,7 +16,7 @@ const exerciseSchema = sequelize.define('Exercise', {
   },
   // types "simple", "circuit"
   exerciseIds: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: true,
   },
 });
