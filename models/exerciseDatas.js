@@ -25,13 +25,26 @@ const exerciseDataSchema = sequelize.define('ExerciseData', {
     allowNull: true,
     defaultValue: '',
   },
-  notes: DataTypes.TEXT,
   performances: {
     type: DataTypes.TEXT,
     allowNull: true,
     defaultValue: '',
   },
+  programName: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: '',
+  },
+  trainingName: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: '',
+  },
   trainingId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  userId: {
     type: DataTypes.INTEGER,
     allowNull: true,
   },

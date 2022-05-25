@@ -48,3 +48,7 @@
 .flag-link__title {
   margin-bottom: 0.5rem;
 }
+
+.flag-link__container{
+  padding-top: .1rem;
+}

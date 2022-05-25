@@ -3,6 +3,11 @@ const flags = document.querySelectorAll('.flag-exercise');
 const chronos = document.querySelectorAll('.chrono');
 const chronoCross = document.querySelectorAll('.chrono__cross');
 const valueControllers = document.querySelectorAll('.value-controller');
+const zoomIcons = document.querySelectorAll('.timer-zoom');
+const nextBtns = document.querySelectorAll('#next');
+const startContainer = document.querySelector('.start-container');
+const flagContainers = document.querySelectorAll('.flag__container');
+const addSetBtn = document.querySelector('#addSet');
 
 valueControllers.forEach(valueController => {
   valueController.addEventListener('click', e => {
@@ -20,7 +25,10 @@ valueControllers.forEach(valueController => {
 
 flags.forEach((flag, i) => {
   flag.addEventListener('click', e => {
-    if (e.target !== startBtns[i]) {
+    if (
+      e.target !== startBtns[i] &&
+      e.target.classList.contains('flag-exercise')
+    ) {
       const visibleElement = document.querySelector('.visible');
       if (visibleElement != null) {
         visibleElement.classList.remove('visible');
@@ -44,6 +52,7 @@ const startTimer = element => {
   const chronoCounter = element.querySelector('.chrono__counter');
   const chronoLevel = element.querySelector('.chrono__duration-level');
   const bipSound = element.querySelector('#bipSound');
+  const miniBipSound = element.querySelector('#miniBipSound');
   const cross = element.querySelector('.chrono__cross');
   let duration = timerDurationInS;
   chronoLevel.style.animationDuration = timerDurationInS + 's';
@@ -52,9 +61,16 @@ const startTimer = element => {
   chronoCounter.innerHTML =
     timerDurationInMAndS.minutes + ':' + timerDurationInMAndS.seconds;
   const interval = setInterval(() => {
+    if (duration === 16) {
+      miniBipSound.playbackRate = 3;
+      miniBipSound.play();
+      miniBipSound.loop = false;
+      chronoLevel.classList.add('warning-bar');
+    }
     if (duration === 1) {
       bipSound.play();
       bipSound.loop = false;
+      chronoLevel.classList.remove('warning-bar');
     }
     if (duration > 0) {
       duration--;
@@ -76,20 +92,57 @@ const startTimer = element => {
 
 startBtns.forEach(btn => {
   btn.addEventListener('click', e => {
-    const visibleElement = e.target.parentElement.parentElement;
-    visibleElement.classList.remove('visible');
-    visibleElement.classList.add('bordered', 'green-border')
-    const weightValue = visibleElement.querySelector('[name="weight"]').value
+    e.preventDefault();
+    const visibleElement = document.querySelector('.visible');
+    const weightValue = visibleElement.querySelector('[name="weight"]').value;
     const allFlags = [...flags];
     const nextElement = allFlags[allFlags.indexOf(visibleElement) + 1];
     if (nextElement !== undefined) {
-      const nextWeightInput = nextElement.querySelector('[name="weight"]')
+      const nextWeightInput = nextElement.querySelector('[name="weight"]');
       nextWeightInput.value = weightValue;
-      nextElement.classList.add('visible');
     }
-    const attr = e.target.getAttribute('data-start');
+    const attr = btn.getAttribute('data-start');
     const timer = document.querySelector(`.chrono[data-start='${attr}']`);
     timer.style.display = 'flex';
     startTimer(timer);
   });
 });
+
+zoomIcons.forEach(zoomIcon => {
+  zoomIcon.addEventListener('click', e => {
+    const targetElement = e.target.parentElement;
+    targetElement.classList.toggle('zoom');
+    if (targetElement.classList.contains('zoom')){
+      zoomIcon.src = '/img/zoomout.svg'
+    } else {
+      zoomIcon.src = '/img/zoom.svg'
+    }
+  });
+});
+
+nextBtns.forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    const visibleElement = btn.parentElement.parentElement;
+    if (!startContainer.classList.contains('circuit-container')) {
+      visibleElement.classList.add('bordered', 'green-border');
+      visibleElement.classList.remove('visible');
+      visibleElement.nextElementSibling.nextElementSibling.classList.add('visible');
+    } else {
+      const flagsArray = Object.values(flags)
+      const flagId = flagsArray.indexOf(visibleElement)
+      if(btn.innerText === 'Valider'){
+        const flagContainer = visibleElement.parentElement;
+        flagContainer.classList.add('bordered', 'green-border');
+        const circuitBanner = flagContainer.querySelector(
+          '.flag__circuit-banner'
+        );
+        circuitBanner.style.backgroundColor = '#1dd1a1';
+      }
+      visibleElement.classList.remove('visible');
+      flags[flagId + 1].classList.add('visible')
+    }
+  });
+});
+
+

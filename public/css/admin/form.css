@@ -11,38 +11,14 @@
 
 .input-field__input {
   border: none;
-  border-bottom: 2px solid var(--primary-color);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.25);
   padding: 0.5rem;
   margin-top: 0.5rem;
 }
 
-.card {
-  padding: 1rem;
-  position: relative;
-  margin-bottom: 1rem;
-  height: 13.5rem;
-}
-
-.card-free-heigth {
-  height: auto;
-}
-
-.card__details,
 .details {
   opacity: 60%;
-  margin-bottom: 0.25rem;
-}
-
-.details {
   margin-bottom: 1rem;
-}
-
-.card__buttons {
-  display: flex;
-  width: calc(100% + 4px);
-  position: absolute;
-  bottom: -2px;
-  left: -2px;
 }
 
 .buttons {
@@ -61,10 +37,12 @@
 
 .set-table {
   text-align: center;
+  width: 100%;
 }
 
 .set-table__column {
   font-weight: normal;
+  justify-content: right;
 }
 
 .set-table td .input-field__input {
@@ -85,6 +63,7 @@
   width: 100%;
   padding: 0.5rem;
   margin-top: 0.5rem;
+  border: 2px solid rgba(0, 0, 0, 0.25);
 }
 
 .delete {
@@ -99,6 +78,8 @@
 .group-container {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .dropdown-btn {
@@ -123,10 +104,9 @@
 .date {
   font-weight: bold;
   font-size: 1.5rem;
-  color: var(--primary-color);
-  margin: 2rem 0 1rem 0;
+  color: var(--secondary-color);
+  margin: 1rem 0;
 }
-
 .separator{
   width: 100%;
   margin: 2rem 0;
@@ -135,4 +115,15 @@
 .exercise-container{
   display: flex;
   flex-direction: column;
+}
+
+.reps-btn{
+  border: none;
+  background-color: transparent;
+  font-size: 1.1rem;
+  width: 8.5rem;
+}
+
+.reps .input-field__input{
+  text-transform: uppercase;
 }

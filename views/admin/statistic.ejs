@@ -1,24 +1,24 @@
 <%- include('../includes/head.ejs') %>
-<link href="/css/admin/form.css" rel="stylesheet"/>
+<link href="/css/admin/card.css" rel="stylesheet"/>
     </head>
 
     <body>
         <%- include('../includes/banner.ejs') %>
-        <div class="container">
-            <h1 class="title bebas-font">
-                Mes Stats
-            </h1>
+        <div>
+            <div class="header">
+                <h1 class="title bebas-font">
+                    Mes Stats
+                </h1>
+            </div>
             <% if (musclesTargeted.length > 0) { %>
-                <% musclesTargeted.forEach( muscleTarget => { %>
-                    <div class="card bordered minimize-height">
-                        <a href="/statisticgroup/<%= muscleTarget %>">
-                            <h1 class="card__title bebas-font"><%= muscleTarget %></h1>
+                <div class="muscles__container">
+                    <% musclesTargeted.forEach( muscleTarget => { %>
+                        <a href="/statisticgroup/<%= muscleTarget.muscleName %>" class="muscle__card shadow-effect">
+                            <h1 class="card__title bebas-font"><%= muscleTarget.muscleName %></h1>
+                            <p class="card__details"><%= muscleTarget.quantityOfExercise %> exercises</p>
                         </a>
-                        <div class="card__buttons">
-                            <a href="/statisticgroup/<%= muscleTarget %>" class="btn btn-fullwidth">Voir</a>
-                        </div>
-                    </div> 
-                <% }) %>
+                    <% }) %>
+                </div>
             <% } else { %>
                 <p class="message">Tu n'as pas encore créée d'exercice, tu n'as donc rien n'a afficher ici...</p>
                 <p class="message">N'hésite pas à créer un programme ou un entrainement express en cliquant sur l'un de ces deux boutons ci dessous. 👇</p>

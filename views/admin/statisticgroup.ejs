@@ -1,30 +1,30 @@
 <%- include('../includes/head.ejs') %>
-<link href="/css/admin/form.css" rel="stylesheet"/>
+<link href="/css/admin/card.css" rel="stylesheet"/>
     </head>
 
     <body>
         <%- include('../includes/banner.ejs') %>
-        <div class="container">
-            <h1 class="title bebas-font">
-                <%= muscleTarget %>
-            </h1>
-            <% if (exercisesTargeted.length > 0) { %>
-                <% exercisesTargeted.forEach( exerciseTargeted => { %>
-                    <div class="card bordered minimize-height">
-                        <a href="/exercisestat/<%= exerciseTargeted.id %>">
-                            <h1 class="card__title bebas-font"><%= exerciseTargeted.name %></h1>
-                        </a>
-                        <div class="card__buttons">
-                            <a href="/exercisestat/<%= exerciseTargeted.id %>" class="btn btn-fullwidth">Statistiques</a>
+        <div>
+            <div class="header">
+                <h1 class="title bebas-font"><%= muscleTarget %></h1>
+            </div>
+            <div class="exercises-list">
+                <% exerciseDatas.forEach(exercise => { %>
+                    <a href="/exercisestat/<%= exercise.id %>">
+                        <div class="card shadow-effect" data-id="<%= exercise.id %>">
+                            <div>
+                                <h1 class="card__title bebas-font"><%= exercise.name %></h1>
+                                <% if (exercise.programName) { %>
+                                    <p class="program-name">Programme <%= exercise.programName %></p>
+                                    <p class="training-name"><%= exercise.trainingName %></p>
+                                <% } else { %>
+                                    <p class="training-name">Séance Express <%= exercise.trainingName %></p>
+                                <% } %>
+                            </div>
                         </div>
-                    </div> 
+                    </a>
                 <% }) %>
-            <% } else { %>
-                <p class="message">Tu n'as pas encore créée d'exercice, tu n'as donc rien n'a afficher ici...</p>
-                <p class="message">N'hésite pas à créer un programme ou un entrainement express en cliquant sur l'un de ces deux boutons ci dessous. 👇</p>
-                <a href="/newprogram" class="btn btn-fullwidth mt-1">Créer un nouveau programme</a>
-                <a href="/newexpresstraining" class="btn btn-fullwidth mt-1">Créer un entrainement express</a>
-            <% } %>
+            </div>
         </div>
     </body>
 <%- include('../includes/end.ejs') %>

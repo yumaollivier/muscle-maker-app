@@ -1,18 +1,20 @@
 <%- include('../includes/head.ejs') %>
-<link href="/css/admin/form.css" rel="stylesheet"/>
+<!-- <link href="/css/admin/form.css" rel="stylesheet"/> -->
 <link href="/css/admin/start.css" rel="stylesheet"/>
+<link href="/css/admin/card.css" rel="stylesheet"/>
     </head>
 
     <body>
         <%- include('../includes/banner.ejs') %>
-        <form method="post" class="container">
-            <h1 class="title bebas-font">
-                <%= training.name %>
-            </h1>
+        <form class="mb-footer" method="post">
+            <div class="header">
+                <h1 class="title bebas-font">
+                    <%= training.name %>
+                </h1>
+            </div>
             <!-- 
                 <div class="card card-free-heigth bordered green-border">
                     <h1 class="card__title bebas-font"></h1>
-                    
                     <p class="card__details">Série 1 : 10 reps à 100kg</p>
                     <p class="card__details">Série 2 : 10 reps à 100kg</p>
                     <p class="card__details">Série 3 : 10 reps à 100kg</p>
@@ -21,33 +23,46 @@
                 </div> -->
             <% exercises.forEach(exercise => { %>
                 <% if (exercise.type === 'simple') { %>
-                    <a href="/startexercise/<%= exercise.id %>" class="card card-free-heigth bordered<% if(exercise.finished){ %> green-border<% } %>">
-                        <h1 class="card__title bebas-font"><%= exercise.exercisesList.name %></h1>
-                        <p class="card__details"><%= exercise.exercisesList.notes %></p>
-                        <p class="card__details"><%= exercise.exercisesList.set %> séries x <%= exercise.exercisesList.reps %> reps</p>
-                        <p class="card__details"><%= exercise.exercisesList.rest %> secondes de repos</p>
+                    <a href="/startexercise/<%= exercise.id %>">
+                        <div class="card shadow-effect <% if(exercise.finished){ %>bordered green-border<% } %>">
+                            <div>
+                                <h1 class="card__title bebas-font"><%= exercise.exercisesList.name %></h1>
+                                <p class="card__details"><%= exercise.exercisesList.notes %></p>
+                                <p class="card__details"><%= exercise.exercisesList.set %> séries x <%= exercise.exercisesList.reps %> reps</p>
+                                <p class="card__details"><%= exercise.exercisesList.rest %> secondes de repos</p>
+                            </div>
+                        </div>
                     </a>
                 <% } else { %>
-                    <a href="/startexercise/<%= exercise.id %>" class="card card-free-heigth bordered<% if(exercise.finished){ %> green-border<% } %>">
-                        <span class="circuit-banner">
-                            <p class="circuit-type bebas-font">circuit</p>
-                        </span>
-                        <% exercise.exercisesList.forEach(circuitExercise => { %>
-                            <div class="circuit-exercise <% if (circuitExercise !== exercise.exercisesList.slice(-1)[0]) { %>mb-1<% } %>">
-                                <h1 class="card__title bebas-font"><%= circuitExercise.name %></h1>
-                                <p class="card__details"><%= circuitExercise.notes %></p>
-                                <p class="card__details"><%= circuitExercise.set %> séries x <%= circuitExercise.reps %> reps</p>
-                                <% if (circuitExercise === exercise.exercisesList.slice(-1)[0]) { %>
-                                    <p class="card__details"><%= circuitExercise.rest %> secondes de repos</p>
-                                <% } %>
+                    <a href="/startexercise/<%= exercise.id %>">
+                    <div class="circuit-card shadow-effect <% if(exercise.finished){ %>bordered green-border<% } %>">
+                            <div class="card__circuit-banner">
+                                <p class="card__circuit-details bold"><% if (exercise.exercisesList.length === 2) { %>superset<% } else if (exercise.exercisesList.length === 3) { %>triset<% } else { %>circuit<% } %></p>
                             </div>
-                        <% }) %>
+                            <% exercise.exercisesList.forEach(circuitExercise => { %>
+                                <div class="card <% if (circuitExercise !== exercise.exercisesList.slice(-1)[0]) { %>mb-1<% } %>">
+                                    <div>
+                                        <h1 class="card__title bebas-font"><%= circuitExercise.name %></h1>
+                                        <p class="card__details"><%= circuitExercise.notes %></p>
+                                        <p class="card__details"><%= circuitExercise.set %> séries x <%= circuitExercise.reps %> reps</p>
+                                        <% if (circuitExercise === exercise.exercisesList.slice(-1)[0]) { %>
+                                            <p class="card__details"><%= circuitExercise.rest %> secondes de repos</p>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <% if (circuitExercise !== exercise.exercisesList.slice(-1)[0]) { %>
+                                    <hr class="card__separator">
+                                <% } %>
+                            <% }) %>
+                        </div>
                     </a>
                 <% } %>
             <% }) %>
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <a href="/newexercise/<%= training.id %>" class="btn btn-outlined btn-fullwidth mt-1">Ajouter un exercice</a>
-            <input type="submit" class="btn btn-fullwidth mt-1" value="Terminer la séance">
+            <a href="/newexercise/<%= training.id %>" class="btn btn-fullwidth mt-1">+ Ajouter un exercice</a>
+            <div class="footer-btns shadow-effect">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <input type="submit" class="btn btn-secondary btn-fullwidth" value="Terminer la séance">
+            </div>
         </form>
     </body>
 <%- include('../includes/end.ejs') %>

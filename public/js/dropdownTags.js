@@ -12,8 +12,8 @@ const addInputGroupData = () => {
   muscleTargetInput.value = musclesArr.join(' ')
 }
 
-MuscularGroupContainer.addEventListener('change', e => {
-  const muscleName = e.target.value;
+// WARNING => This function is used in dropdown.js file
+const addTag = muscleName => {
   if (muscleName !== 'aucun') {
     const muscleTag = document.createElement('div');
     muscleTag.classList.add('group-choice');
@@ -30,4 +30,9 @@ MuscularGroupContainer.addEventListener('change', e => {
     MuscularGroupContainer.appendChild(muscleTag);
   }
   addInputGroupData()
+}
+
+MuscularGroupContainer.addEventListener('change', e => {
+  const muscleName = e.target.value;
+  addTag(muscleName)
 });

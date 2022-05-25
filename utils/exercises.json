@@ -1,102 +1,182 @@
 [
-    {
-        "name": "Développé couché à la barre",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé couché aux haltères",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé couché à la barre guidée",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé couché à la machine convergente",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé couché aux poulies basses",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé incliné à la barre",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé incliné aux haltères",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé incliné à la barre guidée",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé incliné à la machine convergente",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé incliné aux poulies basses",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé décliné à la barre",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé décliné aux haltères",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé décliné à la barre guidée",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé décliné aux poulies basses",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé couché prise neutre",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé couché prise serrée à la barre",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé couché prise large à la barre",
-        "muscleTarget": "Pectoraux"
-    },
-    {
-        "name": "Développé assis à la barre",
-        "muscleTarget": "Épaules"
-    },
-    {
-        "name": "Développé assis aux haltères",
-        "muscleTarget": "Épaules"
-    },
-    {
-        "name": "Développé assis à la barre guidée",
-        "muscleTarget": "Épaules"
-    },
-    {
-        "name": "Développé assis aux poulies basses",
-        "muscleTarget": "Épaules"
-    },
-    {
-        "name": "Développé debout à la barre",
-        "muscleTarget": "Épaules"
-    },
-    {
-        "name": "Développé debout aux haltères",
-        "muscleTarget": "Épaules"
-    },
-    {
-        "name": "Développé debout à la barre guidée",
-        "muscleTarget": "Épaules"
-    },
-    {
-        "name": "Développé debout aux poulies basses",
-        "muscleTarget": "Épaules"
-    }
+  {
+    "muscleTarget": "Pectoraux",
+    "exercises": [
+      {
+        "name": "Développé couché"
+      },
+      {
+        "name": "Développé incliné"
+      },
+      {
+        "name": "Développé décliné"
+      },
+      {
+        "name": "Écartés aux haltères"
+      },
+      {
+        "name": "Écartés à la poulie"
+      },
+      {
+        "name": "Écartés à la machine"
+      },
+      {
+        "name": "Pompes"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Dos",
+    "exercises": [
+      {
+        "name": "Rowing"
+      },
+      {
+        "name": "Rowing à la T-bar"
+      },
+      {
+        "name": "Tirage vertical"
+      },
+      {
+        "name": "Tirage horizontal"
+      },
+      {
+        "name": "Soulevé de terre partiel"
+      },
+      {
+        "name": "Tirage barre cuisse"
+      },
+      {
+        "name": "Tirage au menton"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Quadriceps",
+    "exercises": [
+      {
+        "name": "Squat"
+      },
+      {
+        "name": "Presse à cuisse"
+      },
+      {
+        "name": "Hack squat"
+      },
+      {
+        "name": "Front squat"
+      },
+      {
+        "name": "Soulevé de terre"
+      },
+      {
+        "name": "Fentes avant"
+      },
+      {
+        "name": "Leg extension"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Ischios",
+    "exercises": [
+      {
+        "name": "Soulevé de terre jambes tendues"
+      },
+      {
+        "name": "Leg curl"
+      },
+      {
+        "name": "Hip trust"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Épaules",
+    "exercises": [
+      {
+        "name": "Développé assis"
+      },
+      {
+        "name": "Développé Militaire"
+      },
+      {
+        "name": "Développé Arnold"
+      },
+      {
+        "name": "Élévations latérales"
+      },
+      {
+        "name": "Élévations frontales"
+      },
+      {
+        "name": "Élévations buste penché"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Biceps",
+    "exercises": [
+      {
+        "name": "Curl"
+      },
+      {
+        "name": "Curl au pupitre"
+      },
+      {
+        "name": "Curl concentré"
+      },
+      {
+        "name": "Curl prise marteau"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Triceps",
+    "exercises": [
+      {
+        "name": "Développé couché prise serrée"
+      },
+      {
+        "name": "Extension verticale"
+      },
+      {
+        "name": "Barre au front"
+      },
+      {
+        "name": "Dips"
+      },
+      {
+        "name": "Kickback"
+      },
+      {
+        "name": "Crunch"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Abdos",
+    "exercises": [
+      {
+        "name": "Crunch"
+      },
+      {
+        "name": "Gainage"
+      },
+      {
+        "name": "Roue abdominale"
+      },
+      {
+        "name": "Relevé de bassin"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Mollets",
+    "exercises": [
+      {
+        "name": "Élévation des talons"
+      }
+    ]
+  }
 ]

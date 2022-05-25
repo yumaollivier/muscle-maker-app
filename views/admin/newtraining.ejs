@@ -1,84 +1,108 @@
 <%- include('../includes/head.ejs') %>
 <link href="/css/admin/form.css" rel="stylesheet"/>
+<link href="/css/admin/card.css" rel="stylesheet"/>
     </head>
 
     <body>
         <%- include('../includes/banner.ejs') %>
-        <form class="container" method="post" >
-           <h1 class="title bebas-font">
-            <% if(training.name !== null) { %>Modifier ma séance<% } else { %>Créer une séance<% } %>
-           </h1> 
-           <div class="input-field">
-               <label for="workoutName" class="input-field__label">Nom de la séance</label>
-               <input type="text" name="workoutName" id="workoutName" class="input-field__input" value="<%= training.name %>">
-           </div>
-           <div class="input-field">
-               <label for="muscleTarget" class="input-field__label">Groupe(s) musculaire ciblés</label>
-               <div class="group-container">
-                    <select name="group" id="group" class="dropdown-btn btn-outlined">
-                        <option id="groupChoice" value="aucun">Aucun</option>
-                        <option id="groupChoice" value="Pectoraux">Pectoraux</option>
-                        <option id="groupChoice" value="Dos">Dos</option>
-                        <option id="groupChoice" value="Biceps">Biceps</option>
-                        <option id="groupChoice" value="Triceps">Triceps</option>
-                        <option id="groupChoice" value="Quadriceps">Quadriceps</option>
-                        <option id="groupChoice" value="Ischios">Ischios</option>
-                        <option id="groupChoice" value="Épaules">Épaules</option>
-                        <option id="groupChoice" value="Avant-bras">Avant-bras</option>
-                        <option id="groupChoice" value="Abdos">Abdos</option>
-                        <option id="groupChoice" value="Cou">Cou</option>
-                    </select>
-                    <% if (training.muscleTarget.length > 0) { %>
-                        <% const musclesTargeted = training.muscleTarget.split(' ') %>
-                        <% musclesTargeted.forEach(muscle => { %>
-                            <div class="group-choice" data-group="<%= muscle %>"><%= muscle %><span class="cross">X</span></div>
-                        <% }) %>
-                    <% } %>
+        <% const muscleTargetList = ['Full Body', 'Haut du corps', 'Bas du corps', 'Dos', 'Pectoraux', 'Épaules', 'Biceps', 'Triceps', 'Quadriceps', 'Ischios', 'Fessiers', 'Abdos', 'Cou', 'Avant-bras']; %>
+        <form class="mb-footer-lg" method="post" >
+            <div class="header">
+                <h1 class="title bebas-font">
+                    <% if(training.name !== null) { %>Modifier ma séance<% } else { %>Créer une séance<% } %>
+                </h1> 
+                <div class="input-field">
+                    <label for="workoutName" class="input-field__label">Nom de la séance</label>
+                    <input type="text" name="workoutName" id="workoutName" class="input-field__input" value="<%= training.name %>">
                 </div>
-               <input type="hidden" name="muscleTarget" id="muscleTarget" class="input-field__input" value="<%= training.muscleTarget %>">
-           </div>
+                <div class="input-field">
+                    <label for="muscleTarget" class="input-field__label">Groupe(s) musculaire ciblés</label>
+                    <div class="group-container">
+                         <select name="group" id="group" class="dropdown-btn btn-outlined">
+                            <option id="groupChoice" value="aucun">Aucun</option>
+                            <% muscleTargetList.forEach(muscle => { %>
+                                <option id="groupChoice" value="<%= muscle %>"><%= muscle %></option>
+                            <% }) %>
+                         </select>
+                         <% if (training.muscleTarget.length > 0) { %>
+                             <% const musclesTargeted = training.muscleTarget.split(' ') %>
+                             <% musclesTargeted.forEach(muscle => { %>
+                                 <div class="group-choice" data-group="<%= muscle %>"><%= muscle %><span class="cross">X</span></div>
+                             <% }) %>
+                         <% } %>
+                     </div>
+                    <input type="hidden" name="muscleTarget" id="muscleTarget" class="input-field__input" value="<%= training.muscleTarget %>">
+                </div>
+            </div>
             <div class="exercises-list">
                 <% exercises.forEach(exercise => { %>
                     <% if(exercise.type === 'simple'){ %>
-                        <div class="card bordered" data-id="<%= exercise.exercisesList.id %>">
-                            <h1 class="card__title bebas-font"><%= exercise.exercisesList.name %></h1>
-                            <p class="card__details"><%= exercise.exercisesList.notes %></p>
-                            <p class="card__details"><%= exercise.exercisesList.set %> séries x <%= exercise.exercisesList.reps %> reps</p>
-                            <p class="card__details"><%= exercise.exercisesList.rest %> secondes de repos</p>
-                            <div class="card__buttons">
-                                <a href="/exercise/<%= exercise.exercisesList.id %>" class="btn btn-fullwidth">Voir</a>
-                                <a href="/newexercise/<%= training.id %>/<%= exercise.exercisesList.id %>" class="btn btn-fullwidth btn-outlined">Modifier</a>
-                                <a href="/delete/exercise/<%= exercise.exercisesList.id %>" class="btn btn-fullwidth">supprimer</a>
-                            </div>
-                        </div>
-                    <% } else { %>
-                        <% exercise.exercisesList.forEach((circuitExercise, i) => { %>
-                            <div class="card bordered m-0" data-id="<%= circuitExercise.id %>">
-                                <h1 class="card__title bebas-font"><%= circuitExercise.name %></h1>
-                                <p class="card__details"><%= circuitExercise.notes %></p>
-                                <p class="card__details"><%= circuitExercise.set %> séries x <%= circuitExercise.reps %> reps</p>
-                                <p class="card__details"><%= circuitExercise.rest %> secondes de repos</p>
+                        <a href="/exercise/<%= exercise.exercisesList.id %>">
+                            <div class="card shadow-effect" data-id="<%= exercise.exercisesList.id %>">
+                                <div>
+                                    <h1 class="card__title bebas-font"><%= exercise.exercisesList.name %></h1>
+                                    <p class="card__details"><%= exercise.exercisesList.notes %></p>
+                                    <p class="card__details"><%= exercise.exercisesList.set %> séries x <%= exercise.exercisesList.reps %> reps</p>
+                                    <p class="card__details"><%= exercise.exercisesList.rest %> secondes de repos</p>
+                                </div>
                                 <div class="card__buttons">
-                                    <a href="/exercise/<%= circuitExercise.id %>" class="btn btn-fullwidth">Voir</a>
-                                    <a href="/newexercise/<%= training.id %>/<%= circuitExercise.id %>" class="btn btn-fullwidth btn-outlined">Modifier</a>
-                                    <a href="/delete/exercise/<%= circuitExercise.id %>" class="btn btn-fullwidth">supprimer</a>
+                                    <a href="/newexercise/<%= training.id %>/<%= exercise.exercisesList.id %>" class="card__btn card__btn--edit mb-1">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M8.61 2.59L11.41 5.39L2.8 14H0V11.2L8.61 2.59ZM9.59 1.61L11.2 0L14 2.8L12.39 4.41L9.59 1.61V1.61Z" fill="white"/>
+                                        </svg>                                        
+                                    </a>
+                                    <a href="/delete/exercise/<%= exercise.exercisesList.id %>" class="card__btn card__btn--delete">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4.20002 1.4L5.60002 0H8.40002L9.80002 1.4H12.6V2.8H1.40002V1.4H4.20002ZM2.10002 4.2H11.9L11.2 14H2.80002L2.10002 4.2ZM5.60002 5.6V12.6H6.30002V5.6H5.60002ZM7.70002 5.6V12.6H8.40002V5.6H7.70002Z" fill="white"/>
+                                        </svg>                                                                             
+                                    </a>
                                 </div>
                             </div>
-                            <% if (circuitExercise !== exercise.exercisesList.slice(-1)[0]) { %>
-                                <div class="circuit-detail">
-                                    <p>En <%= exercise.type %> avec</p>
+                        </a>
+                    <% } else { %>
+                        <div class="circuit-card shadow-effect">
+                            <div class="card__circuit-banner">
+                                <p class="card__circuit-details bold"><% if (exercise.exercisesList.length === 2) { %>superset<% } else if (exercise.exercisesList.length === 3) { %>triset<% } else { %>circuit<% } %></p>
+                            </div>
+                            <% exercise.exercisesList.forEach(circuitExercise => { %>
+                                <div class="card <% if (circuitExercise !== exercise.exercisesList.slice(-1)[0]) { %>m-0<% } %>">
+                                    <div>
+                                        <h1 class="card__title bebas-font"><%= circuitExercise.name %></h1>
+                                        <p class="card__details"><%= circuitExercise.notes %></p>
+                                        <p class="card__details"><%= circuitExercise.set %> séries x <%= circuitExercise.reps %> reps</p>
+                                        <% if (circuitExercise === exercise.exercisesList.slice(-1)[0]) { %>
+                                            <p class="card__details"><%= circuitExercise.rest %> secondes de repos</p>
+                                        <% } else { %>
+                                            <p class="card__details">Pas de repos</p>
+                                        <% } %>
+                                    </div>
+                                    <div class="card__buttons">
+                                        <a href="/newexercise/<%= training.id %>/<%= circuitExercise.id %>" class="card__btn card__btn--edit mb-1">
+                                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M8.61 2.59L11.41 5.39L2.8 14H0V11.2L8.61 2.59ZM9.59 1.61L11.2 0L14 2.8L12.39 4.41L9.59 1.61V1.61Z" fill="white"/>
+                                            </svg>                                        
+                                        </a>
+                                        <a href="/delete/exercise/<%= circuitExercise.id %>" class="card__btn card__btn--delete">
+                                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4.20002 1.4L5.60002 0H8.40002L9.80002 1.4H12.6V2.8H1.40002V1.4H4.20002ZM2.10002 4.2H11.9L11.2 14H2.80002L2.10002 4.2ZM5.60002 5.6V12.6H6.30002V5.6H5.60002ZM7.70002 5.6V12.6H8.40002V5.6H7.70002Z" fill="white"/>
+                                            </svg>                                                                             
+                                        </a>
+                                    </div>
                                 </div>
-                            <% } %>
-                        <% }) %>
+                                <% if (circuitExercise !== exercise.exercisesList.slice(-1)[0]) { %>
+                                    <hr class="card__separator">
+                                <% } %>
+                            <% }) %>
+                        </div>
                     <% } %>
                 <% }) %>
             </div>
-           <div class="buttons">
+           <div class="footer-btns shadow-effect">
                <input type="hidden" name="exercisesIds" id="trainingIds">
                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                <input type="hidden" name="trainingId" id="trainingId" value="<%= training.id %>">
-               <input type="submit" name="submitAction" data-modal="addExercise" class="btn btn-60 btn-outlined" value="Ajouter un exercice">
-               <input type="submit" name="submitAction" class="btn btn-40" value="<% if (path.split('/').includes("newexpresstraining")) { %>Commencer<% } else { %>Enregistrer<% } %>">
+               <input type="submit" name="submitAction" data-modal="addExercise" class="btn btn-fullwidth btn-secondary" value="+ Ajouter un exercice">
+               <input type="submit" name="submitAction" class="btn btn-fullwidth mt-1" value="<% if (path.split('/').includes("newexpresstraining")) { %>Commencer<% } else { %>Enregistrer<% } %>">
            </div>
         </form>
     </body>

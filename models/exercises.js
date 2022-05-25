@@ -14,6 +14,11 @@ const exerciseSchema = sequelize.define('Exercise', {
     allowNull: true,
     defaultValue: "simple",
   },
+  trainingNotes: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+    defaultValue: "",
+  },
   // types "simple", "circuit"
   exerciseIds: {
     type: DataTypes.STRING,
