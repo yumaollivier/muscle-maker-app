@@ -58,7 +58,7 @@ const getExerciseData = (exerciseData, minimize = true) => {
       reps.push(schemaArray[1]);
       rest.push(schemaArray[2]);
     });
-    
+
     const exerciseDatas = {
       id: exerciseData.id,
       name: exerciseData.name,
@@ -606,41 +606,43 @@ exports.postNewCircuit = (req, res, next) => {
         TrainingId: trainingId,
       },
     }).then(exercise => {
-      ExerciseDatas.create({
-        name: name,
-        muscleTarget: muscleTarget,
-        schema: setSchema,
-        notes: notes,
-        trainingId: trainingId,
-        userId: req.user.id,
-      }).then(exerciseData => {
-        training.numberOfExercises += 1;
-        training.save();
-        console.log('New Exercise Created');
-        exercise.exerciseIds += `,${exerciseData.id}`;
-        exercise.type = 'circuit';
-        exercise.save();
-        if (
-          inputValue === "Ajouter l'exercice" ||
-          inputValue === "Modifier l'exercice"
-        ) {
-          if (training.ProgramId) {
-            res.redirect(`/newtraining/${training.ProgramId}/${trainingId}`);
+        ExerciseDatas.create({
+          name: name,
+          muscleTarget: muscleTarget,
+          schema: setSchema,
+          notes: notes,
+          trainingId: trainingId,
+          programName: training.programName,
+          trainingName: training.name,
+          userId: req.user.id,
+        }).then(exerciseData => {
+          training.numberOfExercises += 1;
+          training.save();
+          console.log('New Exercise Created');
+          exercise.exerciseIds += `,${exerciseData.id}`;
+          exercise.type = 'circuit';
+          exercise.save();
+          if (
+            inputValue === "Ajouter l'exercice" ||
+            inputValue === "Modifier l'exercice"
+          ) {
+            if (training.ProgramId) {
+              res.redirect(`/newtraining/${training.ProgramId}/${trainingId}`);
+            } else {
+              res.redirect(`/newexpresstraining/${trainingId}`);
+            }
           } else {
-            res.redirect(`/newexpresstraining/${trainingId}`);
+            if (req.originalUrl.includes('circuit')) {
+              res.redirect(
+                `/newexercise/${trainingId}/circuit/${req.params.firstExerciseId}`
+              );
+            } else {
+              res.redirect(
+                `/newexercise/${trainingId}/circuit/${exerciseData.id}`
+              );
+            }
           }
-        } else {
-          if (req.originalUrl.includes('circuit')) {
-            res.redirect(
-              `/newexercise/${trainingId}/circuit/${req.params.firstExerciseId}`
-            );
-          } else {
-            res.redirect(
-              `/newexercise/${trainingId}/circuit/${exerciseData.id}`
-            );
-          }
-        }
-      });
+        });
     });
   });
 };
@@ -702,7 +704,9 @@ exports.getExercise = (req, res, next) => {
 exports.getExerciseStat = (req, res, next) => {
   let message = getErrors(req);
   const exerciseId = req.params.exerciseId;
-  Exercises.findOne({where: {exerciseIds: { [Sequelize.Op.like]: `%${exerciseId}%` }} }).then(trainingExercise => {
+  Exercises.findOne({
+    where: { exerciseIds: { [Sequelize.Op.like]: `%${exerciseId}%` } },
+  }).then(trainingExercise => {
     const trainingNotes = trainingExercise.trainingNotes;
     ExerciseDatas.findOne({ where: { id: exerciseId } })
       .then(exerciseDatas => {
@@ -722,7 +726,7 @@ exports.getExerciseStat = (req, res, next) => {
         error.httpStatusCode = 500;
         return next(err);
       });
-  })
+  });
 };
 
 exports.getPrograms = (req, res, next) => {
@@ -983,7 +987,7 @@ exports.postStartExercise = (req, res, next) => {
     .then(exercise => {
       const exerciseIds = getExerciseIds(exercise.exerciseIds);
       exercise.trainingNotes = trainingNotes;
-      exercise.save()
+      exercise.save();
       ExerciseDatas.findAll({
         where: { id: exerciseIds },
       })
