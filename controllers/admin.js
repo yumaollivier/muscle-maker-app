@@ -58,6 +58,7 @@ const getExerciseData = (exerciseData, minimize = true) => {
       reps.push(schemaArray[1]);
       rest.push(schemaArray[2]);
     });
+    
     const exerciseDatas = {
       id: exerciseData.id,
       name: exerciseData.name,
@@ -77,7 +78,7 @@ const getExerciseData = (exerciseData, minimize = true) => {
       const schemaArray = el.split(',');
       const dataObject = {};
       dataObject.set = schemaArray[0];
-      dataObject.reps = schemaArray[1];
+      dataObject.reps = schemaArray[1].toUpperCase();
       dataObject.rest = schemaArray[2];
       schemaData.push(dataObject);
     });
