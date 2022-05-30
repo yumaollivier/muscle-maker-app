@@ -118,7 +118,7 @@
                                 <label class="start-fiel__label">Reps</label>
                                 <div class="input-container">
                                     <span class="control-minus value-controller bebas-font" id="2">-</span>
-                                    <input type="number" name="reps" id="2" step="1" min="0" class="start-field__input bordered bebas-font" value="<%= circuitExercise.schema[i].reps %>">
+                                    <input type="number" name="reps" id="2" step="1" min="0" class="start-field__input bordered bebas-font" value="<% if (circuitExercise.schema[i].reps === 'MAX') { %>0<% } else { %><%= circuitExercise.schema[i].reps %><% } %>">
                                     <span class="control-plus value-controller bebas-font" id="2">+</span>
                                 </div>
                             </div>

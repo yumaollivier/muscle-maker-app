@@ -26,8 +26,8 @@ valueControllers.forEach(valueController => {
 flags.forEach((flag, i) => {
   flag.addEventListener('click', e => {
     if (
-      e.target !== startBtns[i] &&
-      e.target.classList.contains('flag-exercise')
+      flag !== startBtns[i] &&
+      flag.classList.contains('flag-exercise')
     ) {
       const visibleElement = document.querySelector('.visible');
       if (visibleElement != null) {
