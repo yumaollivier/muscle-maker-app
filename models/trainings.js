@@ -15,10 +15,15 @@ const trainingSchema = sequelize.define('Training', {
     allowNull: true,
     defaultValue: "",
   },
-  exerciseIds: {
+  programName: {
     type: DataTypes.STRING,
     allowNull: true,
     defaultValue: "",
+  },
+  numberOfExercises: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 0,
   },
   finished: {
     type: DataTypes.BOOLEAN,

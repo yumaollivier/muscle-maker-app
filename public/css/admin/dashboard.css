@@ -42,9 +42,13 @@
   width: 100%;
   padding: 2rem 5rem;
   height: 13rem;
-  margin-bottom: 1.5rem;
+  margin: 1.5rem 0;
 }
 
 .flag-link__title {
   margin-bottom: 0.5rem;
+}
+
+.flag-link__container{
+  padding-top: .1rem;
 }

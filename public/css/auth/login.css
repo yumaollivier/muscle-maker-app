@@ -12,6 +12,9 @@
     padding: 1rem;
     width: 100%;
     margin: .5rem 0;
+    border: none;
+    border-bottom: 2px solid var(--primary-color);
+    outline: none;
 }
 
 .form-container .btn{

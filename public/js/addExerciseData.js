@@ -1,5 +1,5 @@
 const addSetButton = document.querySelector('#addSet');
-const addTrainingButton = document.querySelector('#addExercise');
+const addTrainingButtons = document.querySelectorAll('#addExercise');
 
 const addSchemaArray = () => {
   const schemaArray = [];
@@ -13,14 +13,18 @@ const addSchemaArray = () => {
     schemaArray.push(exerciseSchema);
   });
   const schemaString = schemaArray.join('-')
+  console.log(schemaString)
   exerciseSchemaInput.value = schemaString;
 };
+if(addSetButton){
+  addSetButton.addEventListener('click', e => {
+    e.preventDefault();
+    addSchemaArray();
+  });
+}
 
-addSetButton.addEventListener('click', e => {
-  e.preventDefault();
-  addSchemaArray();
-});
-
-addTrainingButton.addEventListener('click', () => {
-  addSchemaArray();
-});
+addTrainingButtons.forEach(addTrainingButton => {
+  addTrainingButton.addEventListener('click', () => {
+    addSchemaArray();
+  });
+})

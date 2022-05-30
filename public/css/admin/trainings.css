@@ -1,5 +1,5 @@
 .trainings-container .title {
-  padding: 2.5rem 3rem;
+  padding: 2rem 3rem;
 }
 
 .flag-link {
@@ -23,6 +23,10 @@
   position: absolute;
   top: 2.5rem;
   right: 3rem;
+}
+
+.status-banner {
+  
 }
 
 .flag-link__buttons{

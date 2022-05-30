@@ -1,17 +1,17 @@
 const addButton = document.querySelector('#addSet');
 const tbody = document.querySelector('tbody');
-const setInput = document.querySelectorAll('.set-table__input-field')
-const deleteCross = document.querySelectorAll('.delete')
+const setInput = document.querySelectorAll('.set-table__input-field');
+const deleteCross = document.querySelectorAll('.delete');
 
-const lastId = setInput[setInput.length - 1].getAttribute('id')
+const lastId = setInput[setInput.length - 1].getAttribute('id');
 let i = lastId;
 
 const addSet = () => {
   i++;
-  const allRepsInputs = document.querySelectorAll('#reps')
-  const allRestInputs = document.querySelectorAll('#rest')
-  const lastSetRepsValue = allRepsInputs[allRepsInputs.length - 1].value
-  const lastSetRestValue = allRestInputs[allRepsInputs.length - 1].value
+  const allRepsInputs = document.querySelectorAll('#reps');
+  const allRestInputs = document.querySelectorAll('#rest');
+  const lastSetRepsValue = allRepsInputs[allRepsInputs.length - 1].value;
+  const lastSetRestValue = allRestInputs[allRepsInputs.length - 1].value;
   //   TR
   const newSetEl = document.createElement('tr');
   newSetEl.setAttribute('id', i);
@@ -57,22 +57,22 @@ const addSet = () => {
 };
 
 const deleteElement = e => {
-    e.target.parentNode.remove()
-    i--;
-    const setElements = document.querySelectorAll('.set')
-    setElements.forEach((element, index) => {
-        element.innerHTML = index + 1;
-    })
+  e.target.parentNode.remove();
+  i--;
+  const setElements = document.querySelectorAll('.set');
+  setElements.forEach((element, index) => {
+    element.innerHTML = index + 1;
+  });
 };
 
 addButton.addEventListener('click', () => {
   addSet();
 });
 
-if(deleteCross.length > 0){
+if (deleteCross.length > 0) {
   deleteCross.forEach(cross => {
     cross.addEventListener('click', e => {
       deleteElement(e);
-    })
-  })
+    });
+  });
 }

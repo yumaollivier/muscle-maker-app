@@ -9,27 +9,20 @@ const exerciseSchema = sequelize.define('Exercise', {
     allowNull: false,
     primaryKey: true,
   },
-  name: DataTypes.STRING,
-  muscleTarget: {
+  type: {
     type: DataTypes.STRING,
     allowNull: true,
-    defaultValue: "",
+    defaultValue: "simple",
   },
-  schema: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    defaultValue: "",
-  },
-  notes: DataTypes.TEXT,
-  performances: {
+  trainingNotes: {
     type: DataTypes.TEXT,
     allowNull: true,
     defaultValue: "",
   },
-  finished: {
-    type: DataTypes.BOOLEAN,
+  // types "simple", "circuit"
+  exerciseIds: {
+    type: DataTypes.STRING,
     allowNull: true,
-    defaultValue: false,
   },
 });
 

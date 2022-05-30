@@ -1,0 +1,124 @@
+.card {
+  width: 100%;
+  padding: 1.5rem 5rem;
+  position: relative;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.circuit-card{
+  position: relative;
+}
+
+.card-free-height {
+  height: auto;
+}
+
+.card__subtitle{
+  font-size: 1.5rem;
+}
+
+.card__details {
+  opacity: 60%;
+  margin-bottom: 0.25rem;
+}
+
+.card__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.card__btn{
+  cursor: pointer;
+  padding: .75rem;
+}
+
+.card__btn--edit{
+  background-color: var(--primary-color);
+}
+
+.card__btn--delete{
+  background-color: var(--red-color);
+}
+
+.card__btn--start {
+  background-color: var(--secondary-color);
+}
+
+.card__fullwidth-btn{
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  box-shadow: var(--shadow);
+}
+
+.card__title {
+  font-size: 2rem;
+}
+
+.card__program--title {
+  font-size: 2.5rem;
+}
+
+.card__circuit-banner {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 3rem;
+  text-align: center;
+  top: 0;
+  left: 0;
+  background-color: var(--black-color);
+}
+
+.card__circuit-details {
+  transform: rotate(-90deg);
+  font-size: 1.5rem;
+  color: var(--white-color);
+  text-transform: uppercase;
+}
+
+.card__separator{
+    width: 80%;
+    height: 1px;
+    border: none;
+    background-color: var(--black-color);
+    opacity: .25;
+    margin: 0 auto;
+}
+
+.muscles__container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 3rem;
+  flex-wrap: wrap;
+}
+
+.muscle__card{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 45%;
+  height: 8rem;
+  min-width: 12rem;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card{
+  flex-direction: column;
+  padding: 1.5rem 3rem;
+}
+
+.options__icon {
+  width: 2.5rem;
+
+}

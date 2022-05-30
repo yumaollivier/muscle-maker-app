@@ -1,0 +1,154 @@
+<form method="post" class="start-container circuit-container">
+    <div class="start-header shadow-effect space-between">
+        <div>
+            <h1 class="title bebas-font">
+                <% if(exercise.exercisesList.length === 2) { %>
+                    Superset
+                <% } else if (exercise.exercisesList.length === 3) {%>
+                    Triset
+                <% } else { %>
+                    Circuit
+                <% } %> 
+            </h1> 
+            <p class="start-details">Enchaine les exercices sans temps de repos.</p>
+        </div>
+        <div class="notes" data-open="notes">
+            <svg class="notes__icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_236_2)">
+                    <path d="M448 177.14V448V512H64H0V128V64H334.844L270.875 117H53L53.5 459H395L394.5 241.156L448 177.14ZM450.125 6.00141L427.5 28.6264L484.5 85.6399L507.125 62.9989L450.125 6.00141ZM156.33 300.5L213.166 357.172L467.166 103.5L410.33 46.812L156.33 300.5ZM145.5 367L213.166 357.172L156.33 300.5L145.5 367Z" fill="white"/>
+                </g>
+                <defs>
+                    <clipPath id="clip0_236_2">
+                        <rect width="512" height="512" fill="white"/>
+                    </clipPath>
+                </defs>
+            </svg>
+        </div>
+        <div class="modal" data-modal="notes">
+            <div class="modal-bg" data-close="notes"></div>
+            <div class="modal-content">
+                <span class="close-modal" data-close="notes">x</span>
+                <div class="modal-container">
+                    <span class="notes__title">
+                        <svg class="notes__icon mr-.5" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_236_2)">
+                                <path d="M448 177.14V448V512H64H0V128V64H334.844L270.875 117H53L53.5 459H395L394.5 241.156L448 177.14ZM450.125 6.00141L427.5 28.6264L484.5 85.6399L507.125 62.9989L450.125 6.00141ZM156.33 300.5L213.166 357.172L467.166 103.5L410.33 46.812L156.33 300.5ZM145.5 367L213.166 357.172L156.33 300.5L145.5 367Z" fill="black"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_236_2">
+                                    <rect width="512" height="512" fill="black"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        <h1 class="title bebas-font">Notes</h1>
+                    </span>
+                    <div class="textarea-field">
+                        <textarea class="textarea-field__textarea bordered" name="trainingNotes" id="trainingNotes" cols="30" rows="10"></textarea>
+                    </div>
+                    <button class="btn btn-fullwidth mt-1" data-close="notes">Valider</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% for(let i = 0; i < exercise.exercisesList[0].set; i++) { %>
+        <div class="flag__container shadow-effect relative">
+            <div class="flag__circuit-banner">
+                <p class="flag__circuit-details bebas-font">série <%= i + 1 %></p>
+            </div>
+            <% exercise.exercisesList.forEach((circuitExercise, j) => { %>
+                <div class="flag-exercise relative" data-id="<%= j + 1%>"  data-set="<%= circuitExercise.schema[i].set %>">
+                    <h1 class="flag-exercise__title bebas-font"><%= circuitExercise.name %></h1>
+                    <p class="flag-exercise__details"><%= circuitExercise.schema[i].reps %> reps</p>
+                    <div class="flag-exercise__hidden-element ">
+                        <div class="options-btns">
+                            <button class="btn btn-secondary btn-s" data-open="setNote<%= circuitExercise.schema[i].set %><%= j %>">
+                                <svg class="options__icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_236_2)">
+                                        <path d="M448 177.14V448V512H64H0V128V64H334.844L270.875 117H53L53.5 459H395L394.5 241.156L448 177.14ZM450.125 6.00141L427.5 28.6264L484.5 85.6399L507.125 62.9989L450.125 6.00141ZM156.33 300.5L213.166 357.172L467.166 103.5L410.33 46.812L156.33 300.5ZM145.5 367L213.166 357.172L156.33 300.5L145.5 367Z" fill="white"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_236_2">
+                                            <rect fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </button>
+                            <div class="modal" data-modal="setNote<%= circuitExercise.schema[i].set %><%= j %>">
+                                <div class="modal-bg" data-close="setNote<%= circuitExercise.schema[i].set %><%= j %>"></div>
+                                <div class="modal-content">
+                                    <span class="close-modal" data-close="setNote<%= circuitExercise.schema[i].set %><%= j %>">x</span>
+                                    <div class="modal-container">
+                                        <span class="notes__title">
+                                            <svg class="notes__icon mr-.5" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_236_2)">
+                                                    <path d="M448 177.14V448V512H64H0V128V64H334.844L270.875 117H53L53.5 459H395L394.5 241.156L448 177.14ZM450.125 6.00141L427.5 28.6264L484.5 85.6399L507.125 62.9989L450.125 6.00141ZM156.33 300.5L213.166 357.172L467.166 103.5L410.33 46.812L156.33 300.5ZM145.5 367L213.166 357.172L156.33 300.5L145.5 367Z" fill="black"/>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_236_2">
+                                                        <rect width="512" height="512" fill="black"/>
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                            <h1 class="bebas-font">Notes pour la série <%= circuitExercise.schema[i].set %></h1>
+                                        </span>
+                                        <p class="notes__details"><span class="bold">Exercice:</span>  <%= circuitExercise.name %></p>
+                                        <div class="textarea-field">
+                                            <textarea class="textarea-field__textarea bordered" data-notes name="setNote<%= circuitExercise.schema[i].set %><%= j %>" id="setNote<%= circuitExercise.schema[i].set %><%= j %>" cols="30" rows="10"></textarea>
+                                        </div>
+                                        <button type="button" class="btn btn-fullwidth mt-1" data-close="setNote<%= circuitExercise.schema[i].set %><%= j %>">Valider</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-s" data-start="<%= circuitExercise.schema[i].set %>" id="startTimer">
+                                <svg class="options__icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15 1H9V3H15V1ZM11 14H13V8H11V14ZM19.03 7.39L20.45 5.97C20.02 5.46 19.55 4.98 19.04 4.56L17.62 5.98C16.07 4.74 14.12 4 12 4C7.03 4 3 8.03 3 13C3 17.97 7.02 22 12 22C16.98 22 21 17.97 21 13C21 10.88 20.26 8.93 19.03 7.39ZM12 20C8.13 20 5 16.87 5 13C5 9.13 8.13 6 12 6C15.87 6 19 9.13 19 13C19 16.87 15.87 20 12 20Z" fill="white"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="start-field__wrapper">
+                            <div class="start-field">
+                                <label class="start-fiel__label">Poids (en kg)</label>
+                                <div class="input-container">
+                                    <span class="control-minus value-controller bebas-font" id="1">-</span>
+                                    <input type="number" name="weight" step="0.25" min="0" id="1" class="start-field__input bordered bebas-font" value="0">
+                                    <span class="control-plus value-controller bebas-font" id="1">+</span>
+                                </div>
+                            </div>
+                            <div class="start-field">
+                                <label class="start-fiel__label">Reps</label>
+                                <div class="input-container">
+                                    <span class="control-minus value-controller bebas-font" id="2">-</span>
+                                    <input type="number" name="reps" id="2" step="1" min="0" class="start-field__input bordered bebas-font" value="<%= circuitExercise.schema[i].reps %>">
+                                    <span class="control-plus value-controller bebas-font" id="2">+</span>
+                                </div>
+                            </div>
+                        </div>
+                        <% if (circuitExercise == exercise.exercisesList.slice(-1)[0]) { %>
+                            <button class="btn btn-fullwidth" id="next">Valider</button>
+                        <% } else { %>
+                            <button type="button" class="btn btn-fullwidth" id="next">Exercice suivant</button>
+                        <% } %>
+                        <input type="hidden" id="restTimer" value ="<%= circuitExercise.schema[i].rest %>">
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+            <div data-start="<%= exercise.exercisesList.slice(-1)[0].schema[i].set %>" data-time="<%= exercise.exercisesList.slice(-1)[0].schema[i].rest %>" class="chrono start">
+                <audio src="/sound/bip.mp3" id="bipSound"></audio>
+                <audio src="/sound/triplebip.mp3" id="miniBipSound"></audio>
+                <span class="chrono__label">Repos</span>
+                <span class="chrono__counter bebas-font">00:00</span>
+                <div class="chrono__duration-bar">
+                    <span class="chrono__duration-level"></span>
+                </div>
+                <img class="timer-zoom" src="/img/zoom.svg" alt="">                    
+                <span class="chrono__cross">X</span>
+            </div>
+    <% } %>
+    <div class="start-footer shadow-effect">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <input type="hidden" name="numberOfExercise" id="numberOfExercise" value="<%= exercise.exercisesList.length %>">
+        <input type="hidden" name="exercisePerf" id="exercisePerf">
+        <input type="submit" value="Terminer et passer à l'exercie suivant" class="btn btn-secondary btn-fullwidth" id="complete">
+    </div>
+</form>

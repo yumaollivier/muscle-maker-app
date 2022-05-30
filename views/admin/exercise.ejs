@@ -3,7 +3,7 @@
     </head>
 
     <body>
-        <%- include('../includes/banner.ejs', {goBack: true}) %>
+        <%- include('../includes/banner.ejs') %>
         <form class="container">
            <h1 class="bebas-font">
                <%= exercise.name %>
@@ -13,7 +13,7 @@
                 <tr class="set-table__header">
                     <th class="set-table__column">Séries</th>
                     <th class="set-table__column">Répétitions</th>
-                    <th class="set-table__column">Poids (en kg)</th>
+                    <!-- <th class="set-table__column">Poids (en kg)</th> -->
                     <th class="set-table__column">Repos (en s)</th>
                 </tr>
                 <% exercise.schema.forEach(schema => { %>
@@ -22,9 +22,9 @@
                     <td class="reps bebas-font">
                         <%= schema.reps %>
                     </td>
-                    <td class="weight bebas-font">
+                    <!-- <td class="weight bebas-font">
                         <span class="unit">kg</span>
-                    </td>
+                    </td> -->
                     <td class="rest bebas-font">
                         <%= schema.rest %> 
                         <span class="unit">s</span>
@@ -32,7 +32,12 @@
                 </tr>
                 <% }) %>
            </table>
-            <a href="/newexercise/<%= exercise.TrainingId %>/<%= exercise.id %>" class="btn btn-fullwidth mt-1">Modifier</a>
+            <a href="/newexercise/<%= exercise.TrainingId %>/<%= exercise.id %>" class="btn btn-fullwidth btn-secondary mt-1">
+                <svg class="mr-.5" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.61 2.59L11.41 5.39L2.8 14H0V11.2L8.61 2.59ZM9.59 1.61L11.2 0L14 2.8L12.39 4.41L9.59 1.61V1.61Z" fill="white"/>
+                </svg> 
+                Modifier
+            </a>
         </form>
     </body>
 <%- include('../includes/end.ejs') %>

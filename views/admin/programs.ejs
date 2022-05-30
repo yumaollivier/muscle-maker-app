@@ -1,28 +1,46 @@
 <%- include('../includes/head.ejs') %>
-<link href="/css/admin/form.css" rel="stylesheet"/>
+<link href="/css/admin/card.css" rel="stylesheet"/>
     </head>
 
     <body>
-        <%- include('../includes/banner.ejs', {goBack: false}) %>
-        <div class="container">
-            <h1 class="title bebas-font">
-                Mes programmes
-            </h1> 
+        <%- include('../includes/banner.ejs') %>
+        <div class="mb-footer">
+            <div class="header">
+                <h1 class="title bebas-font">
+                    Mes programmes
+                </h1>
+            </div>
+            <% if (programs.length > 0){ %>
             <% programs.forEach(program => { %>
-                <div class="card bordered">
-                    <a href="/program/<%= program.id %>">
-                        <h1 class="card__title bebas-font"><% if (program.name !== "") {%><%= program.name %><% } else { %>Sans nom<%}%></h1>
+                <a href="/program/<%= program.id %>">
+                    <div class="card shadow-effect">
+                        <h1 class="card__program--title bebas-font"><% if (program.name !== "") {%><%= program.name %><% } else { %>Sans nom<%}%></h1>
                         <p class="card__details"><%= program.trainingNumber %> entrainements par semaine</p>
                         <p class="card__details"><%= program.duration %> semaines</p>
-                    </a>
-                    <div class="card__buttons">
-                        <a href="/program/<%= program.id %>" class="btn btn-fullwidth">Commencer</a>
-                        <a href="/newprogram/<%= program.id %>" class="btn btn-fullwidth btn-outlined">Modifier</a>
-                        <a href="/delete/program/<%= program.id %>" class="btn btn-fullwidth">Supprimer</a>
-                    </div>
-                </div> 
+                        <div class="card__buttons">
+                            <a href="/newprogram/<%= program.id %>" class="card__btn card__btn--edit mb-1">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8.61 2.59L11.41 5.39L2.8 14H0V11.2L8.61 2.59ZM9.59 1.61L11.2 0L14 2.8L12.39 4.41L9.59 1.61V1.61Z" fill="white"/>
+                                </svg>                                        
+                            </a>
+                            <a href="/delete/program/<%= program.id %>" class="card__btn card__btn--delete">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4.20002 1.4L5.60002 0H8.40002L9.80002 1.4H12.6V2.8H1.40002V1.4H4.20002ZM2.10002 4.2H11.9L11.2 14H2.80002L2.10002 4.2ZM5.60002 5.6V12.6H6.30002V5.6H5.60002ZM7.70002 5.6V12.6H8.40002V5.6H7.70002Z" fill="white"/>
+                                </svg>                                                                             
+                            </a>
+                        </div>
+                    </div> 
+                </a>
             <% }) %>
-            <a href="/newprogram" class="btn btn-fullwidth mt-1">Créer un nouveau programme</a>
+            <% } else { %>
+                <div class="message-container">
+                    <p class="message">Tu n'as pas encore de programme à afficher ici.</p>
+                    <p class="message">N'hésite pas à en créer un en cliquant sur le bouton ci dessous. 👇</p>
+                </div>
+            <% } %>
+            <div class="footer-btns shadow-effect">
+                <a href="/newprogram" class="btn btn-fullwidth">Créer un nouveau programme</a>
+            </div>
         </div>
     </body>
 <%- include('../includes/end.ejs') %>

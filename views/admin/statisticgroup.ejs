@@ -1,0 +1,30 @@
+<%- include('../includes/head.ejs') %>
+<link href="/css/admin/card.css" rel="stylesheet"/>
+    </head>
+
+    <body>
+        <%- include('../includes/banner.ejs') %>
+        <div>
+            <div class="header">
+                <h1 class="title bebas-font"><%= muscleTarget %></h1>
+            </div>
+            <div class="exercises-list">
+                <% exerciseDatas.forEach(exercise => { %>
+                    <a href="/exercisestat/<%= exercise.id %>">
+                        <div class="card shadow-effect" data-id="<%= exercise.id %>">
+                            <div>
+                                <h1 class="card__title bebas-font"><%= exercise.name %></h1>
+                                <% if (exercise.programName) { %>
+                                    <p class="program-name">Programme <%= exercise.programName %></p>
+                                    <p class="training-name"><%= exercise.trainingName %></p>
+                                <% } else { %>
+                                    <p class="training-name">Séance Express <%= exercise.trainingName %></p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </a>
+                <% }) %>
+            </div>
+        </div>
+    </body>
+<%- include('../includes/end.ejs') %>

@@ -1,59 +1,114 @@
 <%- include('../includes/head.ejs') %>
 <link href="/css/admin/form.css" rel="stylesheet"/>
+<link href="/css/admin/modal.css" rel="stylesheet"/>
     </head>
 
     <body>
-        <%- include('../includes/banner.ejs', {goBack: true}) %>
+        <%- include('../includes/banner.ejs') %>
+        <% const muscleTargetList = ['Dos', 'Pectoraux', 'Épaules', 'Biceps', 'Triceps', 'Quadriceps', 'Ischios', 'Fessiers', 'Abdos', 'Mollets', 'Cou', 'Avant-bras']; %>
         <form class="container" method="post">
            <h1 class="title bebas-font">
+                <svg class="mr-.5" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.61 2.59L11.41 5.39L2.8 14H0V11.2L8.61 2.59ZM9.59 1.61L11.2 0L14 2.8L12.39 4.41L9.59 1.61V1.61Z" fill="black"/>
+                </svg> 
                <%= pageTitle %>
            </h1> 
+           <button class="btn mb-1" data-open="exerciseChoices">Sélectionner un exercice</button>
+           <div class="modal" data-modal="exerciseChoices">
+               <div class="modal-bg" data-close="exerciseChoices"></div>
+               <div class="modal-content">
+                   <span class="close-modal" data-close="exerciseChoices">x</span>
+                   <div class="modal-container">
+                       <div class="modal-header">
+                           <h1 class="modal-title bebas-font">Sélectionner un exercice</h1>
+                       </div>
+                       <% defaultExercises.forEach(muscle => { %>
+                            <div class="modal-dropdown shadow-effect" data-muscle="<%= muscle.muscleTarget %>">
+                                <%= muscle.muscleTarget %>
+                                <span>v</span>
+                            </div>
+                            <div class="exercise-choices shadow-effect">
+                                <% muscle.exercises.forEach(exercise => { %>
+                                        <p data-close="exerciseChoices" class="dropdown-option" id="groupChoice"><%= exercise.name %></p>
+                                <% }) %>
+                            </div>
+                        <% }) %>
+                   </div>
+               </div>
+           </div>
            <div class="input-field">
                <label for="exerciseName" class="input-field__label">Nom de l'exercice</label>
-               <input type="text" name="exerciseName" id="exerciseName" class="input-field__input" value="<%= exercise.name %>">
+               <input type="text" name="exerciseName" id="exerciseName" class="input-field__input" value="<% if (exercise) { %><%= exercise.name %><% } %>">
            </div>
-            <div class="input-field">
-                <label for="muscleTarget" class="input-field__label">Groupe musculaire ciblé</label>
-                <input type="text" name="muscleTarget" id="muscleTarget" class="input-field__input" value="<%= exercise.muscleTarget %>">
+            <div class="input-field input-fullwidth">
+                <p class="input-field__label">Groupe(s) musculaire ciblé(s)</p>
+                <div class="group-container">
+                    <select name="group" id="group" class="dropdown-btn btn-outlined">
+                        <option id="groupChoice" value="aucun">Aucun</option>
+                        <% muscleTargetList.forEach(muscle => { %>
+                            <option id="groupChoice" value="<%= muscle %>"><%= muscle %></option>
+                        <% }) %>
+                    </select>
+                    <% if (exercise) { %>
+                        <% if (exercise.muscleTarget.length > 0) { %>
+                            <% const musclesTargeted = exercise.muscleTarget.split(' ') %>
+                            <% musclesTargeted.forEach(muscle => { %>
+                                <div class="group-choice" data-group="<%= muscle %>"><%= muscle %><span class="cross">X</span></div>
+                            <% }) %>
+                        <% } %>
+                    <% } %>
+                </div>
+                <input type="hidden" name="muscleTarget" id="muscleTarget" class="input-field__input" value="<% if (exercise) { %><%= exercise.muscleTarget %><% } %>">
             </div>
             <table class="set-table">
                 <tbody>
                     <tr class="set-table__header">
                         <th class="set-table__column">Série</th>
                         <th class="set-table__column">Répétitions</th>
+                        <!-- <th class="set-table__column center">
+                            <select name="group" id="group" class="dropdown-btn reps-btn">
+                                <option id="groupChoice" value="reps">Répétitions</option>
+                                <option id="groupChoice" value="minutes">Minutes (en s)</option>
+                            </select>
+                        </th> -->
                         <th class="set-table__column">Temps de repos (en s)</th>
                         <th class="set-table__column"></th>
                     </tr>
-                    <% if(typeof exercise.schema === "object"){ %>
-                        <% exercise.schema.forEach((schema, i) => { %>
-                            <% if (i === 0) { %>
-                                <tr class="set-table__input-field" id="1">
-                                    <td class="set"><%= schema.set %></td>
-                                    <td class="reps">
-                                        <input type="number" class="input-field__input" name="reps" id="reps" value="<%= schema.reps %>">
-                                    </td>
-                                    <td class="rest">
-                                        <input type="number" class="input-field__input" name="rest" id="rest" value="<%= schema.rest %>">
-                                    </td>
-                                </tr>
-                            <% } else { %>
-                                <tr class="set-table__input-field" id="<%= i + 1 %>">
-                                    <td class="set"><%= schema.set %></td>
-                                    <td class="reps">
-                                        <input type="number" class="input-field__input" name="reps" id="reps" value="<%= schema.reps %>">
-                                    </td>
-                                    <td class="rest">
-                                        <input type="number" class="input-field__input" name="rest" id="rest" value="<%= schema.rest %>">
-                                    </td>
+                    <% if (firstExerciseSetNumber > 1) { %>
+                        <% for (let i = 0; i < firstExerciseSetNumber; i++) { %>
+                            <tr class="set-table__input-field" id="<%= i + 1 %>">
+                                <td class="set"><%= i + 1 %></td>
+                                <td class="reps">
+                                    <input type="text" class="input-field__input" name="reps" id="reps">
+                                </td>
+                                <td class="rest">
+                                    <input type="number" class="input-field__input" name="rest" id="rest">
+                                </td>
+                                <% if (i > 0) { %>
                                     <td class="delete red-font bold" id="<%= i + 1 %>">X</td>
-                                </tr>
-                            <% } %>
+                                <% } %>
+                            </tr>
+                        <% } %>
+                    <% } else if(exercise){ %>
+                        <% exercise.schema.forEach((schema, i) => { %>
+                            <tr class="set-table__input-field" id="<%= i + 1 %>">
+                                <td class="set"><%= schema.set %></td>
+                                <td class="reps">
+                                    <input type="text" class="input-field__input" name="reps" id="reps" value="<%= schema.reps %>">
+                                </td>
+                                <td class="rest">
+                                    <input type="number" class="input-field__input" name="rest" id="rest" value="<%= schema.rest %>">
+                                </td>
+                                <% if (i > 0) { %>
+                                    <td class="delete red-font bold" id="<%= i + 1 %>">X</td>
+                                <% } %>                                
+                            </tr>
                         <% }) %>
                     <% } else { %>
                         <tr class="set-table__input-field" id="1">
                             <td class="set">1</td>
                             <td class="reps">
-                                <input type="number" class="input-field__input" name="reps" id="reps">
+                                <input type="text" class="input-field__input" name="reps" id="reps" maxlength="3">
                             </td>
                             <td class="rest">
                                 <input type="number" class="input-field__input" name="rest" id="rest">
@@ -62,18 +117,23 @@
                     <% } %>
                 </tbody>
             </table>
-            <button class="btn btn-fullwidth" id="addSet" type="button">+ Ajouter une série</button>
+            <% if (firstExerciseSetNumber === 0) { %>
+                <button class="btn btn-fullwidth" id="addSet" type="button">+ Ajouter une série</button>
+            <% } %>
             <div class="textarea-field">
                 <label for="trainingNotes" class="input-field__label">Notes de l'exercice</label>
-                <textarea class="textarea-field__textarea bordered" name="trainingNotes" id="trainingNotes" cols="30" rows="10"><%= exercise.notes %></textarea>
+                <textarea class="textarea-field__textarea bordered" name="trainingNotes" id="trainingNotes" cols="30" rows="10"><% if (exercise) { %><%= exercise.notes %><% } %></textarea>
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input type="hidden" name="exerciseSchema" id="exerciseSchema">
-            <input type="hidden" name="exerciseId" id="exerciseId" value="<%= exercise.id %>">
             <input type="hidden" name="programId" id="programId" value="<%= programId %>">
-            <input type="submit" class="btn btn-fullwidth mt-1" id="addExercise" value="<% if(pageTitle === 'Modifier un exercice'){ %>Modifier l'exercice<% } else { %>Ajouter l'exercice<% } %>">
+            <input type="submit" name="submitAction" class="btn btn-fullwidth btn-secondary mt-1" id="addExercise" value="Lier avec un autre exercice">
+            <input type="submit" name="submitAction" class="btn btn-fullwidth mt-1" id="addExercise" value="<% if(pageTitle === 'Modifier un exercice'){ %>Enregistrer<% } else { %>Ajouter l'exercice<% } %>">
         </form>
     </body>
     <script src="/js/addExerciseData.js"></script>
     <script src="/js/workoutCreation.js"></script>
-<%- include('../includes/end.ejs') %>
+    <script src="/js/dropdownTags.js"></script>
+    <script src="/js/dropdown.js"></script>
+    <script src="/js/modal.js"></script>
+    <%- include('../includes/end.ejs') %>

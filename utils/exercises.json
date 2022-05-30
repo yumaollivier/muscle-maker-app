@@ -1,0 +1,182 @@
+[
+  {
+    "muscleTarget": "Pectoraux",
+    "exercises": [
+      {
+        "name": "Développé couché"
+      },
+      {
+        "name": "Développé incliné"
+      },
+      {
+        "name": "Développé décliné"
+      },
+      {
+        "name": "Écartés aux haltères"
+      },
+      {
+        "name": "Écartés à la poulie"
+      },
+      {
+        "name": "Écartés à la machine"
+      },
+      {
+        "name": "Pompes"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Dos",
+    "exercises": [
+      {
+        "name": "Rowing"
+      },
+      {
+        "name": "Rowing à la T-bar"
+      },
+      {
+        "name": "Tirage vertical"
+      },
+      {
+        "name": "Tirage horizontal"
+      },
+      {
+        "name": "Soulevé de terre partiel"
+      },
+      {
+        "name": "Tirage barre cuisse"
+      },
+      {
+        "name": "Tirage au menton"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Quadriceps",
+    "exercises": [
+      {
+        "name": "Squat"
+      },
+      {
+        "name": "Presse à cuisse"
+      },
+      {
+        "name": "Hack squat"
+      },
+      {
+        "name": "Front squat"
+      },
+      {
+        "name": "Soulevé de terre"
+      },
+      {
+        "name": "Fentes avant"
+      },
+      {
+        "name": "Leg extension"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Ischios",
+    "exercises": [
+      {
+        "name": "Soulevé de terre jambes tendues"
+      },
+      {
+        "name": "Leg curl"
+      },
+      {
+        "name": "Hip trust"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Épaules",
+    "exercises": [
+      {
+        "name": "Développé assis"
+      },
+      {
+        "name": "Développé Militaire"
+      },
+      {
+        "name": "Développé Arnold"
+      },
+      {
+        "name": "Élévations latérales"
+      },
+      {
+        "name": "Élévations frontales"
+      },
+      {
+        "name": "Élévations buste penché"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Biceps",
+    "exercises": [
+      {
+        "name": "Curl"
+      },
+      {
+        "name": "Curl au pupitre"
+      },
+      {
+        "name": "Curl concentré"
+      },
+      {
+        "name": "Curl prise marteau"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Triceps",
+    "exercises": [
+      {
+        "name": "Développé couché prise serrée"
+      },
+      {
+        "name": "Extension verticale"
+      },
+      {
+        "name": "Barre au front"
+      },
+      {
+        "name": "Dips"
+      },
+      {
+        "name": "Kickback"
+      },
+      {
+        "name": "Crunch"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Abdos",
+    "exercises": [
+      {
+        "name": "Crunch"
+      },
+      {
+        "name": "Gainage"
+      },
+      {
+        "name": "Roue abdominale"
+      },
+      {
+        "name": "Relevé de bassin"
+      }
+    ]
+  },
+  {
+    "muscleTarget": "Mollets",
+    "exercises": [
+      {
+        "name": "Élévation des talons"
+      }
+    ]
+  }
+]

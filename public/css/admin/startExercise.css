@@ -1,6 +1,6 @@
 .start-container {
   position: relative;
-  padding: 13rem 0 9rem 0;
+  padding: 12rem 0 9rem 0;
 }
 
 .start-header {
@@ -19,12 +19,18 @@
   margin-bottom: 0.1rem;
 }
 
-.flag-exercise {
-  padding: 1rem 4rem;
+.flag__container {
   margin: 1.5rem 0;
 }
 
+.flag__container .flag-exercise {
+  margin: 0;
+  padding-left: 6rem;
+}
+
 .flag-exercise {
+  padding: 1rem 4rem;
+  margin: 1.5rem 0;
   display: flex;
   align-items: center;
   height: 6rem;
@@ -43,16 +49,39 @@
 }
 
 .flag-exercise.visible {
-    display: block;
-    height: auto;
+  display: block;
+  height: auto;
 }
 
 .flag-exercise.visible .flag-exercise__hidden-element {
-    display: block;
-  }
+  display: block;
+}
 
 .flag-exercise__title {
   font-size: 1.7rem;
+  margin: 1rem 0 1rem 0;
+}
+
+.flag__circuit-banner {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 2.5rem;
+  text-align: center;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.flag__circuit-details {
+  position: absolute;
+  width: 10rem;
+  transform: rotate(-90deg);
+  font-size: 1.5rem;
+  color: var(--white-color);
+  text-transform: uppercase;
 }
 
 .start-field__wrapper {
@@ -129,7 +158,7 @@
   padding: 2.5rem 3rem;
 }
 
-.chrono.start .chrono__duration-bar .chrono__duration-level{
+.chrono.start .chrono__duration-bar .chrono__duration-level {
   transition: width 1s;
   animation-name: startChrono;
   animation-timing-function: linear;
@@ -142,4 +171,91 @@
   to {
     width: 100%;
   }
+}
+
+.stat-btn {
+  position: fixed;
+  top: 1.5rem;
+  right: 0;
+  z-index: 100;
+}
+
+.stat-btn path {
+  fill: var(--white-color);
+}
+
+/* .set-number-tag{
+  margin: .5rem 0;
+  padding: .5rem;
+  width: 5rem;
+  text-align: center;
+  background-color: var(--black-color);
+  color: var(--white-color);
+  font-weight: bold;
+} */
+
+.timer-zoom {
+  margin-right: 1.5rem;
+  width: 1.5rem;
+  z-index: 10000;
+}
+
+.zoom {
+  padding: 1.5rem 1rem;
+}
+
+.zoom .chrono__duration-bar {
+  height: 2rem;
+}
+
+.zoom .chrono__counter {
+  font-size: 2.3rem;
+  margin-right: 1.5rem;
+}
+
+.zoom .chrono__label {
+  display: none;
+}
+
+.warning-bar {
+  background-color: var(--red-color);
+}
+
+.notes {
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--secondary-color);
+}
+
+.notes__icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.notes__title {
+  display: flex;
+}
+
+.options-btns{
+  position: absolute;
+  right: 4rem;
+  top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 7rem;
+}
+
+.options__icon {
+  width: 2rem;
+}
+
+.add-set{
+  color: var(--primary-color);
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.25rem;
 }

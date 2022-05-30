@@ -1,46 +1,59 @@
 <%- include('../includes/head.ejs') %>
 <link href="/css/admin/form.css" rel="stylesheet"/>
+<link href="/css/admin/card.css" rel="stylesheet"/>
     </head>
 
     <body>
-        <%- include('../includes/banner.ejs', {goBack: false}) %>
-        <form method="post" class="container">
-           <h1 class="title bebas-font">
-               <% if(program.name !== "") { %>Modifier mon programme<% } else { %>Créer un programme<% } %>
-           </h1> 
-           <div class="input-field">
-               <label for="programName" class="input-field__label">Nom du programme</label>
-               <input type="text" name="programName" id="programName" class="input-field__input" value="<%= program.name %>">
-           </div>
-            <div class="input-field">
-                <label for="programDuration" class="input-field__label">Durée du programme (en semaine)</label>
-                <input type="number" name="programDuration" id="programDuration" class="input-field__input" value="<%= program.duration < 1 ? null : program.duration %>">
+        <%- include('../includes/banner.ejs') %>
+        <form method="post">
+            <div class="header">
+                <h1 class="title bebas-font">
+                    <% if(program.name !== "") { %>Modifier mon programme<% } else { %>Créer un programme<% } %>
+                </h1> 
+                <div class="input-field">
+                    <label for="programName" class="input-field__label">Nom du programme</label>
+                    <input type="text" name="programName" id="programName" class="input-field__input" value="<%= program.name %>">
+                </div>
+                 <div class="input-field">
+                     <label for="programDuration" class="input-field__label">Durée du programme (en semaine)</label>
+                     <input type="number" name="programDuration" id="programDuration" class="input-field__input" value="<%= program.duration < 1 ? null : program.duration %>">
+                 </div>
+                 <div class="input-field">
+                     <label for="numberOfWorkout" class="input-field__label">Nombre d'entrainements par semaine</label>
+                     <input type="number" name="numberOfWorkout" id="numberOfWorkout" class="input-field__input" value="<%= program.trainingNumber < 1 ? null : program.trainingNumber %>">
+                 </div>
             </div>
-            <div class="input-field">
-                <label for="numberOfWorkout" class="input-field__label">Nombre d'entrainements par semaine</label>
-                <input type="number" name="numberOfWorkout" id="numberOfWorkout" class="input-field__input" value="<%= program.trainingNumber < 1 ? null : program.trainingNumber %>">
-            </div>
-           
            <div class="workouts-list">
                <% trainings.forEach(training => { %>
-                   <div class="card bordered" data-id="<%= training.id %>">
-                       <h1 class="card__title bebas-font"><%= training.name %></h1>
-                       <p class="card__details"><%= training.exerciseIds.split(',').length %> exercice(s)</p>
-                       <p class="card__details"><%= training.muscleTarget %></p>
-                       <div class="card__buttons">
-                            <a href="/training/<%= training.id %>" class="btn btn-fullwidth">Voir</a>
-                            <a href="/newtraining/<%= program.id %>/<%= training.id %>" class="btn btn-fullwidth btn-outlined">Modifier</a>
-                            <a href="/delete/training/<%= training.id %>" class="btn btn-fullwidth">Supprimer</a>
-                       </div>
-                   </div>
+                <a href="/training/<%= training.id %>">
+                    <div class="card shadow-effect" data-id="<%= training.id %>">
+                        <div>
+                            <h1 class="card__title bebas-font"><%= training.name %></h1>
+                            <p class="card__details"><%= training.numberOfExercises %> exercice<% if(training.numberOfExercises > 1) { %>s<% } %></p>
+                            <p class="card__details"><%= training.muscleTarget %></p>
+                        </div>
+                        <div class="card__buttons">
+                             <a href="/newtraining/<%= program.id %>/<%= training.id %>" class="card__btn card__btn--edit mb-1">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8.61 2.59L11.41 5.39L2.8 14H0V11.2L8.61 2.59ZM9.59 1.61L11.2 0L14 2.8L12.39 4.41L9.59 1.61V1.61Z" fill="white"/>
+                                </svg>                                        
+                            </a>
+                            <a href="/delete/training/<%= training.id %>" class="card__btn card__btn--delete">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4.20002 1.4L5.60002 0H8.40002L9.80002 1.4H12.6V2.8H1.40002V1.4H4.20002ZM2.10002 4.2H11.9L11.2 14H2.80002L2.10002 4.2ZM5.60002 5.6V12.6H6.30002V5.6H5.60002ZM7.70002 5.6V12.6H8.40002V5.6H7.70002Z" fill="white"/>
+                                </svg>                                                                             
+                            </a>
+                        </div>
+                    </div>
+                </a>
               <% }) %>
            </div>
-           <div class="buttons">
+           <div class="footer-btns shadow-effect">
                 <input type="hidden" name="trainingIds" id="trainingIds">
                 <input type="hidden" name="programId" id="programId" value="<%= program.id %>">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <input type="submit" name="submitAction" class="btn btn-60 btn-outlined" value="Ajouter un entrainement">
-                <input type="submit" name="submitAction" class="btn btn-40" value="Enregistrer">
+                <input type="submit" name="submitAction" class="btn btn-fullwidth btn-secondary" value="Ajouter un entrainement">
+                <input type="submit" name="submitAction" class="btn btn-fullwidth mt-1" value="Enregistrer">
            </div>
         </form>
     </body>

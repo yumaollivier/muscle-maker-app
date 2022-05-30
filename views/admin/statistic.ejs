@@ -1,0 +1,30 @@
+<%- include('../includes/head.ejs') %>
+<link href="/css/admin/card.css" rel="stylesheet"/>
+    </head>
+
+    <body>
+        <%- include('../includes/banner.ejs') %>
+        <div>
+            <div class="header">
+                <h1 class="title bebas-font">
+                    Mes Stats
+                </h1>
+            </div>
+            <% if (musclesTargeted.length > 0) { %>
+                <div class="muscles__container">
+                    <% musclesTargeted.forEach( muscleTarget => { %>
+                        <a href="/statisticgroup/<%= muscleTarget.muscleName %>" class="muscle__card shadow-effect">
+                            <h1 class="card__title bebas-font"><%= muscleTarget.muscleName %></h1>
+                            <p class="card__details"><%= muscleTarget.quantityOfExercise %> exercises</p>
+                        </a>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <p class="message">Tu n'as pas encore créée d'exercice, tu n'as donc rien n'a afficher ici...</p>
+                <p class="message">N'hésite pas à créer un programme ou un entrainement express en cliquant sur l'un de ces deux boutons ci dessous. 👇</p>
+                <a href="/newprogram" class="btn btn-fullwidth mt-1">Créer un nouveau programme</a>
+                <a href="/newexpresstraining" class="btn btn-fullwidth mt-1">Créer un entrainement express</a>
+            <% } %>
+        </div>
+    </body>
+<%- include('../includes/end.ejs') %>

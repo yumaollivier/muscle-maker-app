@@ -3,33 +3,37 @@
     </head>
 
     <body>
-        <%- include('../includes/banner.ejs', {goBack: false}) %>
+        <%- include('../includes/banner.ejs') %>
         <% if (programs.length > 0) { %>
         <div class="card-container" style="grid-template-columns:repeat(<%= programs.length %>, 100%)">
             <% programs.forEach(program => { %>
-            <div class="card bordered shadow-effect">
-                <div class="card__content">
-                    <span class="card__description bold">Programme</span>
-                    <h1 class="card__header bebas-font"><%= program.name %></h1>
-                </div>
-                <div class="card__buttons">
-                    <a href="/program/<%= program.id %>" class="btn btn-fullwidth">commencer l'entrainement</a>
-                </div>
-            </div>
+                <a href="/program/<%= program.id %>">
+                    <div class="card shadow-effect">
+                        <div class="card__content">
+                            <span class="card__description bold">Programme</span>
+                            <h1 class="card__header bebas-font"><%= program.name %></h1>
+                        </div>
+                        <div class="card__buttons">
+                            <a href="/program/<%= program.id %>" class="btn btn-secondary btn-fullwidth">commencer ce programme</a>
+                        </div>
+                    </div>
+                </a>
             <% }) %>
         </div>
         <% } %>
-        <a href="/newprogram">
-            <div class="flag-link shadow-effect">
-                <h1 class="flag-link__title bebas-font">Nouveau programme 🎯</h1>
-                <p class="flag-link__description">Concevoir son propre programme d’entrainement avec ses propres exos, le nombre de série, le temps de repos, les techniques d’entrainement et plus encore 💪</p>
-            </div>
-        </a>
-        <a href="/newexpresstraining">
-            <div class="flag-link shadow-effect">
-                <h1 class="flag-link__title bebas-font">Nouvelle séance express ✊</h1>
-                <p class="flag-link__description">Concevoir une séance sur le pouce quand on a pas le temps oun l’envie de suivre la routine habituelle ! 🌱</p>
-            </div>
-        </a>
+        <div class="flag-link__container">
+            <a href="/newprogram">
+                <div class="flag-link shadow-effect">
+                    <h1 class="flag-link__title bebas-font">Nouveau programme 🎯</h1>
+                    <p class="flag-link__description">Concevoir son propre programme d’entrainement avec ses propres exos, le nombre de série, le temps de repos, les techniques d’entrainement et plus encore 💪</p>
+                </div>
+            </a>
+            <a href="/newexpresstraining">
+                <div class="flag-link shadow-effect">
+                    <h1 class="flag-link__title bebas-font">Nouvelle séance express ✊</h1>
+                    <p class="flag-link__description">Concevoir une séance sur le pouce quand on a pas le temps ou l’envie de suivre la routine habituelle ! 🌱</p>
+                </div>
+            </a>
+        </div>
     </body>
 <%- include('../includes/end.ejs') %>

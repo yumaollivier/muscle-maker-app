@@ -1,31 +1,52 @@
 <%- include('../includes/head.ejs') %>
-<link href="/css/admin/dashboard.css" rel="stylesheet"/>
 <link href="/css/admin/trainings.css" rel="stylesheet"/>
+<link href="/css/admin/card.css" rel="stylesheet"/>
     </head>
 
     <body>
-        <%- include('../includes/banner.ejs', {goBack: false}) %>
-        <div class="trainings-container">
-            <h1 class="title bebas-font">
-                Mes entrainements
-            </h1> 
-            <% trainings.forEach(training => { %>
-                <div class="flag-link shadow-effect">
-                    <h1 class="flag-link__title bebas-font"><%= training.programName %></h1>
-                    <p class="flag-link__subtitle bebas-font"><%= training.name %></p>
-                    <p class="flag-link__details"><%= training.muscleTarget %></p>
-                    <% if(training.finished){ %>
-                        <span class="status green-font bebas-font">Terminé</span>
-                    <% } %>
-                    <div class="flag-link__buttons">
-                        <a href="/start/<%= training.id %>" class="btn btn-midwidth">Commencer</a>
-                        <a href="/training/<%= training.id %>" class="btn btn-midwidth btn-outlined">Voir</a>
-                        <a href="/delete/training/<%= training.id %>" class="btn btn-midwidth">Supprimer</a>
-                    </div>
+        <%- include('../includes/banner.ejs') %>
+        <div>
+            <div class="header">
+                <h1 class="title bebas-font">
+                    Mes entrainements
+                </h1> 
+            </div>
+            <% if(trainings.length > 0) { %>
+                <% trainings.forEach(training => { %>
+                    <a href="/training/<%= training.id %>">
+                        <div class="card shadow-effect">
+                            <h1 class="card__title bebas-font"><%= training.programName %></h1>
+                            <p class="card__subtitle bebas-font"><%= training.name %></p>
+                            <p class="card__details"><%= training.muscleTarget %></p>
+                            <p class="card__details"><%= training.numberOfExercises %> exercice<% if (training.numberOfExercises > 1) {%>s<% } %></p>
+                            <% if(training.finished){ %>
+                                <div class="card__circuit-banner bg-secondary">
+                                    <p class="card__circuit-details bold">Terminé</p>
+                                </div>
+                            <% } %>
+                            <div class="card__buttons">
+                                <a href="/start/<%= training.id %>" class="card__btn card__btn--start mb-1">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 1V23L20 12L3 1Z" fill="white"/>
+                                    </svg>                                                                      
+                                </a>
+                                <a href="/delete/training/<%= training.id %>" class="card__btn card__btn--delete">
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4.20002 1.4L5.60002 0H8.40002L9.80002 1.4H12.6V2.8H1.40002V1.4H4.20002ZM2.10002 4.2H11.9L11.2 14H2.80002L2.10002 4.2ZM5.60002 5.6V12.6H6.30002V5.6H5.60002ZM7.70002 5.6V12.6H8.40002V5.6H7.70002Z" fill="white"/>
+                                    </svg>                                                                             
+                                </a>
+                            </div>
+                        </div>
+                    </a>
+                <% }) %>
+            <% } else { %>
+                <div class="message-container">
+                    <p class="message">Tu n'as pas encore d'entrainement à afficher ici.</p>
+                    <p class="message">N'hésite pas à en créer un en cliquant sur le bouton ci dessous. 👇</p>
                 </div>
-            <% }) %>
-            <div class="trainings-button">
-                <a href="/newexpressworkout" class="btn btn-fullwidth">Créer un nouvel entrainement</a>
+            <% } %>
+            <div class="footer-btns shadow-effect">
+                <a href="/newexpressworkout" class="btn btn-fullwidth">Créer un nouvel entrainement express</a>
             </div>
         </div>
     </body>
