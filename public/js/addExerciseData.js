@@ -13,7 +13,6 @@ const addSchemaArray = () => {
     schemaArray.push(exerciseSchema);
   });
   const schemaString = schemaArray.join('-')
-  console.log(schemaString)
   exerciseSchemaInput.value = schemaString;
 };
 if(addSetButton){
