@@ -40,6 +40,11 @@ const exerciseDataSchema = sequelize.define('ExerciseData', {
     allowNull: true,
     defaultValue: '',
   },
+  notes: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: '',
+  },
   trainingId: {
     type: DataTypes.INTEGER,
     allowNull: true,

@@ -37,7 +37,7 @@ const addSchemaArray = () => {
   const schemaString = arr.join('|');
   exercisePerfInput.value = schemaString;
 };
-addSchemaArray()
+
 completeButton.addEventListener('click', e => {
   addSchemaArray();
 });
